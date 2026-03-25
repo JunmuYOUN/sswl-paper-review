@@ -13,6 +13,8 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from bs4 import BeautifulSoup
+
 import anthropic
 import requests
 
@@ -66,6 +68,28 @@ TARGET_PAPER_COUNT = 10
 BASE_DIR = Path(__file__).resolve().parent.parent
 POSTS_DIR = BASE_DIR / "posts"
 INDEX_PATH = BASE_DIR / "index.html"
+
+
+def get_previously_reviewed_titles():
+    """기존 posts/*.html 파일에서 이미 요약된 논문 제목들을 수집"""
+    reviewed = set()
+    if not POSTS_DIR.exists():
+        return reviewed
+
+    for html_file in POSTS_DIR.glob("*.html"):
+        try:
+            soup = BeautifulSoup(html_file.read_text(encoding="utf-8"), "html.parser")
+            for h2 in soup.select(".paper-card h2"):
+                title = h2.get_text(strip=True)
+                # 정규화: 소문자, 여러 공백 → 하나
+                normalized = re.sub(r"\s+", " ", title.lower().strip())
+                if normalized:
+                    reviewed.add(normalized)
+        except Exception as e:
+            print(f"[기존 리뷰] {html_file.name} 파싱 오류: {e}")
+
+    print(f"[기존 리뷰] 이전에 요약된 논문 {len(reviewed)}편 발견")
+    return reviewed
 
 
 def get_week_info():
@@ -159,7 +183,7 @@ def fetch_ads_papers(max_results=20):
         return []
 
     print("[ADS] 논문 검색 중...")
-    week_ago = (datetime.utcnow() - timedelta(days=10)).strftime("%Y-%m-%d")
+    one_year_ago = (datetime.utcnow() - timedelta(days=365)).strftime("%Y-%m-%d")
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
     # 저널 필터 생성
@@ -171,7 +195,7 @@ def fetch_ads_papers(max_results=20):
         'OR "solar wind" OR "geomagnetic storm" OR "solar corona" '
         'OR "solar energetic particles" OR "magnetosphere" OR "sunspot" '
         'OR "heliosphere" OR "solar cycle") '
-        f'pubdate:[{week_ago} TO {today}]'
+        f'pubdate:[{one_year_ago} TO {today}]'
     )
 
     headers = {"Authorization": f"Bearer {ADS_API_KEY}"}
@@ -220,15 +244,21 @@ def fetch_ads_papers(max_results=20):
     return papers
 
 
-def deduplicate_papers(papers):
-    """제목 기반 중복 제거"""
+def deduplicate_papers(papers, previously_reviewed):
+    """제목 기반 중복 제거 + 이전 주차에서 요약한 논문 제외"""
     seen = set()
     unique = []
+    skipped = 0
     for p in papers:
         key = re.sub(r"\s+", " ", p["title"].lower().strip())
+        if key in previously_reviewed:
+            skipped += 1
+            continue
         if key not in seen:
             seen.add(key)
             unique.append(p)
+    if skipped:
+        print(f"[중복] 이전 주차에서 이미 요약한 논문 {skipped}편 제외")
     return unique
 
 
@@ -729,12 +759,15 @@ def main():
     week_info = get_week_info()
     print(f"=== 주간 논문 리뷰 생성: {week_info['week_str']} ===")
 
-    # 논문 검색
-    arxiv_papers = fetch_arxiv_papers(max_results=25)
-    ads_papers = fetch_ads_papers(max_results=20)
+    # 이전 주차에서 이미 요약한 논문 수집
+    previously_reviewed = get_previously_reviewed_titles()
+
+    # 논문 검색 (1년 이내)
+    arxiv_papers = fetch_arxiv_papers(max_results=50)
+    ads_papers = fetch_ads_papers(max_results=50)
 
     all_papers = arxiv_papers + ads_papers
-    all_papers = deduplicate_papers(all_papers)
+    all_papers = deduplicate_papers(all_papers, previously_reviewed)
     print(f"[총] 중복 제거 후 {len(all_papers)}편")
 
     if not all_papers:
