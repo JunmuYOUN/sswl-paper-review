@@ -898,6 +898,21 @@ def generate_post_html(papers, week_info):
       text-decoration: none;
     }}
 
+    /* Giscus Comments */
+    .giscus-section {{
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border-subtle);
+    }}
+
+    .giscus-title {{
+      font-family: Arial, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }}
+
     @media (max-width: 640px) {{
       .paper-card {{ padding: 20px; }}
       .paper-meta {{ flex-direction: column; gap: 4px; }}
@@ -933,6 +948,26 @@ def generate_post_html(papers, week_info):
       arXiv, NASA ADS에서 자동 수집되었으며, AI가 전문 요약 및 한국어 번역을 수행했습니다.
     </div>
 {paper_cards}
+
+    <!-- Giscus Comments -->
+    <section class="giscus-section">
+      <h2 class="giscus-title">Comments</h2>
+      <script src="https://giscus.app/client.js"
+        data-repo="JunmuYOUN/sswl-paper-review"
+        data-repo-id="R_kgDORwFYbg"
+        data-category="General"
+        data-category-id="DIC_kwDORwFYbs4C5Ozg"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </section>
   </main>
 
   <footer>
