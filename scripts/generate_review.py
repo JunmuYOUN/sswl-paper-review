@@ -28,6 +28,9 @@ except ImportError:
 # ── 설정 ──────────────────────────────────────────────
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 ADS_API_KEY = os.environ.get("ADS_API_KEY")
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+REPO_OWNER = "JunmuYOUN"
+REPO_NAME = "sswl-paper-review"
 
 # 검색 키워드
 ARXIV_CATEGORIES = ["astro-ph.SR", "physics.space-ph"]
@@ -99,9 +102,9 @@ def get_previously_reviewed_titles():
     return reviewed
 
 
-def get_week_info():
-    """현재 ISO 주차 정보 반환"""
-    today = datetime.utcnow()
+def get_week_info(offset=0):
+    """현재 또는 offset 주 후의 ISO 주차 정보 반환"""
+    today = datetime.utcnow() + timedelta(weeks=offset)
     iso_year, iso_week, _ = today.isocalendar()
     # 이번 주 월요일~일요일
     monday = today - timedelta(days=today.weekday())
@@ -115,6 +118,105 @@ def get_week_info():
         "date_range": f"{monday.strftime('%Y.%m.%d')} — {sunday.strftime('%m.%d')}",
         "date_str": monday.strftime("%Y.%m.%d"),
     }
+
+
+def fetch_giscus_suggestions(week_str):
+    """이번 주 placeholder 페이지의 Giscus 댓글에서 논문/주제 제안 수집"""
+    if not GITHUB_TOKEN:
+        print("[Giscus] GITHUB_TOKEN 없음 — 제안 수집 건너뜀")
+        return [], []
+
+    filename = f"posts/{week_str.lower()}.html"
+    print(f"[Giscus] {filename} 댓글에서 제안 수집 중...")
+
+    query = """
+    query($owner: String!, $name: String!, $categoryId: ID!) {
+      repository(owner: $owner, name: $name) {
+        discussions(first: 20, categoryId: $categoryId) {
+          nodes {
+            title
+            comments(first: 50) {
+              nodes {
+                body
+                author { login }
+              }
+            }
+          }
+        }
+      }
+    }
+    """
+
+    variables = {
+        "owner": REPO_OWNER,
+        "name": REPO_NAME,
+        "categoryId": "DIC_kwDORwFYbs4C5Ozg",
+    }
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Content-Type": "application/json",
+    }
+
+    try:
+        resp = requests.post(
+            "https://api.github.com/graphql",
+            json={"query": query, "variables": variables},
+            headers=headers,
+            timeout=15,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+        proposed_papers = []
+        proposed_keywords = []
+
+        discussions = (
+            data.get("data", {})
+            .get("repository", {})
+            .get("discussions", {})
+            .get("nodes", [])
+        )
+
+        for disc in discussions:
+            title = disc.get("title", "")
+            # Giscus pathname mapping: 제목에 파일 경로 포함
+            if filename not in title and week_str.lower() not in title.lower():
+                continue
+
+            for comment in disc.get("comments", {}).get("nodes", []):
+                body = comment.get("body", "").strip()
+                author = comment.get("author", {}).get("login", "익명")
+
+                if not body:
+                    continue
+
+                # arXiv/ADS URL 추출
+                urls = re.findall(
+                    r'https?://(?:arxiv\.org|ui\.adsabs\.harvard\.edu)/\S+',
+                    body,
+                )
+
+                if urls:
+                    for url in urls:
+                        url = url.rstrip(".,;)")
+                        proposed_papers.append({
+                            "type": "paper",
+                            "url": url,
+                            "name": author,
+                            "content": body,
+                            "title": f"Giscus 제안: {author}",
+                        })
+                        print(f"[Giscus] 논문 제안: {url[:60]} (by {author})")
+                else:
+                    proposed_keywords.append(body)
+                    print(f"[Giscus] 주제 제안: {body[:60]} (by {author})")
+
+        print(f"[Giscus] 수집 완료: 논문 {len(proposed_papers)}편, 주제 {len(proposed_keywords)}개")
+        return proposed_papers, proposed_keywords
+
+    except Exception as e:
+        print(f"[Giscus] 댓글 수집 실패: {e}")
+        return [], []
 
 
 def fetch_arxiv_papers(max_results=20):
@@ -1040,6 +1142,286 @@ def generate_post_html(papers, week_info):
     return html
 
 
+def generate_next_week_placeholder(next_week_info):
+    """다음 주차 제안 페이지 (placeholder) 생성 — Giscus로 논문/주제 제안 수집"""
+    week_str = next_week_info["week_str"]
+    filename = f"{week_str.lower()}.html"
+    filepath = POSTS_DIR / filename
+
+    # 이미 실제 리뷰가 있으면 건너뜀
+    if filepath.exists():
+        content = filepath.read_text(encoding="utf-8")
+        if "paper-card" in content:
+            print(f"[다음주] {filename} 이미 리뷰 존재 — 건너뜀")
+            return
+
+    year = next_week_info["year"]
+    monday = next_week_info["monday"]
+    sunday = next_week_info["sunday"]
+    month = monday.month
+    week_of_month = (monday.day - 1) // 7 + 1
+
+    html = f"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>다음 주 논문 제안 {week_str} | SSWL Paper Review</title>
+  <style>
+    :root {{
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+    }}
+
+    * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+
+    body {{
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }}
+
+    .topnav {{
+      background: var(--deep-space);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }}
+
+    .topnav a {{
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }}
+
+    .topnav a:hover {{ color: var(--sun-gold); }}
+
+    .topnav .brand {{
+      font-size: 1rem;
+      color: var(--star-white);
+      font-weight: 600;
+    }}
+
+    .topnav .brand .accent {{ color: var(--sun-gold); }}
+
+    .post-header {{
+      background: linear-gradient(180deg, var(--space-blue) 0%, var(--deep-space) 100%);
+      padding: 60px 24px 50px;
+      position: relative;
+      overflow: hidden;
+    }}
+
+    .post-header::after {{
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--bg-warm), transparent);
+    }}
+
+    .post-header-inner {{
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }}
+
+    .post-header .week-tag {{
+      display: inline-block;
+      background: rgba(232,168,56,0.2);
+      border: 1px solid rgba(232,168,56,0.4);
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }}
+
+    .post-header h1 {{
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }}
+
+    .post-header .meta {{
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: rgba(244,241,236,0.6);
+    }}
+
+    .content {{
+      max-width: 800px;
+      margin: -20px auto 0;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 2;
+    }}
+
+    .intro-box {{
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--sun-gold);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+    }}
+
+    .intro-box strong {{
+      color: var(--text-primary);
+      font-size: 1.05rem;
+    }}
+
+    .intro-box b {{
+      color: var(--sun-orange);
+    }}
+
+    .giscus-section {{
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border-subtle);
+    }}
+
+    .giscus-title {{
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }}
+
+    footer {{
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }}
+
+    footer a {{
+      color: var(--sun-orange);
+      text-decoration: none;
+    }}
+
+    @media (max-width: 640px) {{
+      .intro-box {{ padding: 18px; }}
+    }}
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="../index.html" class="brand">&#9728; SSWL <span class="accent">Paper Review</span></a>
+    <a href="../index.html">&larr; 목록으로</a>
+  </nav>
+
+  <header class="post-header">
+    <div class="post-header-inner">
+      <span class="week-tag">{week_str} (예정)</span>
+      <h1>다음 주 논문 리뷰 제안<br>{year}년 {month}월 {week_of_month}주차</h1>
+      <div class="meta">
+        <span>&#128197; {monday.strftime('%Y.%m.%d')} &mdash; {sunday.strftime('%m.%d')}</span>
+        <span>&#128161; 제안 받는 중</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div class="intro-box">
+      <strong>다음 주에 리뷰할 논문이나 주제를 아래 댓글로 제안해주세요!</strong><br><br>
+      <b>논문 제안:</b> arXiv 또는 ADS 링크를 댓글에 남겨주세요.<br>
+      <b>주제 제안:</b> 관심 있는 키워드나 주제를 자유롭게 작성해주세요.<br><br>
+      제안된 내용은 다음 주 논문 선별 시 우선 반영됩니다.
+    </div>
+
+    <section class="giscus-section">
+      <h2 class="giscus-title">논문/주제 제안</h2>
+      <script src="https://giscus.app/client.js"
+        data-repo="JunmuYOUN/sswl-paper-review"
+        data-repo-id="R_kgDORwFYbg"
+        data-category="General"
+        data-category-id="DIC_kwDORwFYbs4C5Ozg"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory &middot; Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      &middot; Automated by <a href="https://assiworks.aifactory.space">Assiworks (AI Factory)</a>
+    </p>
+  </footer>
+
+</body>
+</html>"""
+
+    POSTS_DIR.mkdir(exist_ok=True)
+    filepath.write_text(html, encoding="utf-8")
+    print(f"[다음주] {filename} placeholder 생성 완료")
+
+    # index.html에 제안 카드 추가
+    index_html = INDEX_PATH.read_text(encoding="utf-8")
+    if filename not in index_html:
+        new_card = f"""
+      <!-- {week_str} placeholder -->
+      <a href="posts/{filename}" class="post-card">
+        <span class="week-tag">{week_str} (예정)</span>
+        <h3>다음 주 논문 리뷰 제안 — {year}년 {month}월 {week_of_month}주차</h3>
+        <p class="post-desc">
+          다음 주에 리뷰할 논문이나 주제를 댓글로 제안해주세요.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128161;</span> 제안 받는 중
+          </span>
+          <span>{monday.strftime('%Y.%m.%d')} 예정</span>
+        </div>
+      </a>"""
+
+        marker = '<div class="post-list">'
+        if marker in index_html:
+            index_html = index_html.replace(marker, marker + new_card, 1)
+            INDEX_PATH.write_text(index_html, encoding="utf-8")
+            print(f"[다음주] index.html에 제안 카드 추가")
+
+
 def update_index(week_info, paper_count):
     """index.html에 새 리뷰 카드 추가"""
     week_str = week_info["week_str"]
@@ -1048,9 +1430,16 @@ def update_index(week_info, paper_count):
     week_of_month = (monday.day - 1) // 7 + 1
     filename = f"{week_str.lower()}.html"
 
-    # 이미 존재하는지 확인
     index_html = INDEX_PATH.read_text(encoding="utf-8")
-    if filename in index_html:
+
+    # placeholder 카드가 있으면 제거 후 실제 카드로 교체
+    placeholder_marker = f"<!-- {week_str} placeholder -->"
+    if placeholder_marker in index_html:
+        start = index_html.index(placeholder_marker)
+        end = index_html.index("</a>", start) + len("</a>")
+        index_html = index_html[:start] + index_html[end:]
+        print(f"[index] placeholder 카드 제거: {week_str}")
+    elif filename in index_html:
         print(f"[index] {filename} 이미 존재 — 건너뜀")
         return
 
@@ -1094,10 +1483,13 @@ def main():
     # 이전 주차에서 이미 요약한 논문 수집
     previously_reviewed = get_previously_reviewed_titles()
 
-    # 발제된 논문/주제 확인
+    # Giscus 댓글에서 논문/주제 제안 수집
+    giscus_papers, giscus_keywords = fetch_giscus_suggestions(week_info["week_str"])
+
+    # 발제된 논문/주제 확인 (Giscus 제안 + topic_proposals.json)
     proposals_file = BASE_DIR / "data" / "topic_proposals.json"
-    proposed_papers = []
-    proposed_keywords = []
+    proposed_papers = list(giscus_papers)
+    proposed_keywords = list(giscus_keywords)
     if proposals_file.exists():
         proposals = json.loads(proposals_file.read_text(encoding="utf-8"))
         for p in proposals.get("proposals", []):
@@ -1184,6 +1576,10 @@ def main():
 
     # index.html 업데이트
     update_index(week_info, len(summaries))
+
+    # 다음 주차 placeholder 생성 (Giscus로 제안 수집)
+    next_week_info = get_week_info(offset=1)
+    generate_next_week_placeholder(next_week_info)
 
     print("=== 완료 ===")
 

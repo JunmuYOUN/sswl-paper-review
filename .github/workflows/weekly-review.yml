@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  discussions: read
 
 jobs:
   generate-review:
@@ -29,6 +30,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ADS_API_KEY: ${{ secrets.ADS_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/generate_review.py
 
       - name: Commit and push
