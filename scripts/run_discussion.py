@@ -176,7 +176,7 @@ def init_state(papers_data):
         "papers": [],
     }
     for p in papers_data["papers"]:
-        state["papers"].append({
+        entry = {
             "title": p["title"],
             "authors": p["authors"],
             "one_line_summary": p["one_line_summary"],
@@ -185,7 +185,11 @@ def init_state(papers_data):
             "findings": p["findings"],
             "significance": p["significance"],
             "thread": [],
-        })
+        }
+        # 논문 본문이 있으면 포함
+        if p.get("fulltext"):
+            entry["fulltext"] = p["fulltext"]
+        state["papers"].append(entry)
     return state
 
 
@@ -208,8 +212,8 @@ def build_thread_text(thread):
     return text
 
 
-def build_paper_context(paper):
-    return (
+def build_paper_context(paper, include_fulltext=False):
+    ctx = (
         f"제목: {paper['title']}\n"
         f"저자: {paper['authors']}\n"
         f"요약: {paper['one_line_summary']}\n"
@@ -218,11 +222,20 @@ def build_paper_context(paper):
         f"발견: {paper['findings']}\n"
         f"의의: {paper['significance']}\n"
     )
+    if include_fulltext and paper.get("fulltext"):
+        ctx += (
+            f"\n--- 논문 본문 (발췌) ---\n"
+            f"{paper['fulltext']}\n"
+            f"--- 본문 끝 ---\n"
+        )
+    return ctx
 
 
 def run_agent(agent, paper, thread, round_num):
     """개별 에이전트 실행. PASS면 None 반환."""
-    paper_context = build_paper_context(paper)
+    day, _ = round_to_day(round_num)
+    include_fulltext = (day == 1)  # 화요일(Day 1)에는 논문 본문 포함
+    paper_context = build_paper_context(paper, include_fulltext=include_fulltext)
     thread_text = build_thread_text(thread)
     is_final = (round_num == TOTAL_ROUNDS)
     label = day_session_label(round_num)
@@ -248,8 +261,17 @@ def run_agent(agent, paper, thread, round_num):
         if agent["id"] == "professor":
             context += " 전체 토론을 종합해주세요."
 
+    fulltext_note = ""
+    if day == 1 and paper.get("fulltext"):
+        fulltext_note = (
+            "오늘은 첫째 날이므로 논문 본문(발췌)이 함께 제공됩니다. "
+            "본문을 꼼꼼히 읽고 핵심 내용, 방법론의 세부사항, 흥미로운 결과 등을 "
+            "깊이 있게 분석하세요.\n"
+        )
+
     prompt = (
         f"{context}\n"
+        f"{fulltext_note}"
         f"{human_mention}"
         f"{proposal_mention}\n"
         f"아래 논문에 대한 토론에 참여하고 있습니다.\n"

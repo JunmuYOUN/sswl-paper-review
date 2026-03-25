@@ -13,10 +13,17 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from pathlib import Path
 
+import io
+
 from bs4 import BeautifulSoup
 
 import anthropic
 import requests
+
+try:
+    from PyPDF2 import PdfReader
+except ImportError:
+    PdfReader = None
 
 # ── 설정 ──────────────────────────────────────────────
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
@@ -260,6 +267,57 @@ def deduplicate_papers(papers, previously_reviewed):
     if skipped:
         print(f"[중복] 이전 주차에서 이미 요약한 논문 {skipped}편 제외")
     return unique
+
+
+def _arxiv_pdf_url(url):
+    """arXiv URL을 PDF 다운로드 URL로 변환"""
+    # https://arxiv.org/abs/2501.12345 → https://arxiv.org/pdf/2501.12345
+    if "arxiv.org/abs/" in url:
+        return url.replace("/abs/", "/pdf/")
+    if "arxiv.org/pdf/" in url:
+        return url
+    return None
+
+
+def fetch_paper_fulltext(url, max_chars=8000):
+    """논문 PDF를 다운로드하여 텍스트 추출 (arXiv만 지원)"""
+    if PdfReader is None:
+        print("[PDF] PyPDF2 미설치 — 건너뜀")
+        return ""
+
+    pdf_url = _arxiv_pdf_url(url)
+    if not pdf_url:
+        print(f"[PDF] arXiv URL이 아님 — 건너뜀: {url[:60]}")
+        return ""
+
+    try:
+        print(f"[PDF] 다운로드 중: {pdf_url}")
+        resp = requests.get(pdf_url, timeout=60, headers={
+            "User-Agent": "SSWL-Paper-Review/1.0 (academic research)"
+        })
+        resp.raise_for_status()
+
+        reader = PdfReader(io.BytesIO(resp.content))
+        text_parts = []
+        total_chars = 0
+        for page in reader.pages:
+            page_text = page.extract_text() or ""
+            text_parts.append(page_text)
+            total_chars += len(page_text)
+            if total_chars >= max_chars:
+                break
+
+        full_text = "\n".join(text_parts)
+        # max_chars로 자르기
+        if len(full_text) > max_chars:
+            full_text = full_text[:max_chars] + "\n... [본문 생략]"
+
+        print(f"[PDF] 텍스트 추출 완료: {len(full_text)}자 ({len(reader.pages)}페이지)")
+        return full_text
+
+    except Exception as e:
+        print(f"[PDF] 추출 실패: {e}")
+        return ""
 
 
 def select_and_summarize(papers, week_info, proposed_keywords=None):
@@ -1052,6 +1110,14 @@ def main():
     if not summaries:
         print("요약 결과가 없습니다. 종료합니다.")
         return
+
+    # 각 논문의 본문 텍스트 추출 (arXiv 논문만)
+    print("[PDF] 논문 본문 추출 시작...")
+    for s in summaries:
+        fulltext = fetch_paper_fulltext(s.get("url", ""))
+        s["fulltext"] = fulltext
+    fulltext_count = sum(1 for s in summaries if s.get("fulltext"))
+    print(f"[PDF] 본문 추출 완료: {fulltext_count}/{len(summaries)}편")
 
     # 논문 데이터 저장 (토론 스크립트에서 사용)
     DATA_DIR = BASE_DIR / "data"
