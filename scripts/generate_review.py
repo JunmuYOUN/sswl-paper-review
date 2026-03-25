@@ -401,6 +401,20 @@ def generate_post_html(papers, week_info):
         <div class="label">의의 및 시사점</div>
         <p>{p['significance']}</p>
       </div>
+
+      <div class="vote-bar" data-paper-id="paper-{i}">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-{i}', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-{i}-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-{i}', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-{i}-down">0</span>
+          </button>
+        </div>
+      </div>
     </article>
 """
 
@@ -643,6 +657,63 @@ def generate_post_html(papers, week_info):
       line-height: 1.6;
     }}
 
+    /* Vote Bar */
+    .vote-bar {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }}
+
+    .vote-label {{
+      font-size: 0.82rem;
+      color: var(--text-light);
+    }}
+
+    .vote-buttons {{
+      display: flex;
+      gap: 8px;
+    }}
+
+    .vote-btn {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      background: var(--bg-warm);
+      color: var(--text-light);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }}
+
+    .vote-btn:hover {{
+      border-color: var(--text-light);
+      color: var(--text-secondary);
+    }}
+
+    .vote-btn.active.vote-up {{
+      background: rgba(76, 175, 80, 0.1);
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }}
+
+    .vote-btn.active.vote-down {{
+      background: rgba(244, 67, 54, 0.1);
+      border-color: #F44336;
+      color: #F44336;
+    }}
+
+    .vote-count {{
+      font-weight: 600;
+      min-width: 12px;
+      text-align: center;
+    }}
+
     /* Footer */
     footer {{
       border-top: 1px solid var(--border-subtle);
@@ -701,6 +772,62 @@ def generate_post_html(papers, week_info):
       &middot; Automated by <a href="https://assiworks.aifactory.space">Assiworks (AI Factory)</a>
     </p>
   </footer>
+
+  <script>
+    function getVotes() {{
+      return JSON.parse(localStorage.getItem('sswl-votes') || '{{}}');
+    }}
+
+    function saveVotes(votes) {{
+      localStorage.setItem('sswl-votes', JSON.stringify(votes));
+    }}
+
+    function vote(paperId, type) {{
+      var votes = getVotes();
+      var key = location.pathname + ':' + paperId;
+      var prev = votes[key];
+
+      if (prev === type) {{
+        delete votes[key];
+      }} else {{
+        votes[key] = type;
+      }}
+
+      saveVotes(votes);
+      renderVotes();
+    }}
+
+    function renderVotes() {{
+      var votes = getVotes();
+      var prefix = location.pathname + ':';
+      var counts = {{}};
+
+      for (var key in votes) {{
+        if (key.startsWith(prefix)) {{
+          var paperId = key.slice(prefix.length);
+          if (!counts[paperId]) counts[paperId] = {{ up: 0, down: 0 }};
+          counts[paperId][votes[key]]++;
+        }}
+      }}
+
+      document.querySelectorAll('.vote-bar').forEach(function(bar) {{
+        var paperId = bar.dataset.paperId;
+        var userVote = votes[prefix + paperId] || null;
+        var c = counts[paperId] || {{ up: 0, down: 0 }};
+
+        var upBtn = bar.querySelector('.vote-up');
+        var downBtn = bar.querySelector('.vote-down');
+
+        upBtn.classList.toggle('active', userVote === 'up');
+        downBtn.classList.toggle('active', userVote === 'down');
+
+        bar.querySelector('#' + paperId + '-up').textContent = c.up;
+        bar.querySelector('#' + paperId + '-down').textContent = c.down;
+      }});
+    }}
+
+    renderVotes();
+  </script>
 
 </body>
 </html>"""

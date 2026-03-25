@@ -237,6 +237,63 @@
       line-height: 1.6;
     }
 
+    /* Vote Bar */
+    .vote-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .vote-label {
+      font-size: 0.82rem;
+      color: var(--text-light);
+    }
+
+    .vote-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .vote-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      background: var(--bg-warm);
+      color: var(--text-light);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .vote-btn:hover {
+      border-color: var(--text-light);
+      color: var(--text-secondary);
+    }
+
+    .vote-btn.active.vote-up {
+      background: rgba(76, 175, 80, 0.1);
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }
+
+    .vote-btn.active.vote-down {
+      background: rgba(244, 67, 54, 0.1);
+      border-color: #F44336;
+      color: #F44336;
+    }
+
+    .vote-count {
+      font-weight: 600;
+      min-width: 12px;
+      text-align: center;
+    }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--border-subtle);
@@ -323,6 +380,20 @@
         <div class="label">의의 및 시사점</div>
         <p>이 연구는 태양 플레어의 에너지 전달 메커니즘에 대한 새로운 통찰을 제공합니다. 라이만-알파와 백색광 방출의 상관관계는 플레어 예측 모델 개선과 우주기상 예보 정확도 향상에 기여할 것입니다.</p>
       </div>
+
+      <div class="vote-bar" data-paper-id="paper-1">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-1', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-1-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-1', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-1-down">0</span>
+          </button>
+        </div>
+      </div>
     </article>
 
     <!-- Paper 2 -->
@@ -361,6 +432,20 @@
       <div class="summary-section">
         <div class="label">의의 및 시사점</div>
         <p>이 연구는 태양 고에너지 입자의 전파 메커니즘에 대한 새로운 이해를 제공합니다. GLE 사건 예측과 우주방사선 환경 모델링 개선에 중요한 기여를 할 것으로 기대됩니다.</p>
+      </div>
+
+      <div class="vote-bar" data-paper-id="paper-2">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-2', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-2-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-2', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-2-down">0</span>
+          </button>
+        </div>
       </div>
     </article>
 
@@ -401,6 +486,20 @@
         <div class="label">의의 및 시사점</div>
         <p>이 발견은 스트리머 파동 생성 메커니즘에 대한 기존 이해를 크게 수정해야 함을 시사합니다. 태양풍과 코로나 구조의 상호작용에 대한 새로운 관점을 제공합니다.</p>
       </div>
+
+      <div class="vote-bar" data-paper-id="paper-3">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-3', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-3-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-3', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-3-down">0</span>
+          </button>
+        </div>
+      </div>
     </article>
 
     <!-- Paper 4 -->
@@ -439,6 +538,20 @@
       <div class="summary-section">
         <div class="label">의의 및 시사점</div>
         <p>이 연구는 우주기상 모니터링에 혁신적인 새 도구를 제공합니다. CME 자기장의 직접 측정은 지자기폭풍 예측 정확도를 크게 향상시킬 수 있습니다.</p>
+      </div>
+
+      <div class="vote-bar" data-paper-id="paper-4">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-4', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-4-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-4', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-4-down">0</span>
+          </button>
+        </div>
       </div>
     </article>
 
@@ -479,6 +592,20 @@
         <div class="label">의의 및 시사점</div>
         <p>이는 태양풍 형성 과정에 대한 이해를 근본적으로 바꿀 수 있는 발견입니다. 코로나 가열과 태양풍 가속 메커니즘 연구에 새로운 방향을 제시합니다.</p>
       </div>
+
+      <div class="vote-bar" data-paper-id="paper-5">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-5', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-5-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-5', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-5-down">0</span>
+          </button>
+        </div>
+      </div>
     </article>
 
     <!-- Paper 6 -->
@@ -517,6 +644,20 @@
       <div class="summary-section">
         <div class="label">의의 및 시사점</div>
         <p>이 연구는 초대형 지자기폭풍의 사회적 영향을 정량화하는 중요한 사례 연구입니다. 전력망 보호 시스템 개발과 우주기상 위험 평가에 필수적인 정보를 제공합니다.</p>
+      </div>
+
+      <div class="vote-bar" data-paper-id="paper-6">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-6', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-6-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-6', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-6-down">0</span>
+          </button>
+        </div>
       </div>
     </article>
 
@@ -557,6 +698,20 @@
         <div class="label">의의 및 시사점</div>
         <p>이 연구는 코로나 파동 물리학에 대한 깊은 이해를 제공합니다. 플레어 에너지 전파 과정과 코로나 가열 메커니즘 연구에 중요한 기여를 할 것입니다.</p>
       </div>
+
+      <div class="vote-bar" data-paper-id="paper-7">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-7', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-7-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-7', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-7-down">0</span>
+          </button>
+        </div>
+      </div>
     </article>
 
     <!-- Paper 8 -->
@@ -596,6 +751,20 @@
         <div class="label">의의 및 시사점</div>
         <p>이 발견은 태양풍의 비단열적 가열 메커니즘에 대한 새로운 통찰을 제공합니다. 태양권전류면 근처의 특수한 플라스마 환경이 독특한 입자 가속과 가열 과정을 만들어낼 수 있음을 시사합니다.</p>
       </div>
+
+      <div class="vote-bar" data-paper-id="paper-8">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-8', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-8-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-8', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-8-down">0</span>
+          </button>
+        </div>
+      </div>
     </article>
 
   </main>
@@ -607,6 +776,62 @@
       &middot; Automated by <a href="https://assiworks.aifactory.space">Assiworks (AI Factory)</a>
     </p>
   </footer>
+
+  <script>
+    function getVotes() {
+      return JSON.parse(localStorage.getItem('sswl-votes') || '{}');
+    }
+
+    function saveVotes(votes) {
+      localStorage.setItem('sswl-votes', JSON.stringify(votes));
+    }
+
+    function vote(paperId, type) {
+      var votes = getVotes();
+      var key = location.pathname + ':' + paperId;
+      var prev = votes[key];
+
+      if (prev === type) {
+        delete votes[key];
+      } else {
+        votes[key] = type;
+      }
+
+      saveVotes(votes);
+      renderVotes();
+    }
+
+    function renderVotes() {
+      var votes = getVotes();
+      var prefix = location.pathname + ':';
+      var counts = {};
+
+      for (var key in votes) {
+        if (key.startsWith(prefix)) {
+          var paperId = key.slice(prefix.length);
+          if (!counts[paperId]) counts[paperId] = { up: 0, down: 0 };
+          counts[paperId][votes[key]]++;
+        }
+      }
+
+      document.querySelectorAll('.vote-bar').forEach(function(bar) {
+        var paperId = bar.dataset.paperId;
+        var userVote = votes[prefix + paperId] || null;
+        var c = counts[paperId] || { up: 0, down: 0 };
+
+        var upBtn = bar.querySelector('.vote-up');
+        var downBtn = bar.querySelector('.vote-down');
+
+        upBtn.classList.toggle('active', userVote === 'up');
+        downBtn.classList.toggle('active', userVote === 'down');
+
+        bar.querySelector('#' + paperId + '-up').textContent = c.up;
+        bar.querySelector('#' + paperId + '-down').textContent = c.down;
+      });
+    }
+
+    renderVotes();
+  </script>
 
 </body>
 </html>
