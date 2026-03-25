@@ -29,6 +29,39 @@ SEARCH_KEYWORDS = [
     "sunspot", "heliosphere",
 ]
 
+# 대상 저널 (ADS bibstem 코드)
+TARGET_JOURNALS = [
+    "ApJ",    # The Astrophysical Journal
+    "ApJS",   # The Astrophysical Journal Supplement Series
+    "ApJL",   # The Astrophysical Journal Letters
+    "SpWea",  # Space Weather
+    "A&A",    # Astronomy & Astrophysics
+    "SoPh",   # Solar Physics
+    "JGRA",   # Journal of Geophysical Research: Space Physics
+    "GeoRL",  # Geophysical Research Letters
+    "LRSP",   # Living Reviews in Solar Physics
+    "NatAs",  # Nature Astronomy
+]
+
+# arXiv journal_ref 매칭용 (저널 이름 → 표시명)
+JOURNAL_NAME_MAP = {
+    "astrophysical journal": "ApJ",
+    "apj": "ApJ",
+    "astrophysical journal supplement": "ApJS",
+    "apjs": "ApJS",
+    "astrophysical journal letters": "ApJL",
+    "apjl": "ApJL",
+    "space weather": "Space Weather",
+    "astronomy & astrophysics": "A&A",
+    "astronomy and astrophysics": "A&A",
+    "a&a": "A&A",
+    "solar physics": "Solar Physics",
+    "journal of geophysical research": "JGR",
+    "geophysical research letters": "GeoRL",
+    "nature astronomy": "Nature Astronomy",
+    "living reviews in solar physics": "LRSP",
+}
+
 TARGET_PAPER_COUNT = 10
 BASE_DIR = Path(__file__).resolve().parent.parent
 POSTS_DIR = BASE_DIR / "posts"
@@ -85,17 +118,38 @@ def fetch_arxiv_papers(max_results=20):
         categories = [c.get("term") for c in entry.findall("atom:category", ns)]
         primary_cat = categories[0] if categories else "astro-ph.SR"
 
+        # journal_ref 추출 (출판된 저널 정보)
+        journal_ref_el = entry.find("arxiv:journal_ref", ns)
+        journal_ref = journal_ref_el.text.strip() if journal_ref_el is not None and journal_ref_el.text else ""
+        journal_name = _match_journal(journal_ref)
+
+        source = f"arXiv: {primary_cat}"
+        if journal_name:
+            source = f"{journal_name} (arXiv: {primary_cat})"
+
         papers.append({
             "title": title,
             "authors": authors,
             "abstract": summary,
             "url": link,
             "date": published,
-            "source": f"arXiv: {primary_cat}",
+            "source": source,
+            "journal": journal_name,
         })
 
     print(f"[arXiv] {len(papers)}편 발견")
     return papers
+
+
+def _match_journal(journal_ref):
+    """journal_ref 문자열에서 대상 저널 이름 매칭"""
+    if not journal_ref:
+        return ""
+    ref_lower = journal_ref.lower()
+    for keyword, display_name in JOURNAL_NAME_MAP.items():
+        if keyword in ref_lower:
+            return display_name
+    return ""
 
 
 def fetch_ads_papers(max_results=20):
@@ -108,17 +162,22 @@ def fetch_ads_papers(max_results=20):
     week_ago = (datetime.utcnow() - timedelta(days=10)).strftime("%Y-%m-%d")
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
+    # 저널 필터 생성
+    journal_filter = " OR ".join(f'bibstem:"{j}"' for j in TARGET_JOURNALS)
+
     query = (
-        'collection:astronomy '
+        f'({journal_filter}) '
         'abs:("solar flare" OR "coronal mass ejection" OR "space weather" '
-        'OR "solar wind" OR "geomagnetic storm" OR "solar corona") '
+        'OR "solar wind" OR "geomagnetic storm" OR "solar corona" '
+        'OR "solar energetic particles" OR "magnetosphere" OR "sunspot" '
+        'OR "heliosphere" OR "solar cycle") '
         f'pubdate:[{week_ago} TO {today}]'
     )
 
     headers = {"Authorization": f"Bearer {ADS_API_KEY}"}
     params = {
         "q": query,
-        "fl": "title,author,abstract,bibcode,pubdate,identifier",
+        "fl": "title,author,abstract,bibcode,pubdate,pub,identifier",
         "rows": max_results,
         "sort": "date desc",
     }
@@ -141,7 +200,11 @@ def fetch_ads_papers(max_results=20):
         abstract = doc.get("abstract", "")
         bibcode = doc.get("bibcode", "")
         pubdate = doc.get("pubdate", "")[:10]
+        pub = doc.get("pub", "")
         url = f"https://ui.adsabs.harvard.edu/abs/{bibcode}"
+
+        # 저널명 표시
+        source = pub if pub else "NASA ADS"
 
         papers.append({
             "title": title,
@@ -149,7 +212,8 @@ def fetch_ads_papers(max_results=20):
             "abstract": abstract,
             "url": url,
             "date": pubdate,
-            "source": "NASA ADS",
+            "source": source,
+            "journal": pub,
         })
 
     print(f"[ADS] {len(papers)}편 발견")
