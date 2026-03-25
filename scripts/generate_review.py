@@ -64,7 +64,7 @@ JOURNAL_NAME_MAP = {
     "living reviews in solar physics": "LRSP",
 }
 
-TARGET_PAPER_COUNT = 10
+TARGET_PAPER_COUNT = 5
 BASE_DIR = Path(__file__).resolve().parent.parent
 POSTS_DIR = BASE_DIR / "posts"
 INDEX_PATH = BASE_DIR / "index.html"
