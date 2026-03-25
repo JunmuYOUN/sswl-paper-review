@@ -1,0 +1,39 @@
+name: Weekly Paper Review
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # 매주 월요일 09:00 KST (UTC 00:00)
+  workflow_dispatch:       # GitHub에서 수동 실행 가능
+
+permissions:
+  contents: write
+
+jobs:
+  generate-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install anthropic requests beautifulsoup4 PyPDF2
+
+      - name: Generate weekly paper review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ADS_API_KEY: ${{ secrets.ADS_API_KEY }}
+        run: python scripts/generate_review.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "actions@github.com"
+          git add .
+          git diff --staged --quiet || git commit -m "📄 주간 논문 리뷰 자동 생성 $(date +'%Y-W%V')"
+          git push
