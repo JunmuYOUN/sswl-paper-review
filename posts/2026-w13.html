@@ -237,6 +237,117 @@
       line-height: 1.6;
     }
 
+    /* Discussion Section */
+    .discussion-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border-subtle);
+    }
+
+    .discussion-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--nebula-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .discussion-title::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(135deg, var(--sun-gold), var(--aurora-cyan));
+      border-radius: 4px;
+    }
+
+    .discussion-thread {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .agent-comment {
+      padding: 16px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .agent-comment.theorist {
+      background: rgba(147, 51, 234, 0.04);
+      border: 1px solid rgba(147, 51, 234, 0.15);
+    }
+
+    .agent-comment.observer {
+      background: rgba(66, 133, 244, 0.04);
+      border: 1px solid rgba(66, 133, 244, 0.15);
+    }
+
+    .agent-comment.critic {
+      background: rgba(234, 88, 12, 0.04);
+      border: 1px solid rgba(234, 88, 12, 0.15);
+    }
+
+    .agent-comment.student {
+      background: rgba(22, 163, 74, 0.04);
+      border: 1px solid rgba(22, 163, 74, 0.15);
+    }
+
+    .agent-comment.professor {
+      background: linear-gradient(135deg, rgba(232,168,56,0.06), rgba(100,181,198,0.06));
+      border: 1px solid rgba(232,168,56,0.2);
+    }
+
+    .agent-comment p {
+      color: var(--text-secondary);
+      margin: 0;
+      white-space: pre-line;
+    }
+
+    .agent-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .claude-badge { color: #7C3AED; }
+    .gemini-badge { color: #4285F4; }
+    .critic-badge { color: #EA580C; }
+    .student-badge { color: #16A34A; }
+    .professor-badge { color: #B45309; }
+
+    .agent-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .claude-badge .agent-icon { background: #7C3AED; }
+    .gemini-badge .agent-icon { background: #4285F4; }
+    .critic-badge .agent-icon { background: #EA580C; }
+    .student-badge .agent-icon { background: #16A34A; }
+    .professor-badge .agent-icon { background: #B45309; }
+
+    .agent-model {
+      font-weight: 400;
+      color: var(--text-light);
+      font-size: 0.72rem;
+    }
+
     /* Vote Bar */
     .vote-bar {
       display: flex;
@@ -347,40 +458,39 @@
     <article class="paper-card">
       <div class="paper-num">1</div>
       <h2>
-        <a href="http://arxiv.org/abs/2603.00335v1" target="_blank">
-          Comprehensive MHD modelling of ten successive CMEs driving a historic geomagnetic storm -- The 2024 Mothers Day event
+        <a href="http://arxiv.org/abs/2603.23313v1" target="_blank">
+          The Lyman-alpha Emission in Solar Flares. II. A Statistical Study on Its Relationship with the White-light plus Soft X-ray Emission
         </a>
       </h2>
       <div class="paper-meta">
-        <span>Shirsh Lata Soni, Anwesha Maharana, Sanchita Pal et al.</span>
-        <span>2026-02-27</span>
+        <span>De-Chao Song, Ying Li, Qiao Li et al.</span>
+        <span>2026-03-24</span>
         <span class="source-badge">arXiv: astro-ph.SR</span>
       </div>
 
       <div class="one-line-summary">
-        2024년 5월 모친절 지자기 폭풍 이벤트에서 10개의 연속적인 CME 상호작용을 포괄적인 MHD 모델링으로 재현하여 수십 년 만의 최강 지자기 폭풍 메커니즘을 규명
+        태양 플레어에서 라이만-α 방출(Lyman-alpha emission)과 백색광 연속체(white-light continuum) 및 연X선 방출의 통계적 연관성 분석
       </div>
 
       <div class="summary-section">
         <div class="label">연구 배경</div>
-        <p>2024년 5월 10-14일에 발생한 모친절 지자기 폭풍은 수십 년 만에 가장 강력한 지자기 폭풍이었다. 이 이벤트는 태양 서쪽 반구에서 발생한 최소 10개의 상호작용하는 코로나 질량 방출(Coronal Mass Ejections, CME)과 플레어 및 필라멘트 분출에 의해 구동되었다. 상호작용하는 CME들은 단일 이벤트에 비해 지구에 미치는 영향을 극적으로 증가시킬 수 있는 복잡한 태양권 구조(heliospheric structures)를 형성한다.</p>
+        <p>수소 라이만-α 라인과 백색광 연속체는 태양 플레어 동안 하층 대기에서의 에너지 전달을 진단하는 핵심 도구이다. 이들 사이의 관계는 플레어 에너지 방출 메커니즘 이해에 중요하지만 여전히 불분명하다. 특히 태양 플레어에서 에너지가 어떻게 코로나에서 색구(chromosphere)와 광구(photosphere)로 전달되는지는 태양물리학의 핵심 과제이다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">연구 방법</div>
-        <p>연구진은 포괄적인 자기유체역학(MHD) 모델링을 통해 태양에서 지구까지의 복잡한 CME 전파를 시뮬레이션했다. 태양 코로나와 태양권에서의 10개 CME들의 상호작용과 진화를 3차원 MHD 시뮬레이션으로 모델링했으며, 관측된 플레어와 필라멘트 분출 데이터를 통합하여 분석했다. 시뮬레이션 결과를 실제 관측된 지자기 활동과 비교 검증했다.</p>
+        <p>69개의 백색광 플레어(white-light flares) 사례를 분석하여 GOES 데이터와 Solar Dynamics Observatory의 Helioseismic and Magnetic Imager(HMI) 데이터를 활용했다. 라이만-α, 연X선(soft X-ray), 백색광 연속체 방출 간의 상관관계를 통계적으로 조사했다. 각 플레어 이벤트에서 방출 강도와 시간적 변화를 정량적으로 분석했다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">핵심 발견</div>
-        <p>10개의 연속적인 CME들이 태양권에서 복잡하게 상호작용하여 하나의 거대한 자기 구조체를 형성했다. 이러한 CME 간 상호작용으로 인해 자기장 강도와 지속시간이 개별 CME보다 크게 증가했으며, 결과적으로 수십 년 만의 최강 지자기 폭풍(Dst < -400 nT)이 발생했다. MHD 모델링 결과는 관측된 지자기 교란의 크기와 시간적 진화를 성공적으로 재현했다.</p>
+        <p>라이만-α 대비(contrast)와 다른 방출 성분들 사이의 통계적 관계를 규명했다. 69개 백색광 플레어의 분석을 통해 라이만-α 방출이 연X선 및 백색광 방출과 어떤 연관성을 보이는지 정량적 결과를 도출했다. 이는 플레어 에너지 전달 과정에서 각 방출 성분의 역할을 이해하는 데 중요한 관측적 제약 조건을 제공한다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">의의 및 시사점</div>
-        <p>복잡한 다중 CME 이벤트의 지구 영향을 정량적으로 예측할 수 있는 MHD 모델링 프레임워크를 구축했다. 극한 우주기상 이벤트에 대한 이해와 예보 능력 향상에 기여할 것으로 기대된다.</p>
+        <p>태양 플레어의 에너지 전달 메커니즘에 대한 새로운 관측적 증거를 제공한다. 우주기상 예측 모델 개선에 기여할 수 있는 플레어 방출 특성의 통계적 관계를 규명했다.</p>
       </div>
-
       <div class="vote-bar" data-paper-id="paper-1">
         <span class="vote-label">이 논문이 유용했나요?</span>
         <div class="vote-buttons">
@@ -400,40 +510,39 @@
     <article class="paper-card">
       <div class="paper-num">2</div>
       <h2>
-        <a href="http://arxiv.org/abs/2603.22440v1" target="_blank">
-          Magnetic Connectivity in the Time-Dependent Corona and Heliosphere
+        <a href="http://arxiv.org/abs/2603.15930v1" target="_blank">
+          Measurements on the kinetic origin of streamer dynamics
         </a>
       </h2>
       <div class="paper-meta">
-        <span>Roberto Lionello, Cooper Downs, Emily I. Mason et al.</span>
-        <span>2026-03-23</span>
+        <span>Forrest Mozer, Kyungeun Choi, Richard Sydora et al.</span>
+        <span>2026-03-16</span>
         <span class="source-badge">arXiv: astro-ph.SR</span>
       </div>
 
       <div class="one-line-summary">
-        시간 의존적 코로나와 태양권에서 자기 연결성(magnetic connectivity) 연구를 통해 코로나 홀과 스트리머 벨트 경계에서의 교환 재연결이 가변적인 저속 태양풍 형성에 미치는 영향 규명
+        Parker Solar Probe 관측을 통한 스트리머(streamer) 구조의 운동학적 기원과 비-자기유체역학(non-MHD) 과정 직접 측정
       </div>
 
       <div class="summary-section">
         <div class="label">연구 배경</div>
-        <p>자기 플럭스는 태양 코로나에서 태양권으로 확장되며 태양 코로나와 태양풍의 구조 및 역학과 본질적으로 연관되어 있다. 코로나 홀의 열린 자기장선들에서 고속풍이 발생한다고 여겨지지만, 스트리머 벨트(streamer belt)와 코로나 홀 경계에서 일어나는 과정들은 잘 이해되지 않고 있다. 열린 자기 플럭스와 닫힌 자기 플럭스 간의 교환 재연결(interchange reconnection)이 가변적인 저속풍 형성과 관련이 있을 수 있다.</p>
+        <p>태양 코로나에서 닫힌 자기장 구조에서 열린 방사상 구조인 태양권 전류 시트(heliospheric current sheet)로의 전환은 태양물리학의 근본적 문제이다. 대규모 태양권 역학은 자기유체역학(MHD) 영역에 있지만, 바깥 코로나 물리학은 비-MHD 과정을 포함해야 한다. 지금까지 이러한 과정들이 직접적으로 관측된 적이 없었다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">연구 방법</div>
-        <p>시간 의존적 코로나 및 태양권 모델을 사용하여 자기장 연결성의 3차원 진화를 추적했다. 다양한 시공간 스케일에서 교환 재연결 과정을 모델링하고, 코로나 홀과 스트리머 벨트 경계에서의 자기장 토폴로지 변화를 분석했다. 태양풍 관측 데이터와 모델 결과를 비교하여 자기 연결성과 태양풍 특성 간의 관계를 규명했다.</p>
+        <p>Parker Solar Probe의 궤도 16-23에서 관측된 15개의 스트리머 구조를 분석했다. 태양 중심으로부터 약 15-25 태양 반지름 거리에서 자기장, 플라스마 속도, 밀도 측정을 수행했다. 각 스트리머 횡단 시 고해상도 플라스마 및 자기장 데이터를 분석하여 운동학적 특성을 도출했다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">핵심 발견</div>
-        <p>교환 재연결이 스트리머 벨트와 코로나 홀 경계에서 빈번하게 발생하며, 이는 저속 태양풍의 가변성을 설명하는 핵심 메커니즘임을 발견했다. 시간 의존적 자기 연결성 변화가 태양풍 특성의 시간적 변동성과 직접적으로 연관되어 있다. 코로나 홀 경계에서의 재연결 과정이 열린 자기 플럭스의 분포와 태양풍 구조에 중요한 영향을 미친다.</p>
+        <p>스트리머 경계에서 비-MHD 과정의 직접적인 관측 증거를 최초로 발견했다. 15개 스트리머 구조 분석을 통해 플라스마 베타, 자기장 방향 변화, 속도 분포 등에서 고전적 MHD 예측과 다른 특성을 확인했다. 이는 스트리머 동역학이 운동학적 효과에 의해 지배됨을 시사한다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">의의 및 시사점</div>
-        <p>태양풍 기원과 변동성에 대한 이해를 크게 향상시켰으며, 특히 저속풍의 형성 메커니즘을 규명했다. 태양풍 예측 모델의 정확도 개선에 기여할 수 있다.</p>
+        <p>태양풍 가속과 태양권 전류 시트 형성의 물리적 메커니즘에 대한 새로운 통찰을 제공한다. 코로나-태양풍 전환 영역에서의 비-MHD 과정 이해에 중요한 관측적 돌파구를 마련했다.</p>
       </div>
-
       <div class="vote-bar" data-paper-id="paper-2">
         <span class="vote-label">이 논문이 유용했나요?</span>
         <div class="vote-buttons">
@@ -453,40 +562,39 @@
     <article class="paper-card">
       <div class="paper-num">3</div>
       <h2>
-        <a href="http://arxiv.org/abs/2603.09474v1" target="_blank">
-          Empirical flare energy limits for the largest historical sunspots
+        <a href="http://arxiv.org/abs/2603.15784v1" target="_blank">
+          Ground Effects of the 2024 Mother's Day Superstorm: A Multi-source Observational Analysis
         </a>
       </h2>
       <div class="paper-meta">
-        <span>N. A. Krivova, T. Chatzistergos, M. Kazachenko et al.</span>
-        <span>2026-03-10</span>
-        <span class="source-badge">arXiv: astro-ph.SR</span>
+        <span>Yue Chen, Kyoung Ho Kim, Steven K. Morley et al.</span>
+        <span>2026-03-16</span>
+        <span class="source-badge">arXiv: physics.space-ph</span>
       </div>
 
       <div class="one-line-summary">
-        역사상 최대 흑점들의 실증적 플레어 에너지 한계 연구를 통해 태양이 10^34 erg를 초과하는 슈퍼플레어를 생성할 가능성을 자기장 복잡도와 흑점 면적 관점에서 평가
+        2024년 어머니날 초대형 지자기 폭풍이 지상 환경에 미친 영향의 다중 관측원 분석
       </div>
 
       <div class="summary-section">
         <div class="label">연구 배경</div>
-        <p>극한 태양 입자 이벤트들은 태양이 현대에 관측된 것보다 훨씬 강력한 분출을 간헐적으로 생성할 수 있음을 보여준다. 태양형 별들의 관측에 따르면 10^34 erg를 초과하는 슈퍼플레어가 대략 한 세기에 한 번씩 발생할 수 있지만, 태양이 그러한 에너지를 방출할 수 있는지는 불확실하다. 이러한 이벤트들은 복잡한 활동 영역에서 자기장 재연결로 인한 대형 플레어와 관련된 강력한 코로나 질량 방출에서 기인한다고 여겨진다.</p>
+        <p>2024년 5월 발생한 어머니날 지자기 폭풍은 극한 우주기상 현상으로 분류되는 초대형 지자기 교란이었다. 이러한 극한 우주기상 현상은 강한 지전류(geoelectric field)를 생성하고 지자기 유도 전류(geomagnetically induced currents)를 유발하여 지상 인프라에 심각한 영향을 줄 수 있다. 특히 전력망과 통신 시설에 대한 피해가 우려된다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">연구 방법</div>
-        <p>역사적으로 기록된 최대 흑점들의 면적과 자기장 데이터를 분석했다. 흑점 면적, 자기장 강도, 자기장 복잡도와 플레어 에너지 간의 실증적 관계를 정립했다. 과거 관측된 최대 흑점 그룹들의 자기 에너지를 추정하고, 이를 통해 가능한 최대 플레어 에너지를 계산했다. 현대 자기장 관측과 역사적 흑점 기록을 결합하여 분석했다.</p>
+        <p>다중 관측원 데이터를 활용한 종합적 분석을 수행했다. 지자기 관측소 네트워크, 전력망 모니터링 시스템, 그리고 뉴질랜드 전력 그리드의 실시간 데이터를 분석했다. 지자기 교란과 지전류 강도, 그리고 실제 전력 시설에서 측정된 유도 전류를 상관 분석했다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">핵심 발견</div>
-        <p>역사상 최대 흑점들도 10^34 erg급 슈퍼플레어를 생성하기에는 자기 에너지가 부족할 가능성이 높다. 흑점 면적과 자기장 복잡도를 기반으로 한 에너지 추정 결과, 태양에서 관측된 최대 플레어는 10^33 erg 수준에 머무를 것으로 예측된다. 하지만 극히 드물고 특수한 자기장 배치에서는 더 큰 에너지 방출이 가능할 수도 있다.</p>
+        <p>강력한 우주기상 교란이 어떻게 강한 지전류를 생성하고 현저한 지자기 유도 전류를 유발하는지를 정량적으로 입증했다. 특히 뉴질랜드 전력망에서 관측된 유도 전류의 크기와 분포를 상세히 기록했다. 여러 지역에서 보고된 전력 시설 이상 현상과 지자기 교란 간의 직접적 연관성을 확인했다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">의의 및 시사점</div>
-        <p>태양의 극한 플레어 생성 능력에 대한 실증적 한계를 제시하여 극한 우주기상 이벤트 평가에 중요한 기준을 제공한다. 태양형 별에서 관측되는 슈퍼플레어와 태양의 차이점을 이해하는 데 기여한다.</p>
+        <p>극한 우주기상 현상이 지상 인프라에 미치는 실제적 영향을 정량화한 중요한 사례 연구이다. 미래 우주기상 위험성 평가와 전력망 보호 시스템 개발에 핵심적인 기초 자료를 제공한다.</p>
       </div>
-
       <div class="vote-bar" data-paper-id="paper-3">
         <span class="vote-label">이 논문이 유용했나요?</span>
         <div class="vote-buttons">
@@ -506,40 +614,39 @@
     <article class="paper-card">
       <div class="paper-num">4</div>
       <h2>
-        <a href="http://arxiv.org/abs/2603.12470v1" target="_blank">
-          CLARE: Classification-based Regression for Electron Temperature Prediction
+        <a href="http://arxiv.org/abs/2603.11329v1" target="_blank">
+          Strong Prevalence of Hammerhead Velocity Distributions Close to the Heliospheric Current Sheet
         </a>
       </h2>
       <div class="paper-meta">
-        <span>Michael Liang, Blake DeHaas, Naomi Maruyama et al.</span>
-        <span>2026-03-12</span>
-        <span class="source-badge">arXiv: physics.space-ph</span>
+        <span>Srijan Bharati Das, Jaye L. Verniero, Samuel T. Badman et al.</span>
+        <span>2026-03-11</span>
+        <span class="source-badge">arXiv: astro-ph.SR</span>
       </div>
 
       <div class="one-line-summary">
-        CLARE 머신러닝 모델을 통해 AKEBONO 위성 관측과 태양-지자기 지수를 활용한 지구 플라즈마권 전자온도 예측에서 분류 기반 회귀 아키텍처의 우수성을 입증
+        태양권 전류 시트(heliospheric current sheet) 근처에서 Parker Solar Probe가 관측한 해머헤드 형태 속도 분포의 높은 빈도
       </div>
 
       <div class="summary-section">
         <div class="label">연구 배경</div>
-        <p>전자온도(Te)는 상층 대기의 우주기상을 지배하는 중요한 매개변수이지만, 우주기상 머신러닝 연구에서는 상대적으로 덜 탐구되어 왔다. 전자온도는 플라즈마권의 물리적 과정을 이해하고 우주기상 현상을 예측하는 데 핵심적인 역할을 한다. 기존의 회귀 모델들은 연속적인 전자온도 출력 공간에서의 예측 정확도가 제한적이었다.</p>
+        <p>태양풍은 태양으로부터 멀어지면서 비단열적 가열을 받는다. 비평형 상태의 이온 속도 위상 공간 분포는 이러한 가열에 크게 기여할 수 있는 자유 에너지원을 나타낸다. Parker Solar Probe는 수직으로 확산된 양성자 빔과 핵심 집단 사이에 뚜렷이 수축된 간격을 포함하는 고도로 이방성인 속도 분포를 관측했다. 이러한 분포는 해머헤드 모양을 닮았다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">연구 방법</div>
-        <p>AKEBONO (EXOS-D) 위성 관측 데이터와 태양 및 지자기 지수를 학습 데이터로 사용했다. 분류 기반 회귀(classification-based regression) 아키텍처를 도입하여 연속적인 전자온도 출력 공간을 이산적인 분류 문제로 변환했다. 태양활동 지수, 지자기 활동 지수, 궤도 매개변수 등을 입력 특성으로 활용하여 지구 플라즈마권에서의 전자온도를 예측하는 CLARE 모델을 개발했다.</p>
+        <p>Parker Solar Probe의 관측 데이터를 분석하여 태양권 전류 시트 근처에서의 양성자 속도 분포 함수를 조사했다. 높은 시야각(field-of-view) 커버리지를 가진 구간을 선별하여 통계적으로 유의한 분석을 수행했다. 해머헤드 형태 분포의 발생 빈도와 태양권 전류 시트와의 공간적 상관관계를 정량화했다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">핵심 발견</div>
-        <p>CLARE 모델은 기존의 전통적인 회귀 모델들에 비해 전자온도 예측 정확도를 크게 향상시켰다. 분류 기반 회귀 아키텍처가 연속적인 전자온도 값 예측에서 더 안정적이고 정확한 결과를 제공했다. 태양활동과 지자기 활동 지수들이 전자온도 변동성 예측에 중요한 역할을 하며, 특히 지자기 폭풍 기간 동안의 전자온도 증가를 성공적으로 재현했다.</p>
+        <p>태양권 전류 시트 근처에서 해머헤드 형태의 속도 분포가 매우 높은 빈도로 나타남을 발견했다. 이러한 특이한 속도 분포는 태양풍 가열 과정에서 중요한 역할을 할 수 있는 자유 에너지의 존재를 시사한다. 공간적 분포 분석을 통해 이 현상이 태양권 전류 시트의 특수한 자기장 구조와 밀접한 관련이 있음을 확인했다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">의의 및 시사점</div>
-        <p>우주기상 예보에서 전자온도 예측 능력을 크게 개선하여 위성 운용과 통신 시스템에 대한 우주환경 영향 평가를 향상시킬 수 있다. 머신러닝 기반 우주기상 모델링 분야에 새로운 방법론적 기여를 제공한다.</p>
+        <p>태양풍 가열 메커니즘에 대한 새로운 관측적 증거를 제공한다. 태양풍 물리학과 태양권 자기장 구조 연구에 중요한 통찰을 제공하며, 우주 플라스마 물리학 이해에 기여한다.</p>
       </div>
-
       <div class="vote-bar" data-paper-id="paper-4">
         <span class="vote-label">이 논문이 유용했나요?</span>
         <div class="vote-buttons">
@@ -559,40 +666,39 @@
     <article class="paper-card">
       <div class="paper-num">5</div>
       <h2>
-        <a href="http://arxiv.org/abs/2603.14454v1" target="_blank">
-          Multi-instrument constraints on a hemispherically asymmetric positive ionospheric storm in the 60-180 deg E sector during the 12-13 November 2025 geomagnetic storm
+        <a href="https://ui.adsabs.harvard.edu/abs/2026ApJ...999L...4H" target="_blank">
+          Evidence of 5 minute Oscillations from Parker Solar Probe
         </a>
       </h2>
       <div class="paper-meta">
-        <span>Pan Xiong, Jianghe Chen, Xuhui Shen et al.</span>
-        <span>2026-03-15</span>
-        <span class="source-badge">arXiv: physics.geo-ph</span>
+        <span>Huang, Zesen, Velli, Marco, Panasenco, Olga et al.</span>
+        <span>2026-03-00</span>
+        <span class="source-badge">The Astrophysical Journal</span>
       </div>
 
       <div class="one-line-summary">
-        2025년 11월 12-13일 지자기 폭풍 동안 60-180°E 구간에서 다중 관측기기를 이용하여 반구 비대칭 양의 전리권 폭풍 현상과 그 물리적 메커니즘을 정량적으로 규명
+        Parker Solar Probe가 상부 태양 코로나에서 5분 주기 p-mode 진동의 직접적인 현장 관측 증거 최초 발견
       </div>
 
       <div class="summary-section">
         <div class="label">연구 배경</div>
-        <p>지자기 폭풍은 전기역학적 과정과 열권 과정의 결합을 통해 복잡한 전리권 반응을 유발한다. 폭풍 시 전전자수(TEC) 교란을 특정 메커니즘에 귀속시키는 것은 여전히 어려운 과제이다. 특히 극한 이벤트 쪽으로 치우친 데이터셋을 다룰 때 정확한 물리적 해석이 중요하다. 전리권 폭풍의 반구 비대칭성과 지역적 특성을 이해하는 것은 우주기상 예보 개선에 필수적이다.</p>
+        <p>태양 표면은 대류권 내부에 갇힌 음향파에 의해 생성되는 p-mode로 알려진 특징적인 5분 진동을 보인다. 이러한 진동이 태양풍까지 도달할 것으로 오랫동안 가설화되어 왔지만, Parker Solar Probe의 이전 근접 접근에서도 직접적인 현장 증거는 발견되지 않았다. 5분 진동의 코로나 전파는 태양 대기의 에너지 전달과 태양풍 가속 메커니즘 이해에 중요하다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">연구 방법</div>
-        <p>2025년 11월 12-13일 강한 지자기 폭풍(Dst 최솟값 = -214 nT) 동안 60-180°E 구간에서 다중 관측기기 데이터셋을 활용했다. JPL GIM TEC, 고밀도 지역 GNSS 네트워크, 연속 BeiDou GEO 링크, COSMIC-2 전파엄폐 관측을 종합적으로 분석했다. 전기역학적 과정과 중성 대기 가열의 상대적 기여도를 정량화하고 반구별 차이를 비교했다.</p>
+        <p>Parker Solar Probe의 세 번의 가장 가까운 근일점 접근 관측 데이터를 분석했다. 상부 태양 코로나에서의 자기장과 플라스마 매개변수의 시간 변화를 고해상도로 측정했다. 스펙트럼 분석 기법을 사용하여 5분 주기 신호를 추출하고, 통계적 유의성을 평가했다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">핵심 발견</div>
-        <p>60-180°E 구간에서 뚜렷한 반구 비대칭 양의 전리권 폭풍이 관측되었다. 북반구에서 TEC 증가가 남반구보다 현저히 컸으며, 이는 주로 폭풍 시 전기장에 의한 플라즈마 상승과 적도 이상 효과의 비대칭적 강화 때문이다. 지역적 열권 가열도 TEC 증가에 기여했지만, 전기역학적 효과가 주요 메커니즘이었다. 경도별로도 전리권 반응의 차이가 관측되었다.</p>
+        <p>상부 태양 코로나에서 5분 진동의 강력한 현장 증거를 최초로 발견했다. 세 번의 근일점 접근 관측 모두에서 일관된 5분 주기 신호를 확인했다. 이는 태양 표면의 p-mode 진동이 실제로 태양풍 영역까지 전파됨을 직접적으로 입증하는 역사적인 관측이다.</p>
       </div>
 
       <div class="summary-section">
         <div class="label">의의 및 시사점</div>
-        <p>반구 비대칭 전리권 폭풍의 물리적 메커니즘을 정량적으로 규명하여 지역별 우주기상 예보 모델의 정확도 향상에 기여한다. 아시아-태평양 지역의 전리권 교란 특성 이해를 통해 GNSS 및 통신 시스템의 오차 보정 능력을 개선할 수 있다.</p>
+        <p>태양 대기 역학과 태양풍 가속 과정에 대한 근본적 이해를 변화시킬 수 있는 획기적 발견이다. 태양 진동학(helioseismology)과 태양풍 물리학을 연결하는 중요한 관측적 돌파구를 제공한다.</p>
       </div>
-
       <div class="vote-bar" data-paper-id="paper-5">
         <span class="vote-label">이 논문이 유용했나요?</span>
         <div class="vote-buttons">
