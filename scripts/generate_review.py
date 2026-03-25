@@ -262,7 +262,7 @@ def deduplicate_papers(papers, previously_reviewed):
     return unique
 
 
-def select_and_summarize(papers, week_info):
+def select_and_summarize(papers, week_info, proposed_keywords=None):
     """Claude API로 논문 선별 및 한국어 요약 생성"""
     print(f"[Claude] {len(papers)}편 중 {TARGET_PAPER_COUNT}편 선별 및 요약 중...")
 
@@ -286,6 +286,7 @@ URL: {p['url']}
 
 아래에 이번 주({week_info['date_range']}) 발표된 논문 목록이 있습니다.
 이 중에서 태양물리/우주기상 연구자에게 가장 중요하고 흥미로운 논문을 최대 {TARGET_PAPER_COUNT}편 선별하여 한국어로 요약해 주세요.
+{('연구실에서 다음 주제에 관심을 가지고 있으니 관련 논문을 우선 선별하세요: ' + ', '.join(proposed_keywords or [])) if proposed_keywords else ''}
 
 각 논문에 대해 다음 JSON 형식으로 응답해 주세요:
 ```json
@@ -1000,9 +1001,41 @@ def main():
     # 이전 주차에서 이미 요약한 논문 수집
     previously_reviewed = get_previously_reviewed_titles()
 
+    # 발제된 논문/주제 확인
+    proposals_file = BASE_DIR / "data" / "topic_proposals.json"
+    proposed_papers = []
+    proposed_keywords = []
+    if proposals_file.exists():
+        proposals = json.loads(proposals_file.read_text(encoding="utf-8"))
+        for p in proposals.get("proposals", []):
+            if p.get("type") == "paper" and p.get("url"):
+                proposed_papers.append(p)
+                print(f"[발제] 논문: {p.get('title', p['url'])}")
+            elif p.get("type") == "topic" and p.get("content"):
+                proposed_keywords.append(p["content"])
+                print(f"[발제] 주제: {p['content']}")
+        # 발제 처리 후 비우기
+        proposals["proposals"] = []
+        proposals_file.write_text(
+            json.dumps(proposals, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+
     # 논문 검색 (1년 이내)
     arxiv_papers = fetch_arxiv_papers(max_results=50)
     ads_papers = fetch_ads_papers(max_results=50)
+
+    # 발제된 논문을 우선 포함
+    for pp in proposed_papers:
+        all_papers_manual = [{
+            "title": pp.get("title", "발제 논문"),
+            "authors": [pp.get("name", "발제자")],
+            "abstract": pp.get("content", ""),
+            "url": pp["url"],
+            "date": "",
+            "source": "발제",
+            "journal": "",
+        }]
+        arxiv_papers = all_papers_manual + arxiv_papers
 
     all_papers = arxiv_papers + ads_papers
     all_papers = deduplicate_papers(all_papers, previously_reviewed)
@@ -1012,8 +1045,10 @@ def main():
         print("검색된 논문이 없습니다. 종료합니다.")
         return
 
-    # Claude로 요약
-    summaries = select_and_summarize(all_papers, week_info)
+    # Claude로 요약 (발제 주제가 있으면 우선 반영)
+    if proposed_keywords:
+        print(f"[발제] 주제 키워드 {len(proposed_keywords)}개를 선별에 반영")
+    summaries = select_and_summarize(all_papers, week_info, proposed_keywords)
     if not summaries:
         print("요약 결과가 없습니다. 종료합니다.")
         return

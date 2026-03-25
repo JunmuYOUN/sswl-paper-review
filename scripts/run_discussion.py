@@ -27,8 +27,10 @@ POSTS_DIR = BASE_DIR / "posts"
 PAPERS_FILE = DATA_DIR / "current_papers.json"
 STATE_FILE = DATA_DIR / "discussion_state.json"
 HUMAN_COMMENTS_FILE = DATA_DIR / "human_comments.json"
+TOPIC_PROPOSALS_FILE = DATA_DIR / "topic_proposals.json"
 
-TOTAL_DAYS = 4  # 화~금
+TOTAL_ROUNDS = 12  # 화~금 × 하루 3회
+ROUNDS_PER_DAY = 3
 
 # ── 에이전트 정의 ─────────────────────────────────────
 AGENTS = [
@@ -145,10 +147,32 @@ def load_human_comments():
     return {}
 
 
+def load_topic_proposals():
+    """다음 주차 논문/주제 발제 로드"""
+    if TOPIC_PROPOSALS_FILE.exists():
+        return json.loads(TOPIC_PROPOSALS_FILE.read_text(encoding="utf-8"))
+    return {}
+
+
+def round_to_day(round_num):
+    """라운드 번호 → 요일 (1~4)과 하루 내 세션 (1~3)"""
+    day = (round_num - 1) // ROUNDS_PER_DAY + 1
+    session = (round_num - 1) % ROUNDS_PER_DAY + 1
+    return day, session
+
+
+def day_session_label(round_num):
+    """라운드 → 사람이 읽기 쉬운 라벨"""
+    day, session = round_to_day(round_num)
+    day_names = {1: "화", 2: "수", 3: "목", 4: "금"}
+    session_names = {1: "오전", 2: "오후", 3: "저녁"}
+    return f"{day_names.get(day, f'D{day}')} {session_names.get(session, f'S{session}')}"
+
+
 def init_state(papers_data):
     state = {
         "week_str": papers_data["week_info"]["week_str"],
-        "current_day": 0,
+        "current_round": 0,
         "papers": [],
     }
     for p in papers_data["papers"]:
@@ -171,12 +195,14 @@ def build_thread_text(thread):
         return ""
     text = "\n=== 지금까지의 토론 ===\n"
     for t in thread:
+        r = t.get("round", 0)
+        label = day_session_label(r) if r else "?"
         prefix = f"[{t['label']}"
         if t.get("name"):
             prefix += f" — {t['name']}"
         if t.get("model_label"):
             prefix += f" ({t['model_label']})"
-        prefix += f", Day {t['day']}]"
+        prefix += f", {label}]"
         text += f"\n{prefix}\n{t['content']}\n"
     text += "\n=== 토론 끝 ===\n"
     return text
@@ -194,10 +220,12 @@ def build_paper_context(paper):
     )
 
 
-def run_agent(agent, paper, thread, day, is_final_day):
+def run_agent(agent, paper, thread, round_num):
     """개별 에이전트 실행. PASS면 None 반환."""
     paper_context = build_paper_context(paper)
     thread_text = build_thread_text(thread)
+    is_final = (round_num == TOTAL_ROUNDS)
+    label = day_session_label(round_num)
 
     # 사람 질문이 있는지 확인
     human_comments = [t for t in thread if t.get("agent") == "human"]
@@ -205,15 +233,25 @@ def run_agent(agent, paper, thread, day, is_final_day):
     if human_comments:
         human_mention = "\n참고: 사람(연구원)이 남긴 댓글이 있습니다. 관련 있다면 답변에 반영하세요.\n"
 
-    day_context = f"현재 Day {day}/{TOTAL_DAYS}입니다."
-    if is_final_day:
-        day_context += " 오늘이 마지막 날입니다."
+    # 다음 주차 발제가 있는지
+    proposals = load_topic_proposals()
+    proposal_mention = ""
+    if proposals.get("proposals"):
+        proposal_mention = "\n참고: 다음 주차에 대한 발제/주제 제안이 있습니다:\n"
+        for prop in proposals["proposals"]:
+            proposal_mention += f"- [{prop.get('name', '익명')}] {prop.get('content', '')}\n"
+        proposal_mention += "관련이 있다면 발제 내용도 참고하여 논의하세요.\n"
+
+    context = f"현재 {label} (라운드 {round_num}/{TOTAL_ROUNDS})입니다."
+    if is_final:
+        context += " 이번 주 마지막 세션입니다."
         if agent["id"] == "professor":
-            day_context += " 전체 토론을 종합해주세요."
+            context += " 전체 토론을 종합해주세요."
 
     prompt = (
-        f"{day_context}\n"
-        f"{human_mention}\n"
+        f"{context}\n"
+        f"{human_mention}"
+        f"{proposal_mention}\n"
         f"아래 논문에 대한 토론에 참여하고 있습니다.\n"
         f"이전 토론을 읽고, 새로 기여할 의견이 있다면 한국어로 작성하세요.\n"
         f"전문 용어 첫 등장 시 영문을 병기하세요. 3~5문장으로 간결하게.\n"
@@ -234,7 +272,7 @@ def run_agent(agent, paper, thread, day, is_final_day):
     return response
 
 
-def inject_human_comments(state, human_comments, day):
+def inject_human_comments(state, human_comments, round_num):
     """사람 댓글을 스레드에 삽입 (아직 삽입 안 된 것만)"""
     for i, paper in enumerate(state["papers"]):
         key = f"paper-{i}"
@@ -248,7 +286,7 @@ def inject_human_comments(state, human_comments, day):
             ident = (c.get("name", ""), c.get("content", ""))
             if ident not in existing_human:
                 paper["thread"].append({
-                    "day": day,
+                    "round": round_num,
                     "agent": "human",
                     "label": "연구원",
                     "name": c.get("name", "익명"),
@@ -258,19 +296,20 @@ def inject_human_comments(state, human_comments, day):
                 print(f"  [사람] {c.get('name', '익명')}의 댓글 추가 (논문 {i+1})")
 
 
-def run_day(state, day):
-    """하루 토론 실행"""
-    is_final = (day == TOTAL_DAYS)
-    print(f"=== Day {day}/{TOTAL_DAYS} {'(최종)' if is_final else ''} ===")
+def run_round(state, round_num):
+    """라운드 실행 — 모든 에이전트에게 기회 부여"""
+    label = day_session_label(round_num)
+    is_final = (round_num == TOTAL_ROUNDS)
+    print(f"=== 라운드 {round_num}/{TOTAL_ROUNDS} ({label}) {'[최종]' if is_final else ''} ===")
 
     for pi, paper in enumerate(state["papers"]):
         print(f"\n[논문 {pi+1}] {paper['title'][:50]}...")
-        day_contributions = 0
+        contributions = 0
 
         for agent in AGENTS:
             print(f"  [{agent['label']}] ", end="")
             try:
-                result = run_agent(agent, paper, paper["thread"], day, is_final)
+                result = run_agent(agent, paper, paper["thread"], round_num)
             except Exception as e:
                 print(f"오류: {e}")
                 continue
@@ -279,18 +318,18 @@ def run_day(state, day):
                 print("PASS")
             else:
                 paper["thread"].append({
-                    "day": day,
+                    "round": round_num,
                     "agent": agent["id"],
                     "label": agent["label"],
                     "model_label": agent["model_label"],
                     "content": result,
                 })
-                day_contributions += 1
+                contributions += 1
                 print(f"참여 ({len(result)}자)")
 
-        print(f"  → Day {day} 참여: {day_contributions}명")
+        print(f"  → {label} 참여: {contributions}명")
 
-    state["current_day"] = day
+    state["current_round"] = round_num
     return state
 
 
@@ -480,8 +519,9 @@ def update_post_html(state, papers_data):
 
         title_div = soup.new_tag("div")
         title_div["class"] = "discussion-title"
-        current_day = state["current_day"]
-        title_div.string = f"AI 에이전트 토론 (Day {current_day}/{TOTAL_DAYS})"
+        cr = state["current_round"]
+        cur_day, _ = round_to_day(cr) if cr > 0 else (0, 0)
+        title_div.string = f"AI 에이전트 토론 (라운드 {cr}/{TOTAL_ROUNDS})"
         discussion_div.append(title_div)
 
         thread_div = soup.new_tag("div")
@@ -490,12 +530,14 @@ def update_post_html(state, papers_data):
         # 날짜별 구분선 삽입
         last_day = 0
         for t in thread:
-            day = t.get("day", 0)
+            r = t.get("round", 0)
+            day, _ = round_to_day(r) if r > 0 else (0, 0)
             if day > last_day:
                 if last_day > 0:
+                    day_names = {1: "화요일", 2: "수요일", 3: "목요일", 4: "금요일"}
                     divider = soup.new_tag("div")
                     divider["class"] = "day-divider"
-                    divider.string = f"Day {day}"
+                    divider.string = day_names.get(day, f"Day {day}")
                     thread_div.append(divider)
                 last_day = day
 
@@ -534,16 +576,17 @@ def update_post_html(state, papers_data):
                 badge_text += f" ({name})"
             badge_div.append(badge_text + " ")
 
+            round_label = day_session_label(r) if r else ""
             if model_label:
                 model_span = soup.new_tag("span")
                 model_span["class"] = "agent-model"
-                model_span.string = f"{model_label} · Day {day}"
+                model_span.string = f"{model_label} · {round_label}"
                 badge_div.append(model_span)
-            else:
-                day_span = soup.new_tag("span")
-                day_span["class"] = "agent-model"
-                day_span.string = f"Day {day}"
-                badge_div.append(day_span)
+            elif round_label:
+                rl_span = soup.new_tag("span")
+                rl_span["class"] = "agent-model"
+                rl_span.string = round_label
+                badge_div.append(rl_span)
 
             comment_div.append(badge_div)
 
@@ -599,29 +642,30 @@ def main():
         print("[상태] 새 주차 — 토론 초기화")
         state = init_state(papers_data)
 
-    current_day = state["current_day"]
-    next_day = current_day + 1
+    current = state["current_round"]
+    next_round = current + 1
 
-    if next_day > TOTAL_DAYS:
-        print(f"[완료] 이미 모든 토론({TOTAL_DAYS}일) 완료됨")
+    if next_round > TOTAL_ROUNDS:
+        print(f"[완료] 이미 모든 라운드({TOTAL_ROUNDS}) 완료됨")
         return
 
     # 사람 댓글 주입
     human_comments = load_human_comments()
     if human_comments:
-        inject_human_comments(state, human_comments, next_day)
+        inject_human_comments(state, human_comments, next_round)
 
-    # 하루 토론 실행
-    state = run_day(state, next_day)
+    # 라운드 실행
+    state = run_round(state, next_round)
     save_state(state)
 
     # HTML 업데이트
     update_post_html(state, papers_data)
 
-    if next_day == TOTAL_DAYS:
-        print("=== 4일간 토론 완료! ===")
+    label = day_session_label(next_round)
+    if next_round == TOTAL_ROUNDS:
+        print(f"=== 모든 토론 완료! ({label}) ===")
     else:
-        print(f"=== Day {next_day}/{TOTAL_DAYS} 완료 ===")
+        print(f"=== 라운드 {next_round}/{TOTAL_ROUNDS} ({label}) 완료 ===")
 
 
 if __name__ == "__main__":
