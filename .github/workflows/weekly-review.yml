@@ -22,11 +22,12 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic requests beautifulsoup4 PyPDF2
+        run: pip install anthropic google-generativeai requests beautifulsoup4 PyPDF2
 
       - name: Generate weekly paper review
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ADS_API_KEY: ${{ secrets.ADS_API_KEY }}
         run: python scripts/generate_review.py
 
