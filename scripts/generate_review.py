@@ -2,7 +2,7 @@
 """
 주간 태양물리/우주기상 논문 자동 리뷰 생성기
 - arXiv API + NASA ADS API로 최신 논문 검색
-- Claude API로 한국어 요약 생성
+- Claude API + Gemini API로 한국어 요약 및 에이전트 토론 생성
 - HTML 파일 자동 생성 및 index.html 업데이트
 """
 
@@ -16,10 +16,12 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 import anthropic
+import google.generativeai as genai
 import requests
 
 # ── 설정 ──────────────────────────────────────────────
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 ADS_API_KEY = os.environ.get("ADS_API_KEY")
 
 # 검색 키워드
@@ -349,7 +351,103 @@ URL: {p['url']}
     return results
 
 
-def generate_post_html(papers, week_info):
+def _ask_claude(prompt):
+    """Claude API 호출"""
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    response = client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=2000,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return response.content[0].text.strip()
+
+
+def _ask_gemini(prompt):
+    """Gemini API 호출"""
+    genai.configure(api_key=GEMINI_API_KEY)
+    model = genai.GenerativeModel("gemini-2.5-flash")
+    response = model.generate_content(prompt)
+    return response.text.strip()
+
+
+def generate_discussion(paper):
+    """논문에 대해 Claude(이론가)와 Gemini(관측자)가 토론 후 종합"""
+    print(f"  [토론] {paper['title'][:50]}...")
+
+    paper_context = (
+        f"제목: {paper['title']}\n"
+        f"저자: {paper['authors']}\n"
+        f"요약: {paper['one_line_summary']}\n"
+        f"배경: {paper['background']}\n"
+        f"방법: {paper['method']}\n"
+        f"발견: {paper['findings']}\n"
+        f"의의: {paper['significance']}\n"
+    )
+
+    base_instruction = (
+        "한국어로 답변하세요. 전문 용어 첫 등장 시 영문을 병기하세요. "
+        "3~5문장으로 간결하게 답변하세요."
+    )
+
+    # 1단계: Claude (이론가 관점)
+    claude_prompt = (
+        f"당신은 '이론가' — 태양물리학 이론 및 수치 모델링 전문가입니다.\n"
+        f"아래 논문을 이론적 관점에서 평가하세요:\n"
+        f"- 이론적 기여와 참신성\n"
+        f"- 기존 이론/모델과의 관계\n"
+        f"- 이론적 한계나 추가 검증 필요성\n\n"
+        f"{base_instruction}\n\n{paper_context}"
+    )
+    claude_opinion = _ask_claude(claude_prompt)
+
+    # 2단계: Gemini (관측자 관점, Claude 의견 참고)
+    gemini_prompt = (
+        f"당신은 '관측자' — 태양 관측 데이터 분석 및 우주기상 예보 전문가입니다.\n"
+        f"아래 논문을 관측/실험적 관점에서 평가하세요:\n"
+        f"- 데이터 품질과 분석 방법론의 적절성\n"
+        f"- 관측적 검증 가능성\n"
+        f"- 우주기상 예보 실무 적용 가능성\n\n"
+        f"아래는 이론가의 의견입니다. 동의하거나 반박할 수 있습니다:\n"
+        f"[이론가 의견] {claude_opinion}\n\n"
+        f"{base_instruction}\n\n{paper_context}"
+    )
+    gemini_opinion = _ask_gemini(gemini_prompt)
+
+    # 3단계: Claude가 종합 정리
+    synthesis_prompt = (
+        f"아래 논문에 대해 두 전문가가 토론했습니다. 핵심 합의점과 쟁점을 2~3문장으로 종합하세요.\n\n"
+        f"[이론가(Claude)] {claude_opinion}\n\n"
+        f"[관측자(Gemini)] {gemini_opinion}\n\n"
+        f"{base_instruction}\n\n논문: {paper['title']}"
+    )
+    synthesis = _ask_claude(synthesis_prompt)
+
+    return {
+        "theorist": claude_opinion,
+        "observer": gemini_opinion,
+        "synthesis": synthesis,
+    }
+
+
+def run_discussions(papers):
+    """모든 논문에 대해 에이전트 토론 실행"""
+    if not GEMINI_API_KEY:
+        print("[토론] GEMINI_API_KEY 없음 — 토론 건너뜀")
+        return {i: None for i in range(len(papers))}
+
+    print(f"[토론] {len(papers)}편 논문에 대해 AI 에이전트 토론 시작...")
+    discussions = {}
+    for i, paper in enumerate(papers):
+        try:
+            discussions[i] = generate_discussion(paper)
+        except Exception as e:
+            print(f"  [토론 오류] 논문 {i+1}: {e}")
+            discussions[i] = None
+    print("[토론] 완료")
+    return discussions
+
+
+def generate_post_html(papers, week_info, discussions=None):
     """주간 리뷰 HTML 파일 생성"""
     week_str = week_info["week_str"]
     year = week_info["year"]
@@ -361,8 +459,37 @@ def generate_post_html(papers, week_info):
     month = monday.month
     week_of_month = (monday.day - 1) // 7 + 1
 
+    if discussions is None:
+        discussions = {}
+
     paper_cards = ""
     for i, p in enumerate(papers, 1):
+        disc = discussions.get(i - 1)
+        discussion_html = ""
+        if disc:
+            discussion_html = f"""
+      <div class="discussion-section">
+        <div class="discussion-title">AI 에이전트 토론</div>
+        <div class="discussion-thread">
+          <div class="agent-comment theorist">
+            <div class="agent-badge claude-badge">
+              <span class="agent-icon">C</span> 이론가 <span class="agent-model">Claude</span>
+            </div>
+            <p>{disc['theorist']}</p>
+          </div>
+          <div class="agent-comment observer">
+            <div class="agent-badge gemini-badge">
+              <span class="agent-icon">G</span> 관측자 <span class="agent-model">Gemini</span>
+            </div>
+            <p>{disc['observer']}</p>
+          </div>
+          <div class="agent-synthesis">
+            <div class="synthesis-label">종합</div>
+            <p>{disc['synthesis']}</p>
+          </div>
+        </div>
+      </div>"""
+
         paper_cards += f"""
     <!-- Paper {i} -->
     <article class="paper-card">
@@ -401,7 +528,7 @@ def generate_post_html(papers, week_info):
         <div class="label">의의 및 시사점</div>
         <p>{p['significance']}</p>
       </div>
-
+{discussion_html}
       <div class="vote-bar" data-paper-id="paper-{i}">
         <span class="vote-label">이 논문이 유용했나요?</span>
         <div class="vote-buttons">
@@ -657,6 +784,118 @@ def generate_post_html(papers, week_info):
       line-height: 1.6;
     }}
 
+    /* Discussion Section */
+    .discussion-section {{
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border-subtle);
+    }}
+
+    .discussion-title {{
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--nebula-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }}
+
+    .discussion-title::before {{
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(135deg, var(--sun-gold), var(--aurora-cyan));
+      border-radius: 4px;
+    }}
+
+    .discussion-thread {{
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }}
+
+    .agent-comment {{
+      padding: 16px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }}
+
+    .agent-comment.theorist {{
+      background: rgba(147, 51, 234, 0.04);
+      border: 1px solid rgba(147, 51, 234, 0.15);
+    }}
+
+    .agent-comment.observer {{
+      background: rgba(66, 133, 244, 0.04);
+      border: 1px solid rgba(66, 133, 244, 0.15);
+    }}
+
+    .agent-comment p {{
+      color: var(--text-secondary);
+      margin: 0;
+    }}
+
+    .agent-badge {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }}
+
+    .claude-badge {{ color: #7C3AED; }}
+    .gemini-badge {{ color: #4285F4; }}
+
+    .agent-icon {{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: white;
+    }}
+
+    .claude-badge .agent-icon {{ background: #7C3AED; }}
+    .gemini-badge .agent-icon {{ background: #4285F4; }}
+
+    .agent-model {{
+      font-weight: 400;
+      color: var(--text-light);
+      font-size: 0.72rem;
+    }}
+
+    .agent-synthesis {{
+      background: linear-gradient(135deg, rgba(232,168,56,0.06), rgba(100,181,198,0.06));
+      border: 1px solid rgba(232,168,56,0.2);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }}
+
+    .synthesis-label {{
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--sun-orange);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }}
+
+    .agent-synthesis p {{
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin: 0;
+    }}
+
     /* Vote Bar */
     .vote-bar {{
       display: flex;
@@ -907,9 +1146,12 @@ def main():
         print("요약 결과가 없습니다. 종료합니다.")
         return
 
+    # AI 에이전트 토론
+    discussions = run_discussions(summaries)
+
     # HTML 생성
     POSTS_DIR.mkdir(exist_ok=True)
-    post_html = generate_post_html(summaries, week_info)
+    post_html = generate_post_html(summaries, week_info, discussions)
     filename = f"{week_info['week_str'].lower()}.html"
     post_path = POSTS_DIR / filename
     post_path.write_text(post_html, encoding="utf-8")
