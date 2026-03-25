@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>다음 주 논문 제안 2026-W14 | SSWL Paper Review</title>
+  <style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    .topnav {
+      background: var(--deep-space);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topnav a {
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .topnav a:hover { color: var(--sun-gold); }
+
+    .topnav .brand {
+      font-size: 1rem;
+      color: var(--star-white);
+      font-weight: 600;
+    }
+
+    .topnav .brand .accent { color: var(--sun-gold); }
+
+    .post-header {
+      background: linear-gradient(180deg, var(--space-blue) 0%, var(--deep-space) 100%);
+      padding: 60px 24px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .post-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--bg-warm), transparent);
+    }
+
+    .post-header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .post-header .week-tag {
+      display: inline-block;
+      background: rgba(232,168,56,0.2);
+      border: 1px solid rgba(232,168,56,0.4);
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .post-header h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    .post-header .meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: rgba(244,241,236,0.6);
+    }
+
+    .content {
+      max-width: 800px;
+      margin: -20px auto 0;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .intro-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--sun-gold);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+    }
+
+    .intro-box strong {
+      color: var(--text-primary);
+      font-size: 1.05rem;
+    }
+
+    .intro-box b {
+      color: var(--sun-orange);
+    }
+
+    .giscus-section {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border-subtle);
+    }
+
+    .giscus-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--sun-orange);
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .intro-box { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="../index.html" class="brand">&#9728; SSWL <span class="accent">Paper Review</span></a>
+    <a href="../index.html">&larr; 목록으로</a>
+  </nav>
+
+  <header class="post-header">
+    <div class="post-header-inner">
+      <span class="week-tag">2026-W14 (예정)</span>
+      <h1>다음 주 논문 리뷰 제안<br>2026년 3월 5주차</h1>
+      <div class="meta">
+        <span>&#128197; 2026.03.30 &mdash; 04.05</span>
+        <span>&#128161; 제안 받는 중</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div class="intro-box">
+      <strong>다음 주에 리뷰할 논문이나 주제를 아래 댓글로 제안해주세요!</strong><br><br>
+      <b>논문 제안:</b> arXiv 또는 ADS 링크를 댓글에 남겨주세요.<br>
+      <b>주제 제안:</b> 관심 있는 키워드나 주제를 자유롭게 작성해주세요.<br><br>
+      제안된 내용은 다음 주 논문 선별 시 우선 반영됩니다.
+    </div>
+
+    <section class="giscus-section">
+      <h2 class="giscus-title">논문/주제 제안</h2>
+      <script src="https://giscus.app/client.js"
+        data-repo="JunmuYOUN/sswl-paper-review"
+        data-repo-id="R_kgDORwFYbg"
+        data-category="General"
+        data-category-id="DIC_kwDORwFYbs4C5Ozg"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory &middot; Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      &middot; Automated by <a href="https://assiworks.aifactory.space">Assiworks (AI Factory)</a>
+    </p>
+  </footer>
+
+</body>
+</html>
