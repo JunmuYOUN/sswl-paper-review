@@ -1146,12 +1146,29 @@ def main():
         print("요약 결과가 없습니다. 종료합니다.")
         return
 
-    # AI 에이전트 토론
-    discussions = run_discussions(summaries)
+    # 논문 데이터 저장 (토론 스크립트에서 사용)
+    DATA_DIR = BASE_DIR / "data"
+    DATA_DIR.mkdir(exist_ok=True)
+    papers_data = {
+        "week_info": {
+            "year": week_info["year"],
+            "week": week_info["week"],
+            "week_str": week_info["week_str"],
+            "monday": week_info["monday"].strftime("%Y-%m-%d"),
+            "sunday": week_info["sunday"].strftime("%Y-%m-%d"),
+            "date_range": week_info["date_range"],
+            "date_str": week_info["date_str"],
+        },
+        "papers": summaries,
+    }
+    (DATA_DIR / "current_papers.json").write_text(
+        json.dumps(papers_data, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    print(f"[데이터] data/current_papers.json 저장 완료")
 
-    # HTML 생성
+    # HTML 생성 (토론 없이)
     POSTS_DIR.mkdir(exist_ok=True)
-    post_html = generate_post_html(summaries, week_info, discussions)
+    post_html = generate_post_html(summaries, week_info)
     filename = f"{week_info['week_str'].lower()}.html"
     post_path = POSTS_DIR / filename
     post_path.write_text(post_html, encoding="utf-8")

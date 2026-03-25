@@ -1,0 +1,45 @@
+name: Agent Discussion
+
+on:
+  schedule:
+    # 매주 화요일 01:00~05:00 KST (월요일 16:00~20:00 UTC)
+    # 매시간 1라운드씩 실행
+    - cron: '0 16 * * 1'   # Round 1 — 화 01:00 KST
+    - cron: '0 17 * * 1'   # Round 2 — 화 02:00 KST
+    - cron: '0 18 * * 1'   # Round 3 — 화 03:00 KST
+    - cron: '0 19 * * 1'   # Round 4 — 화 04:00 KST
+    - cron: '0 20 * * 1'   # Round 5 — 화 05:00 KST (종합)
+  workflow_dispatch:        # 수동 실행 가능
+
+permissions:
+  contents: write
+
+jobs:
+  run-discussion:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install anthropic google-generativeai requests beautifulsoup4
+
+      - name: Run discussion round
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/run_discussion.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "actions@github.com"
+          git add .
+          git diff --staged --quiet || git commit -m "💬 AI 에이전트 토론 라운드 $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
