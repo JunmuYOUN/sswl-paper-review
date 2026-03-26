@@ -1590,6 +1590,20 @@ def generate_paper_page_html(paper, paper_index, week_info, total_papers):
         {paper['one_line_summary']}
       </div>
 
+      <div class="vote-bar" data-paper-id="paper-{i}">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-{i}', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-{i}-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-{i}', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-{i}-down">0</span>
+          </button>
+        </div>
+      </div>
+
       <div class="summary-section">
         <div class="label">연구 배경</div>
         <p>{paper['background']}</p>
@@ -1608,20 +1622,6 @@ def generate_paper_page_html(paper, paper_index, week_info, total_papers):
       <div class="summary-section">
         <div class="label">의의 및 시사점</div>
         <p>{paper['significance']}</p>
-      </div>
-
-      <div class="vote-bar" data-paper-id="paper-{i}">
-        <span class="vote-label">이 논문이 유용했나요?</span>
-        <div class="vote-buttons">
-          <button class="vote-btn vote-up" onclick="vote('paper-{i}', 'up')" title="추천">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-            <span class="vote-count" id="paper-{i}-up">0</span>
-          </button>
-          <button class="vote-btn vote-down" onclick="vote('paper-{i}', 'down')" title="비추천">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
-            <span class="vote-count" id="paper-{i}-down">0</span>
-          </button>
-        </div>
       </div>
     </article>
 

@@ -11,6 +11,7 @@ AI 에이전트 일별 토론 스크립트 (5개 에이전트 + 사람 참여)
 
 import os
 import json
+import random
 from pathlib import Path
 
 import anthropic
@@ -275,9 +276,14 @@ def run_agent(agent, paper, thread, round_num):
         f"{human_mention}"
         f"{proposal_mention}\n"
         f"아래 논문에 대한 토론에 참여하고 있습니다.\n"
-        f"이전 토론을 읽고, 새로 기여할 의견이 있다면 한국어로 작성하세요.\n"
-        f"전문 용어 첫 등장 시 영문을 병기하세요. 3~5문장으로 간결하게.\n"
-        f"기여할 내용이 없다면 정확히 'PASS'라고만 답변하세요.\n\n"
+        f"이전 토론을 읽고, 정말로 새롭고 의미 있는 관점이 있을 때만 한국어로 작성하세요.\n"
+        f"전문 용어 첫 등장 시 영문을 병기하세요. 3~5문장으로 간결하게.\n\n"
+        f"중요: 다음 경우에는 반드시 'PASS'라고만 답변하세요:\n"
+        f"- 이전 발언과 비슷한 내용을 반복하게 되는 경우\n"
+        f"- 단순한 동의나 요약에 불과한 경우\n"
+        f"- 당신의 전문 분야와 직접적으로 관련이 없는 경우\n"
+        f"- 토론이 이미 충분히 다뤄진 주제인 경우\n"
+        f"PASS하는 것은 전혀 문제가 없습니다. 양보다 질이 중요합니다.\n\n"
         f"--- 논문 정보 ---\n{paper_context}\n"
         f"{thread_text}"
     )
@@ -319,7 +325,7 @@ def inject_human_comments(state, human_comments, round_num):
 
 
 def run_round(state, round_num):
-    """라운드 실행 — 모든 에이전트에게 기회 부여"""
+    """라운드 실행 — 에이전트 순서를 매번 랜덤화"""
     label = day_session_label(round_num)
     is_final = (round_num == TOTAL_ROUNDS)
     print(f"=== 라운드 {round_num}/{TOTAL_ROUNDS} ({label}) {'[최종]' if is_final else ''} ===")
@@ -328,7 +334,11 @@ def run_round(state, round_num):
         print(f"\n[논문 {pi+1}] {paper['title'][:50]}...")
         contributions = 0
 
-        for agent in AGENTS:
+        # 매 라운드/논문마다 에이전트 순서를 랜덤화
+        shuffled_agents = list(AGENTS)
+        random.shuffle(shuffled_agents)
+
+        for agent in shuffled_agents:
             print(f"  [{agent['label']}] ", end="")
             try:
                 result = run_agent(agent, paper, paper["thread"], round_num)
