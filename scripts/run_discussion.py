@@ -503,148 +503,174 @@ DISCUSSION_CSS = """
 """
 
 
-def update_post_html(state, papers_data):
-    """토론 결과를 HTML에 반영"""
-    week_str = state["week_str"]
-    filename = f"{week_str.lower()}.html"
-    post_path = POSTS_DIR / filename
+def _build_discussion_html(soup, paper, state, paper_index):
+    """단일 논문의 토론 HTML 요소 생성"""
+    thread = paper.get("thread", [])
+    if not thread:
+        return None
 
-    if not post_path.exists():
-        print(f"[HTML] {post_path} 파일 없음 — 건너뜀")
-        return
+    discussion_div = soup.new_tag("div")
+    discussion_div["class"] = "discussion-section"
+
+    title_div = soup.new_tag("div")
+    title_div["class"] = "discussion-title"
+    cr = state["current_round"]
+    title_div.string = f"AI 에이전트 토론 (라운드 {cr}/{TOTAL_ROUNDS})"
+    discussion_div.append(title_div)
+
+    thread_div = soup.new_tag("div")
+    thread_div["class"] = "discussion-thread"
+
+    # 날짜별 구분선 삽입
+    last_day = 0
+    for t in thread:
+        r = t.get("round", 0)
+        day, _ = round_to_day(r) if r > 0 else (0, 0)
+        if day > last_day:
+            if last_day > 0:
+                day_names = {1: "화요일", 2: "수요일", 3: "목요일", 4: "금요일"}
+                divider = soup.new_tag("div")
+                divider["class"] = "day-divider"
+                divider.string = day_names.get(day, f"Day {day}")
+                thread_div.append(divider)
+            last_day = day
+
+        agent_id = t.get("agent", "")
+        is_human = (agent_id == "human")
+
+        if is_human:
+            css_class = "human"
+            color_class = "human-badge"
+            icon_char = "@"
+            label = t.get("label", "연구원")
+            name = t.get("name", "")
+            model_label = ""
+        else:
+            agent_def = AGENT_MAP.get(agent_id, AGENTS[0])
+            css_class = agent_def["css_class"]
+            color_class = agent_def["color_class"]
+            icon_char = agent_def["icon"]
+            label = t["label"]
+            name = ""
+            model_label = t.get("model_label", "")
+
+        comment_div = soup.new_tag("div")
+        comment_div["class"] = f"agent-comment {css_class}"
+
+        badge_div = soup.new_tag("div")
+        badge_div["class"] = f"agent-badge {color_class}"
+
+        icon_span = soup.new_tag("span")
+        icon_span["class"] = "agent-icon"
+        icon_span.string = icon_char
+        badge_div.append(icon_span)
+
+        badge_text = f" {label}"
+        if name:
+            badge_text += f" ({name})"
+        badge_div.append(badge_text + " ")
+
+        round_label = day_session_label(r) if r else ""
+        if model_label:
+            model_span = soup.new_tag("span")
+            model_span["class"] = "agent-model"
+            model_span.string = f"{model_label} · {round_label}"
+            badge_div.append(model_span)
+        elif round_label:
+            rl_span = soup.new_tag("span")
+            rl_span["class"] = "agent-model"
+            rl_span.string = round_label
+            badge_div.append(rl_span)
+
+        comment_div.append(badge_div)
+
+        p_tag = soup.new_tag("p")
+        p_tag.string = t["content"]
+        comment_div.append(p_tag)
+
+        thread_div.append(comment_div)
+
+    discussion_div.append(thread_div)
+    return discussion_div
+
+
+def update_post_html(state, papers_data):
+    """토론 결과를 HTML에 반영 — 개별 논문 페이지에 삽입"""
+    week_str = state["week_str"]
 
     from bs4 import BeautifulSoup
 
-    html = post_path.read_text(encoding="utf-8")
-    soup = BeautifulSoup(html, "html.parser")
+    # 개별 논문 페이지 디렉토리 확인
+    paper_dir = POSTS_DIR / week_str.lower()
 
-    for old in soup.select(".discussion-section"):
-        old.decompose()
+    if paper_dir.exists():
+        # 새 형식: 개별 논문 페이지에 토론 삽입
+        for i, paper in enumerate(state["papers"]):
+            paper_file = paper_dir / f"paper-{i+1}.html"
+            if not paper_file.exists():
+                print(f"[HTML] {paper_file} 파일 없음 — 건너뜀")
+                continue
 
-    paper_cards = soup.select(".paper-card")
+            html = paper_file.read_text(encoding="utf-8")
+            soup = BeautifulSoup(html, "html.parser")
 
-    # GitHub 편집 URL
-    repo_url = "https://github.com/JunmuYOUN/sswl-paper-review"
-    comments_edit_url = f"{repo_url}/edit/main/data/human_comments.json"
+            # 기존 토론 제거
+            for old in soup.select(".discussion-section"):
+                old.decompose()
 
-    for i, paper in enumerate(state["papers"]):
-        if i >= len(paper_cards):
-            break
+            card = soup.select_one(".paper-card")
+            if not card:
+                continue
 
-        card = paper_cards[i]
-        thread = paper.get("thread", [])
-        if not thread:
-            continue
+            discussion_div = _build_discussion_html(soup, paper, state, i)
+            if discussion_div:
+                vote_bar = card.select_one(".vote-bar")
+                if vote_bar:
+                    vote_bar.insert_before(discussion_div)
+                else:
+                    card.append(discussion_div)
 
-        discussion_div = soup.new_tag("div")
-        discussion_div["class"] = "discussion-section"
+            paper_file.write_text(str(soup), encoding="utf-8")
+            print(f"[HTML] {paper_file} 업데이트 완료")
+    else:
+        # 레거시 형식: 단일 주간 페이지에 토론 삽입
+        filename = f"{week_str.lower()}.html"
+        post_path = POSTS_DIR / filename
 
-        title_div = soup.new_tag("div")
-        title_div["class"] = "discussion-title"
-        cr = state["current_round"]
-        cur_day, _ = round_to_day(cr) if cr > 0 else (0, 0)
-        title_div.string = f"AI 에이전트 토론 (라운드 {cr}/{TOTAL_ROUNDS})"
-        discussion_div.append(title_div)
+        if not post_path.exists():
+            print(f"[HTML] {post_path} 파일 없음 — 건너뜀")
+            return
 
-        thread_div = soup.new_tag("div")
-        thread_div["class"] = "discussion-thread"
+        html = post_path.read_text(encoding="utf-8")
+        soup = BeautifulSoup(html, "html.parser")
 
-        # 날짜별 구분선 삽입
-        last_day = 0
-        for t in thread:
-            r = t.get("round", 0)
-            day, _ = round_to_day(r) if r > 0 else (0, 0)
-            if day > last_day:
-                if last_day > 0:
-                    day_names = {1: "화요일", 2: "수요일", 3: "목요일", 4: "금요일"}
-                    divider = soup.new_tag("div")
-                    divider["class"] = "day-divider"
-                    divider.string = day_names.get(day, f"Day {day}")
-                    thread_div.append(divider)
-                last_day = day
+        for old in soup.select(".discussion-section"):
+            old.decompose()
 
-            agent_id = t.get("agent", "")
-            is_human = (agent_id == "human")
+        paper_cards = soup.select(".paper-card")
 
-            if is_human:
-                css_class = "human"
-                color_class = "human-badge"
-                icon_char = "@"
-                label = t.get("label", "연구원")
-                name = t.get("name", "")
-                model_label = ""
+        for i, paper in enumerate(state["papers"]):
+            if i >= len(paper_cards):
+                break
+
+            card = paper_cards[i]
+            discussion_div = _build_discussion_html(soup, paper, state, i)
+            if not discussion_div:
+                continue
+
+            vote_bar = card.select_one(".vote-bar")
+            if vote_bar:
+                vote_bar.insert_before(discussion_div)
             else:
-                agent_def = AGENT_MAP.get(agent_id, AGENTS[0])
-                css_class = agent_def["css_class"]
-                color_class = agent_def["color_class"]
-                icon_char = agent_def["icon"]
-                label = t["label"]
-                name = ""
-                model_label = t.get("model_label", "")
+                card.append(discussion_div)
 
-            comment_div = soup.new_tag("div")
-            comment_div["class"] = f"agent-comment {css_class}"
+        # CSS 추가
+        style_tag = soup.select_one("style")
+        if style_tag and ".discussion-section" not in str(style_tag):
+            style_tag.string = (style_tag.string or "") + DISCUSSION_CSS
 
-            badge_div = soup.new_tag("div")
-            badge_div["class"] = f"agent-badge {color_class}"
-
-            icon_span = soup.new_tag("span")
-            icon_span["class"] = "agent-icon"
-            icon_span.string = icon_char
-            badge_div.append(icon_span)
-
-            badge_text = f" {label}"
-            if name:
-                badge_text += f" ({name})"
-            badge_div.append(badge_text + " ")
-
-            round_label = day_session_label(r) if r else ""
-            if model_label:
-                model_span = soup.new_tag("span")
-                model_span["class"] = "agent-model"
-                model_span.string = f"{model_label} · {round_label}"
-                badge_div.append(model_span)
-            elif round_label:
-                rl_span = soup.new_tag("span")
-                rl_span["class"] = "agent-model"
-                rl_span.string = round_label
-                badge_div.append(rl_span)
-
-            comment_div.append(badge_div)
-
-            p_tag = soup.new_tag("p")
-            p_tag.string = t["content"]
-            comment_div.append(p_tag)
-
-            thread_div.append(comment_div)
-
-        discussion_div.append(thread_div)
-
-        # 사람 댓글 안내
-        guide_div = soup.new_tag("div")
-        guide_div["class"] = "human-comment-guide"
-        guide_link = soup.new_tag("a")
-        guide_link["href"] = comments_edit_url
-        guide_link["target"] = "_blank"
-        guide_link.string = "human_comments.json"
-        guide_div.append("토론에 참여하고 싶다면 ")
-        guide_div.append(guide_link)
-        guide_div.append(f" 파일에서 paper-{i} 항목에 댓글을 추가하세요.")
-        discussion_div.append(guide_div)
-
-        vote_bar = card.select_one(".vote-bar")
-        if vote_bar:
-            vote_bar.insert_before(discussion_div)
-        else:
-            card.append(discussion_div)
-
-    # CSS 추가
-    style_tag = soup.select_one("style")
-    if style_tag and ".discussion-section" not in str(style_tag):
-        style_tag.string = (style_tag.string or "") + DISCUSSION_CSS
-
-    post_path.write_text(str(soup), encoding="utf-8")
-    print(f"[HTML] {post_path} 업데이트 완료")
+        post_path.write_text(str(soup), encoding="utf-8")
+        print(f"[HTML] {post_path} 업데이트 완료")
 
 
 def main():

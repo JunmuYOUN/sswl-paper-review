@@ -530,7 +530,7 @@ def generate_post_html(papers, week_info):
     <article class="paper-card">
       <div class="paper-num">{i}</div>
       <h2>
-        <a href="{p['url']}" target="_blank">
+        <a href="{week_str.lower()}/paper-{i}.html">
           {p['title']}
         </a>
       </h2>
@@ -544,37 +544,21 @@ def generate_post_html(papers, week_info):
         {p['one_line_summary']}
       </div>
 
-      <div class="summary-section">
-        <div class="label">연구 배경</div>
-        <p>{p['background']}</p>
-      </div>
-
-      <div class="summary-section">
-        <div class="label">연구 방법</div>
-        <p>{p['method']}</p>
-      </div>
-
-      <div class="summary-section">
-        <div class="label">핵심 발견</div>
-        <p>{p['findings']}</p>
-      </div>
-
-      <div class="summary-section">
-        <div class="label">의의 및 시사점</div>
-        <p>{p['significance']}</p>
-      </div>
-      <div class="vote-bar" data-paper-id="paper-{i}">
-        <span class="vote-label">이 논문이 유용했나요?</span>
-        <div class="vote-buttons">
-          <button class="vote-btn vote-up" onclick="vote('paper-{i}', 'up')" title="추천">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-            <span class="vote-count" id="paper-{i}-up">0</span>
-          </button>
-          <button class="vote-btn vote-down" onclick="vote('paper-{i}', 'down')" title="비추천">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
-            <span class="vote-count" id="paper-{i}-down">0</span>
-          </button>
+      <div class="card-actions">
+        <div class="vote-bar" data-paper-id="paper-{i}">
+          <span class="vote-label">이 논문이 유용했나요?</span>
+          <div class="vote-buttons">
+            <button class="vote-btn vote-up" onclick="vote('paper-{i}', 'up')" title="추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              <span class="vote-count" id="paper-{i}-up">0</span>
+            </button>
+            <button class="vote-btn vote-down" onclick="vote('paper-{i}', 'down')" title="비추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38-9a2 2 0 0 0-2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+              <span class="vote-count" id="paper-{i}-down">0</span>
+            </button>
+          </div>
         </div>
+        <a href="{week_str.lower()}/paper-{i}.html" class="discuss-btn">토론 참여 &rarr;</a>
       </div>
     </article>
 """
@@ -788,25 +772,6 @@ def generate_post_html(papers, week_info):
       font-size: 0.7rem;
     }}
 
-    .summary-section {{
-      margin-bottom: 12px;
-    }}
-
-    .summary-section .label {{
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--sun-orange);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 4px;
-    }}
-
-    .summary-section p {{
-      font-size: 0.92rem;
-      color: var(--text-secondary);
-      line-height: 1.75;
-    }}
-
     .one-line-summary {{
       background: linear-gradient(135deg, rgba(232,168,56,0.08), rgba(100,181,198,0.06));
       border-radius: 8px;
@@ -818,125 +783,42 @@ def generate_post_html(papers, week_info):
       line-height: 1.6;
     }}
 
-    /* Discussion Section */
-    .discussion-section {{
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px dashed var(--border-subtle);
-    }}
-
-    .discussion-title {{
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--nebula-blue);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 16px;
+    .card-actions {{
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
     }}
 
-    .discussion-title::before {{
-      content: '';
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      background: linear-gradient(135deg, var(--sun-gold), var(--aurora-cyan));
-      border-radius: 4px;
-    }}
-
-    .discussion-thread {{
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }}
-
-    .agent-comment {{
-      padding: 16px 18px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      line-height: 1.7;
-    }}
-
-    .agent-comment.theorist {{
-      background: rgba(147, 51, 234, 0.04);
-      border: 1px solid rgba(147, 51, 234, 0.15);
-    }}
-
-    .agent-comment.observer {{
-      background: rgba(66, 133, 244, 0.04);
-      border: 1px solid rgba(66, 133, 244, 0.15);
-    }}
-
-    .agent-comment.critic {{
-      background: rgba(234, 88, 12, 0.04);
-      border: 1px solid rgba(234, 88, 12, 0.15);
-    }}
-
-    .agent-comment.student {{
-      background: rgba(22, 163, 74, 0.04);
-      border: 1px solid rgba(22, 163, 74, 0.15);
-    }}
-
-    .agent-comment.professor {{
-      background: linear-gradient(135deg, rgba(232,168,56,0.06), rgba(100,181,198,0.06));
-      border: 1px solid rgba(232,168,56,0.2);
-    }}
-
-    .agent-comment p {{
-      color: var(--text-secondary);
-      margin: 0;
-      white-space: pre-line;
-    }}
-
-    .agent-badge {{
+    .discuss-btn {{
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.78rem;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, var(--deep-space), var(--space-blue));
+      color: var(--sun-gold);
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
       font-weight: 600;
-      margin-bottom: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
     }}
 
-    .claude-badge {{ color: #7C3AED; }}
-    .gemini-badge {{ color: #4285F4; }}
-    .critic-badge {{ color: #EA580C; }}
-    .student-badge {{ color: #16A34A; }}
-    .professor-badge {{ color: #B45309; }}
-
-    .agent-icon {{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      border-radius: 5px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: white;
-    }}
-
-    .claude-badge .agent-icon {{ background: #7C3AED; }}
-    .gemini-badge .agent-icon {{ background: #4285F4; }}
-    .critic-badge .agent-icon {{ background: #EA580C; }}
-    .student-badge .agent-icon {{ background: #16A34A; }}
-    .professor-badge .agent-icon {{ background: #B45309; }}
-
-    .agent-model {{
-      font-weight: 400;
-      color: var(--text-light);
-      font-size: 0.72rem;
+    .discuss-btn:hover {{
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(11,20,38,0.2);
     }}
 
     /* Vote Bar */
     .vote-bar {{
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border-subtle);
+      gap: 12px;
     }}
 
     .vote-label {{
@@ -1000,21 +882,6 @@ def generate_post_html(papers, week_info):
       text-decoration: none;
     }}
 
-    /* Giscus Comments */
-    .giscus-section {{
-      margin-top: 48px;
-      padding-top: 32px;
-      border-top: 2px solid var(--border-subtle);
-    }}
-
-    .giscus-title {{
-      font-family: Arial, sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 20px;
-    }}
-
     @media (max-width: 640px) {{
       .paper-card {{ padding: 20px; }}
       .paper-meta {{ flex-direction: column; gap: 4px; }}
@@ -1050,26 +917,6 @@ def generate_post_html(papers, week_info):
       arXiv, NASA ADS에서 자동 수집되었으며, AI가 전문 요약 및 한국어 번역을 수행했습니다.
     </div>
 {paper_cards}
-
-    <!-- Giscus Comments -->
-    <section class="giscus-section">
-      <h2 class="giscus-title">Comments</h2>
-      <script src="https://giscus.app/client.js"
-        data-repo="JunmuYOUN/sswl-paper-review"
-        data-repo-id="R_kgDORwFYbg"
-        data-category="General"
-        data-category-id="DIC_kwDORwFYbs4C5Ozg"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="ko"
-        crossorigin="anonymous"
-        async>
-      </script>
-    </section>
   </main>
 
   <footer>
@@ -1140,6 +987,819 @@ def generate_post_html(papers, week_info):
 </html>"""
 
     return html
+
+
+def generate_paper_page_html(paper, paper_index, week_info, total_papers):
+    """개별 논문 토론 페이지 HTML 생성"""
+    week_str = week_info["week_str"]
+    i = paper_index  # 1-based
+
+    # Build paper nav links
+    nav_links = ""
+    for j in range(1, total_papers + 1):
+        active_cls = ' class="active"' if j == i else ''
+        nav_links += f'    <a href="paper-{j}.html"{active_cls}>{j}</a>\n'
+
+    html = f"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper {i}: {paper['title'][:60]} | SSWL Paper Review</title>
+  <style>
+    :root {{
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --corona-red: #C75B3A;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+    }}
+
+    * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+
+    body {{
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }}
+
+    /* Top Nav */
+    .topnav {{
+      background: var(--deep-space);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }}
+
+    .topnav a {{
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }}
+
+    .topnav a:hover {{ color: var(--sun-gold); }}
+
+    .topnav .brand {{
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+      color: var(--star-white);
+      font-weight: 600;
+    }}
+
+    .topnav .brand .accent {{ color: var(--sun-gold); }}
+
+    /* Paper Nav */
+    .paper-nav {{
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 24px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }}
+
+    .paper-nav a {{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      background: var(--bg-warm);
+    }}
+
+    .paper-nav a:hover {{
+      border-color: var(--sun-gold);
+      color: var(--sun-gold);
+    }}
+
+    .paper-nav a.active {{
+      background: var(--deep-space);
+      color: var(--sun-gold);
+      border-color: var(--deep-space);
+    }}
+
+    /* Post Header */
+    .post-header {{
+      background: linear-gradient(180deg, var(--space-blue) 0%, var(--deep-space) 100%);
+      padding: 50px 24px 40px;
+      position: relative;
+      overflow: hidden;
+    }}
+
+    .post-header::after {{
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--bg-warm), transparent);
+    }}
+
+    .post-header-inner {{
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }}
+
+    .post-header .week-tag {{
+      display: inline-block;
+      background: rgba(232,168,56,0.2);
+      border: 1px solid rgba(232,168,56,0.4);
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }}
+
+    .post-header h1 {{
+      font-family: Arial, sans-serif;
+      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }}
+
+    .post-header .meta {{
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+      color: rgba(244,241,236,0.6);
+    }}
+
+    .post-header .meta a {{
+      color: var(--aurora-cyan);
+      text-decoration: none;
+    }}
+
+    .post-header .meta a:hover {{ text-decoration: underline; }}
+
+    /* Content */
+    .content {{
+      max-width: 800px;
+      margin: -20px auto 0;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 2;
+    }}
+
+    /* Paper Card (for discussion injection) */
+    .paper-card {{
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }}
+
+    .summary-section {{
+      margin-bottom: 16px;
+    }}
+
+    .summary-section .label {{
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--sun-orange);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }}
+
+    .summary-section p {{
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }}
+
+    .one-line-summary {{
+      background: linear-gradient(135deg, rgba(232,168,56,0.08), rgba(100,181,198,0.06));
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }}
+
+    /* Vote Bar */
+    .vote-bar {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }}
+
+    .vote-label {{
+      font-size: 0.82rem;
+      color: var(--text-light);
+    }}
+
+    .vote-buttons {{
+      display: flex;
+      gap: 8px;
+    }}
+
+    .vote-btn {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      background: var(--bg-warm);
+      color: var(--text-light);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }}
+
+    .vote-btn:hover {{
+      border-color: var(--text-light);
+      color: var(--text-secondary);
+    }}
+
+    .vote-btn.active.vote-up {{
+      background: rgba(76, 175, 80, 0.1);
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }}
+
+    .vote-btn.active.vote-down {{
+      background: rgba(244, 67, 54, 0.1);
+      border-color: #F44336;
+      color: #F44336;
+    }}
+
+    .vote-count {{
+      font-weight: 600;
+      min-width: 12px;
+      text-align: center;
+    }}
+
+    /* Discussion Section */
+    .discussion-section {{
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border-subtle);
+    }}
+
+    .discussion-title {{
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--nebula-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }}
+
+    .discussion-title::before {{
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(135deg, var(--sun-gold), var(--aurora-cyan));
+      border-radius: 4px;
+    }}
+
+    .discussion-thread {{ display: flex; flex-direction: column; gap: 12px; }}
+
+    .day-divider {{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }}
+
+    .day-divider::before, .day-divider::after {{
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-subtle);
+    }}
+
+    .agent-comment {{
+      padding: 16px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }}
+
+    .agent-comment.theorist {{
+      background: rgba(147, 51, 234, 0.04);
+      border: 1px solid rgba(147, 51, 234, 0.15);
+    }}
+    .agent-comment.observer {{
+      background: rgba(66, 133, 244, 0.04);
+      border: 1px solid rgba(66, 133, 244, 0.15);
+    }}
+    .agent-comment.critic {{
+      background: rgba(234, 88, 12, 0.04);
+      border: 1px solid rgba(234, 88, 12, 0.15);
+    }}
+    .agent-comment.student {{
+      background: rgba(22, 163, 74, 0.04);
+      border: 1px solid rgba(22, 163, 74, 0.15);
+    }}
+    .agent-comment.professor {{
+      background: linear-gradient(135deg, rgba(232,168,56,0.06), rgba(100,181,198,0.06));
+      border: 1px solid rgba(232,168,56,0.2);
+    }}
+    .agent-comment.human {{
+      background: rgba(59, 130, 246, 0.04);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-left: 3px solid #3B82F6;
+    }}
+
+    .agent-comment p {{ color: var(--text-secondary); margin: 0; white-space: pre-line; }}
+
+    .agent-badge {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }}
+
+    .claude-badge {{ color: #7C3AED; }}
+    .gemini-badge {{ color: #4285F4; }}
+    .critic-badge {{ color: #EA580C; }}
+    .student-badge {{ color: #16A34A; }}
+    .professor-badge {{ color: #B45309; }}
+    .human-badge {{ color: #3B82F6; }}
+
+    .agent-icon {{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: white;
+    }}
+
+    .claude-badge .agent-icon {{ background: #7C3AED; }}
+    .gemini-badge .agent-icon {{ background: #4285F4; }}
+    .critic-badge .agent-icon {{ background: #EA580C; }}
+    .student-badge .agent-icon {{ background: #16A34A; }}
+    .professor-badge .agent-icon {{ background: #B45309; }}
+    .human-badge .agent-icon {{ background: #3B82F6; }}
+
+    .agent-model {{
+      font-weight: 400;
+      color: var(--text-light);
+      font-size: 0.72rem;
+    }}
+
+    /* Comment Board */
+    .comment-board {{
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border-subtle);
+    }}
+
+    .comment-board h2 {{
+      font-family: Arial, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }}
+
+    .comment-notice {{
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }}
+
+    .comment-form {{
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }}
+
+    .comment-form-row {{
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }}
+
+    .comment-form input[type="text"] {{
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+    }}
+
+    .comment-form input[type="text"]:focus {{
+      border-color: var(--sun-gold);
+    }}
+
+    .comment-form textarea {{
+      width: 100%;
+      min-height: 80px;
+      padding: 12px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }}
+
+    .comment-form textarea:focus {{
+      border-color: var(--sun-gold);
+    }}
+
+    .comment-form button {{
+      padding: 10px 24px;
+      background: linear-gradient(135deg, var(--deep-space), var(--space-blue));
+      color: var(--sun-gold);
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }}
+
+    .comment-form button:hover {{
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(11,20,38,0.2);
+    }}
+
+    .comment-item {{
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+    }}
+
+    .comment-header {{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }}
+
+    .comment-author {{
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--nebula-blue);
+    }}
+
+    .comment-time {{
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }}
+
+    .comment-body {{
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      white-space: pre-line;
+    }}
+
+    .comment-delete {{
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }}
+
+    .comment-delete:hover {{
+      background: rgba(244,67,54,0.1);
+      color: #F44336;
+    }}
+
+    .no-comments {{
+      text-align: center;
+      padding: 24px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }}
+
+    /* Footer */
+    footer {{
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }}
+
+    footer a {{
+      color: var(--sun-orange);
+      text-decoration: none;
+    }}
+
+    @media (max-width: 640px) {{
+      .paper-card {{ padding: 20px; }}
+      .paper-meta {{ flex-direction: column; gap: 4px; }}
+      .comment-form-row {{ flex-direction: column; }}
+    }}
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="topnav">
+    <a href="../../index.html" class="brand">&#9728; SSWL <span class="accent">Paper Review</span></a>
+    <a href="../{week_str.lower()}.html">&larr; 주간 리뷰</a>
+  </nav>
+
+  <!-- Paper Navigation -->
+  <div class="paper-nav">
+{nav_links}  </div>
+
+  <!-- Post Header -->
+  <header class="post-header">
+    <div class="post-header-inner">
+      <span class="week-tag">{week_str} &middot; Paper {i}</span>
+      <h1>{paper['title']}</h1>
+      <div class="meta">
+        <span>{paper['authors']}</span>
+        <span>{paper['date']}</span>
+        <span>{paper['source']}</span>
+        <a href="{paper['url']}" target="_blank">원문 보기 &nearr;</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="content">
+
+    <article class="paper-card">
+      <div class="one-line-summary">
+        {paper['one_line_summary']}
+      </div>
+
+      <div class="summary-section">
+        <div class="label">연구 배경</div>
+        <p>{paper['background']}</p>
+      </div>
+
+      <div class="summary-section">
+        <div class="label">연구 방법</div>
+        <p>{paper['method']}</p>
+      </div>
+
+      <div class="summary-section">
+        <div class="label">핵심 발견</div>
+        <p>{paper['findings']}</p>
+      </div>
+
+      <div class="summary-section">
+        <div class="label">의의 및 시사점</div>
+        <p>{paper['significance']}</p>
+      </div>
+
+      <div class="vote-bar" data-paper-id="paper-{i}">
+        <span class="vote-label">이 논문이 유용했나요?</span>
+        <div class="vote-buttons">
+          <button class="vote-btn vote-up" onclick="vote('paper-{i}', 'up')" title="추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="vote-count" id="paper-{i}-up">0</span>
+          </button>
+          <button class="vote-btn vote-down" onclick="vote('paper-{i}', 'down')" title="비추천">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+            <span class="vote-count" id="paper-{i}-down">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Comment Board -->
+    <section class="comment-board">
+      <h2>자유 토론</h2>
+      <p class="comment-notice">GitHub 계정 없이 자유롭게 의견을 남길 수 있습니다. 댓글은 현재 기기의 브라우저에 저장됩니다.</p>
+
+      <div class="comment-form">
+        <div class="comment-form-row">
+          <input type="text" id="comment-name" placeholder="닉네임 (선택사항)">
+        </div>
+        <textarea id="comment-text" placeholder="이 논문에 대한 의견, 질문, 토론 내용을 자유롭게 작성하세요..."></textarea>
+        <button onclick="addComment()">작성하기</button>
+      </div>
+
+      <div id="comments-list"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory &middot; Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      &middot; Automated by <a href="https://assiworks.aifactory.space">Assiworks (AI Factory)</a>
+    </p>
+  </footer>
+
+  <script>
+    /* ── Vote System ── */
+    function getVotes() {{
+      return JSON.parse(localStorage.getItem('sswl-votes') || '{{}}');
+    }}
+
+    function saveVotes(votes) {{
+      localStorage.setItem('sswl-votes', JSON.stringify(votes));
+    }}
+
+    function vote(paperId, type) {{
+      var votes = getVotes();
+      var key = location.pathname + ':' + paperId;
+      var prev = votes[key];
+      if (prev === type) {{
+        delete votes[key];
+      }} else {{
+        votes[key] = type;
+      }}
+      saveVotes(votes);
+      renderVotes();
+    }}
+
+    function renderVotes() {{
+      var votes = getVotes();
+      var prefix = location.pathname + ':';
+      var counts = {{}};
+      for (var key in votes) {{
+        if (key.startsWith(prefix)) {{
+          var paperId = key.slice(prefix.length);
+          if (!counts[paperId]) counts[paperId] = {{ up: 0, down: 0 }};
+          counts[paperId][votes[key]]++;
+        }}
+      }}
+      document.querySelectorAll('.vote-bar').forEach(function(bar) {{
+        var paperId = bar.dataset.paperId;
+        var userVote = votes[prefix + paperId] || null;
+        var c = counts[paperId] || {{ up: 0, down: 0 }};
+        var upBtn = bar.querySelector('.vote-up');
+        var downBtn = bar.querySelector('.vote-down');
+        upBtn.classList.toggle('active', userVote === 'up');
+        downBtn.classList.toggle('active', userVote === 'down');
+        bar.querySelector('#' + paperId + '-up').textContent = c.up;
+        bar.querySelector('#' + paperId + '-down').textContent = c.down;
+      }});
+    }}
+
+    renderVotes();
+
+    /* ── Comment Board ── */
+    var COMMENT_KEY = 'sswl-comments-{week_str.lower()}-paper-{i}';
+
+    function getComments() {{
+      return JSON.parse(localStorage.getItem(COMMENT_KEY) || '[]');
+    }}
+
+    function saveComments(comments) {{
+      localStorage.setItem(COMMENT_KEY, JSON.stringify(comments));
+    }}
+
+    function addComment() {{
+      var nameEl = document.getElementById('comment-name');
+      var textEl = document.getElementById('comment-text');
+      var text = textEl.value.trim();
+      if (!text) return;
+
+      var comments = getComments();
+      comments.push({{
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        name: nameEl.value.trim() || '익명',
+        text: text,
+        time: new Date().toISOString()
+      }});
+      saveComments(comments);
+      textEl.value = '';
+      renderComments();
+    }}
+
+    function deleteComment(id) {{
+      var comments = getComments().filter(function(c) {{ return c.id !== id; }});
+      saveComments(comments);
+      renderComments();
+    }}
+
+    function renderComments() {{
+      var comments = getComments();
+      var list = document.getElementById('comments-list');
+
+      if (comments.length === 0) {{
+        list.innerHTML = '<div class="no-comments">아직 댓글이 없습니다. 첫 번째 의견을 남겨보세요!</div>';
+        return;
+      }}
+
+      var html = '';
+      comments.forEach(function(c) {{
+        var date = new Date(c.time);
+        var timeStr = date.getFullYear() + '.' +
+          String(date.getMonth() + 1).padStart(2, '0') + '.' +
+          String(date.getDate()).padStart(2, '0') + ' ' +
+          String(date.getHours()).padStart(2, '0') + ':' +
+          String(date.getMinutes()).padStart(2, '0');
+
+        html += '<div class="comment-item">' +
+          '<div class="comment-header">' +
+            '<span class="comment-author">' + escapeHtml(c.name) + '</span>' +
+            '<span>' +
+              '<span class="comment-time">' + timeStr + '</span> ' +
+              '<button class="comment-delete" onclick="deleteComment(\\''+c.id+'\\')">삭제</button>' +
+            '</span>' +
+          '</div>' +
+          '<div class="comment-body">' + escapeHtml(c.text) + '</div>' +
+        '</div>';
+      }});
+      list.innerHTML = html;
+    }}
+
+    function escapeHtml(text) {{
+      var div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }}
+
+    // Textarea Enter key submit
+    document.getElementById('comment-text').addEventListener('keydown', function(e) {{
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {{
+        addComment();
+      }}
+    }});
+
+    renderComments();
+  </script>
+
+</body>
+</html>"""
+
+    return html
+
+
+def generate_paper_pages(papers, week_info):
+    """개별 논문 토론 페이지들 생성"""
+    week_str = week_info["week_str"]
+    paper_dir = POSTS_DIR / week_str.lower()
+    paper_dir.mkdir(parents=True, exist_ok=True)
+
+    for i, p in enumerate(papers, 1):
+        page_html = generate_paper_page_html(p, i, week_info, len(papers))
+        page_path = paper_dir / f"paper-{i}.html"
+        page_path.write_text(page_html, encoding="utf-8")
+        print(f"[개별 페이지] {page_path} 생성 완료")
 
 
 def generate_next_week_placeholder(next_week_info):
@@ -1573,6 +2233,9 @@ def main():
     post_path = POSTS_DIR / filename
     post_path.write_text(post_html, encoding="utf-8")
     print(f"[파일] {post_path} 생성 완료")
+
+    # 개별 논문 토론 페이지 생성
+    generate_paper_pages(summaries, week_info)
 
     # index.html 업데이트
     update_index(week_info, len(summaries))
