@@ -855,9 +855,21 @@
         minV = Math.min(minV, thresholdVal);
         maxV = Math.max(maxV, thresholdVal);
       }
-      const rangeV = maxV - minV || 1;
-      minV -= rangeV * 0.1;
-      maxV += rangeV * 0.1;
+
+      if (currentChart === 'bz') {
+        // Bz: 0 is center, symmetric range
+        const absMax = Math.max(Math.abs(minV), Math.abs(maxV), Math.abs(thresholdVal || 0)) * 1.15;
+        minV = -absMax;
+        maxV = absMax;
+      } else if (currentChart === 'speed' || currentChart === 'density' || currentChart === 'bt') {
+        // Speed, Density, Bt: floor at 0
+        minV = 0;
+        maxV += (maxV - minV) * 0.1 || 1;
+      } else {
+        const rangeV = maxV - minV || 1;
+        minV -= rangeV * 0.1;
+        maxV += rangeV * 0.1;
+      }
       const finalRange = maxV - minV;
 
       // Threshold Y position (pre-calculate to avoid grid label overlap)
@@ -894,6 +906,23 @@
         const t = points[idx].t;
         const hhmm = t.substring(11, 16);
         ctx.fillText(hhmm, x, H - pad.bottom + 20);
+      }
+
+      // Zero line for Bz
+      if (currentChart === 'bz') {
+        const zeroY = pad.top + chartH - ((0 - minV) / finalRange) * chartH;
+        ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath();
+        ctx.moveTo(pad.left, zeroY);
+        ctx.lineTo(W - pad.right, zeroY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#8888A8';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText('0', pad.left + 4, zeroY - 5);
       }
 
       // Threshold line
