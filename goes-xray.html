@@ -800,7 +800,7 @@
         return;
       }
 
-      const pad = { top: 20, right: 16, bottom: 36, left: 62 };
+      const pad = { top: 20, right: 30, bottom: 36, left: 62 };
       const chartW = W - pad.left - pad.right;
       const chartH = H - pad.top - pad.bottom;
 
@@ -839,7 +839,7 @@
         ctx.fillStyle = bandLabelColors[b.label];
         ctx.font = 'bold 12px Arial';
         ctx.textAlign = 'right';
-        ctx.fillText(b.label, W - pad.right - 4, (y1 + y2) / 2 + 4);
+        ctx.fillText(b.label, W - 4, (y1 + y2) / 2 + 4);
       });
 
       // Horizontal grid lines at each power of 10
