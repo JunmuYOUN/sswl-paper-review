@@ -34,30 +34,55 @@
       line-height: 1.7;
     }
 
-    /* --- Top Nav --- */
-    .top-nav {
-      background: var(--deep-space);
-      padding: 14px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* --- GNB --- */
+    .gnb {
+      background: rgba(11,20,38,0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 0 24px;
       position: sticky;
       top: 0;
       z-index: 100;
+      border-bottom: 1px solid rgba(232,168,56,0.15);
     }
 
-    .top-nav a {
-      color: var(--star-white);
+    .gnb-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 48px;
+    }
+
+    .gnb-brand {
+      color: var(--sun-gold);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+
+    .gnb-links {
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
+      gap: 24px;
     }
 
-    .top-nav a:hover { color: var(--sun-gold); }
-    .top-nav .brand { font-weight: 700; color: var(--sun-gold); }
+    .gnb-links a {
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .gnb-links a:hover { color: var(--star-white); }
+
+    .gnb-links a.active {
+      color: var(--star-white);
+      font-weight: 600;
+    }
 
     /* --- Hero Header --- */
     .hero {
@@ -397,6 +422,8 @@
       .metrics-grid { grid-template-columns: 1fr 1fr; }
       .metric-card .value { font-size: 1.6rem; }
       .chart-container { height: 220px; }
+      .gnb-links { gap: 14px; }
+      .gnb-links a { font-size: 0.75rem; }
     }
 
     @media (max-width: 400px) {
@@ -406,10 +433,16 @@
 </head>
 <body>
 
-  <!-- Top Nav -->
-  <nav class="top-nav">
-    <a href="index.html" class="brand">SSWL Paper Review</a>
-    <a href="index.html">← Back to Home</a>
+  <!-- GNB -->
+  <nav class="gnb">
+    <div class="gnb-inner">
+      <a href="index.html" class="gnb-brand">SSWL Paper Review</a>
+      <div class="gnb-links">
+        <a href="index.html">Paper Review</a>
+        <a href="solar-wind.html" class="active">Solar Wind Monitor</a>
+        <a href="https://sunspaceweather.khu.ac.kr/" target="_blank">SSWL Lab</a>
+      </div>
+    </div>
   </nav>
 
   <!-- Hero -->
