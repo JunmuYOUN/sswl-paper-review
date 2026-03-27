@@ -588,12 +588,17 @@
 
     <!-- Chart -->
     <div class="chart-section">
-      <h3>2-Hour Trend</h3>
+      <h3 id="chartTitle">6-Hour Trend</h3>
       <div class="chart-tabs">
         <button class="active" onclick="switchChart('speed')">Speed</button>
         <button onclick="switchChart('density')">Density</button>
         <button onclick="switchChart('bz')">Bz</button>
         <button onclick="switchChart('bt')">Bt</button>
+      </div>
+      <div class="chart-tabs" style="margin-bottom:0;">
+        <button class="active" onclick="switchRange('6h')">6H</button>
+        <button onclick="switchRange('1d')">1D</button>
+        <button onclick="switchRange('3d')">3D</button>
       </div>
       <div class="chart-container">
         <canvas id="trendChart"></canvas>
@@ -626,9 +631,13 @@
   <script>
     // --- Config ---
     const SWPC_BASE = 'https://services.swpc.noaa.gov';
-    const PLASMA_URL = SWPC_BASE + '/products/solar-wind/plasma-2-hour.json';
-    const MAG_URL = SWPC_BASE + '/products/solar-wind/mag-2-hour.json';
-    const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+    const RANGE_ENDPOINTS = {
+      '6h': { plasma: '/products/solar-wind/plasma-6-hour.json', mag: '/products/solar-wind/mag-6-hour.json' },
+      '1d': { plasma: '/products/solar-wind/plasma-1-day.json',  mag: '/products/solar-wind/mag-1-day.json' },
+      '3d': { plasma: '/products/solar-wind/plasma-3-day.json',  mag: '/products/solar-wind/mag-3-day.json' }
+    };
+    const RANGE_TITLES = { '6h': '6-Hour Trend', '1d': '1-Day Trend', '3d': '3-Day Trend' };
+    const REFRESH_INTERVAL = 5 * 60 * 1000;
 
     const THRESHOLDS = {
       speed: 500,
@@ -640,6 +649,8 @@
     let plasmaHistory = [];
     let magHistory = [];
     let currentChart = 'speed';
+    let currentRange = '6h';
+    let dataCache = {};
     let refreshTimer = null;
     let nextRefreshAt = null;
 
@@ -904,8 +915,13 @@
         const idx = Math.floor(i * (points.length - 1) / (timeSteps - 1));
         const x = pad.left + (idx / (points.length - 1)) * chartW;
         const t = points[idx].t;
-        const hhmm = t.substring(11, 16);
-        ctx.fillText(hhmm, x, H - pad.bottom + 20);
+        let timeLabel;
+        if (currentRange === '3d' || currentRange === '1d') {
+          timeLabel = t.substring(5, 10) + ' ' + t.substring(11, 16);
+        } else {
+          timeLabel = t.substring(11, 16);
+        }
+        ctx.fillText(timeLabel, x, H - pad.bottom + 20);
       }
 
       // Zero line for Bz
@@ -1031,10 +1047,48 @@
 
     function switchChart(type) {
       currentChart = type;
-      document.querySelectorAll('.chart-tabs button').forEach(btn => {
+      const paramTabs = document.querySelectorAll('.chart-tabs')[0];
+      paramTabs.querySelectorAll('button').forEach(btn => {
         btn.classList.toggle('active', btn.textContent.toLowerCase() === type);
       });
       drawChart();
+    }
+
+    function switchRange(range) {
+      currentRange = range;
+      const rangeTabs = document.querySelectorAll('.chart-tabs')[1];
+      rangeTabs.querySelectorAll('button').forEach(btn => {
+        const map = { '6H': '6h', '1D': '1d', '3D': '3d' };
+        btn.classList.toggle('active', map[btn.textContent] === range);
+      });
+      document.getElementById('chartTitle').textContent = RANGE_TITLES[range];
+      if (dataCache[range]) {
+        plasmaHistory = dataCache[range].plasma;
+        magHistory = dataCache[range].mag;
+        drawChart();
+      } else {
+        fetchChartData(range);
+      }
+    }
+
+    async function fetchChartData(range) {
+      try {
+        const ep = RANGE_ENDPOINTS[range];
+        const [plasmaData, magData] = await Promise.all([
+          fetchJSON(SWPC_BASE + ep.plasma),
+          fetchJSON(SWPC_BASE + ep.mag)
+        ]);
+        const plasma = parsePlasmaHistory(plasmaData);
+        const mag = parseMagHistory(magData);
+        dataCache[range] = { plasma, mag };
+        if (currentRange === range) {
+          plasmaHistory = plasma;
+          magHistory = mag;
+          drawChart();
+        }
+      } catch (err) {
+        console.error('Fetch error for range ' + range, err);
+      }
     }
 
     // --- Main Fetch ---
@@ -1043,15 +1097,17 @@
       errorEl.style.display = 'none';
 
       try {
+        const ep = RANGE_ENDPOINTS[currentRange];
         const [plasmaData, magData] = await Promise.all([
-          fetchJSON(PLASMA_URL),
-          fetchJSON(MAG_URL)
+          fetchJSON(SWPC_BASE + ep.plasma),
+          fetchJSON(SWPC_BASE + ep.mag)
         ]);
 
         const plasma = parseLatestPlasma(plasmaData);
         const mag = parseLatestMag(magData);
         plasmaHistory = parsePlasmaHistory(plasmaData);
         magHistory = parseMagHistory(magData);
+        dataCache[currentRange] = { plasma: plasmaHistory, mag: magHistory };
 
         updateDashboard(plasma, mag);
         drawChart();
