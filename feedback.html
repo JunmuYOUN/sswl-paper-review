@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback — SSWL Paper Review</title>
+  <style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --corona-red: #C75B3A;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    /* --- GNB --- */
+    .gnb {
+      background: rgba(11,20,38,0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(232,168,56,0.15);
+    }
+
+    .gnb-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 48px;
+    }
+
+    .gnb-brand {
+      color: var(--sun-gold);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+
+    .gnb-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .gnb-links a {
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .gnb-links a:hover { color: var(--star-white); }
+
+    .gnb-links a.active {
+      color: var(--star-white);
+      font-weight: 600;
+    }
+
+    /* --- Hero Header --- */
+    .hero {
+      background: linear-gradient(135deg, var(--deep-space) 0%, var(--space-blue) 40%, var(--nebula-blue) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.6) 0%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px 24px 40px;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 .accent { color: var(--sun-gold); }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: rgba(244,241,236,0.7);
+      font-weight: 300;
+    }
+
+    /* --- Main --- */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* --- Feedback Form --- */
+    .feedback-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .feedback-form h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-group label .optional {
+      color: var(--text-light);
+      font-weight: 400;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      background: var(--bg-warm);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--sun-gold);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, var(--deep-space), var(--space-blue));
+      color: var(--sun-gold);
+      border: 1px solid rgba(232,168,56,0.3);
+      padding: 10px 28px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, var(--space-blue), var(--nebula-blue));
+      border-color: var(--sun-gold);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .submit-status {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .submit-status.success { color: #4CAF50; }
+    .submit-status.error { color: var(--corona-red); }
+
+    /* --- Feedback List --- */
+    .feedback-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feedback-list h3 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-light);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .feedback-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+
+    .feedback-item .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .feedback-item .category-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .category-tag.bug {
+      background: rgba(244,67,54,0.1);
+      color: var(--corona-red);
+    }
+
+    .category-tag.feature {
+      background: rgba(100,181,198,0.15);
+      color: var(--aurora-cyan);
+    }
+
+    .category-tag.general {
+      background: rgba(232,168,56,0.15);
+      color: var(--sun-gold);
+    }
+
+    .category-tag.improvement {
+      background: rgba(156,39,176,0.1);
+      color: #9C27B0;
+    }
+
+    .feedback-item .date {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .feedback-item .nickname {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .feedback-item .message {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* --- Footer --- */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--sun-orange);
+      text-decoration: none;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 640px) {
+      .hero-content { padding: 36px 20px 28px; }
+      .feedback-form { padding: 20px; }
+      .gnb-links { gap: 14px; }
+      .gnb-links a { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GNB -->
+  <nav class="gnb">
+    <div class="gnb-inner">
+      <a href="index.html" class="gnb-brand">SSWL Paper Review</a>
+      <div class="gnb-links">
+        <a href="index.html">Paper Review</a>
+        <a href="solar-wind.html">Solar Wind Monitor</a>
+        <a href="feedback.html" class="active">Feedback</a>
+        <a href="https://sunspaceweather.khu.ac.kr/" target="_blank">SSWL Lab</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="stars"></div>
+    <div class="hero-content">
+      <h1><span class="accent">Feedback</span></h1>
+      <p class="hero-sub">불편사항, 건의사항, 기능 요청 등 자유롭게 의견을 남겨주세요. 로그인 없이 작성할 수 있습니다.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Form -->
+    <div class="feedback-form">
+      <h3>의견 작성</h3>
+      <div class="form-group">
+        <label>닉네임 <span class="optional">(선택)</span></label>
+        <input type="text" id="inputNickname" placeholder="익명" maxlength="30">
+      </div>
+      <div class="form-group">
+        <label>분류</label>
+        <select id="inputCategory">
+          <option value="general">일반 의견</option>
+          <option value="bug">버그 / 오류 신고</option>
+          <option value="feature">기능 요청</option>
+          <option value="improvement">개선 제안</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>내용</label>
+        <textarea id="inputMessage" placeholder="의견을 자유롭게 작성해주세요..." maxlength="2000"></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn-submit" id="btnSubmit" onclick="submitFeedback()">등록</button>
+        <span class="submit-status" id="submitStatus"></span>
+      </div>
+    </div>
+
+    <!-- List -->
+    <div class="feedback-list">
+      <h3>등록된 의견</h3>
+      <div id="feedbackItems">
+        <div class="empty-state">아직 등록된 의견이 없습니다.</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory · Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      · Automated by <a href="https://assiworks.aifactory.space">Assiworks (AI Factory)</a>
+    </p>
+  </footer>
+
+  <script>
+    // --- Storage ---
+    // Uses localStorage so feedback persists per-browser without a server.
+    // For cross-device persistence, a backend (e.g. GitHub Issues API) can be added later.
+    const STORAGE_KEY = 'sswl_feedback';
+
+    function loadFeedback() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveFeedback(list) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    }
+
+    // --- Render ---
+    const CATEGORY_LABELS = {
+      general: '일반 의견',
+      bug: '버그 / 오류',
+      feature: '기능 요청',
+      improvement: '개선 제안'
+    };
+
+    function escapeHTML(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderFeedback() {
+      const list = loadFeedback();
+      const container = document.getElementById('feedbackItems');
+
+      if (list.length === 0) {
+        container.innerHTML = '<div class="empty-state">아직 등록된 의견이 없습니다.</div>';
+        return;
+      }
+
+      // Show newest first
+      const sorted = [...list].reverse();
+      container.innerHTML = sorted.map(item => {
+        const date = new Date(item.timestamp);
+        const dateStr = date.toLocaleDateString('ko-KR', {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit'
+        });
+        const nickname = escapeHTML(item.nickname || '익명');
+        const message = escapeHTML(item.message);
+        const cat = item.category || 'general';
+        const catLabel = CATEGORY_LABELS[cat] || cat;
+
+        return `
+          <div class="feedback-item">
+            <div class="meta">
+              <span class="category-tag ${cat}">${catLabel}</span>
+              <span class="date">${dateStr}</span>
+            </div>
+            <div class="nickname">${nickname}</div>
+            <div class="message">${message}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // --- Submit ---
+    function submitFeedback() {
+      const nickname = document.getElementById('inputNickname').value.trim();
+      const category = document.getElementById('inputCategory').value;
+      const message = document.getElementById('inputMessage').value.trim();
+      const statusEl = document.getElementById('submitStatus');
+      const btnEl = document.getElementById('btnSubmit');
+
+      if (!message) {
+        statusEl.textContent = '내용을 입력해주세요.';
+        statusEl.className = 'submit-status error';
+        return;
+      }
+
+      const entry = {
+        nickname: nickname || '익명',
+        category,
+        message,
+        timestamp: new Date().toISOString()
+      };
+
+      const list = loadFeedback();
+      list.push(entry);
+      saveFeedback(list);
+
+      // Reset form
+      document.getElementById('inputNickname').value = '';
+      document.getElementById('inputCategory').value = 'general';
+      document.getElementById('inputMessage').value = '';
+
+      statusEl.textContent = '등록되었습니다.';
+      statusEl.className = 'submit-status success';
+      setTimeout(() => { statusEl.textContent = ''; }, 3000);
+
+      renderFeedback();
+    }
+
+    // --- Init ---
+    renderFeedback();
+  </script>
+
+</body>
+</html>
