@@ -530,7 +530,12 @@
     async function fetchJSON(url) {
       const resp = await fetch(url);
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      return resp.json();
+      let text = await resp.text();
+      // SWPC sometimes returns NaN, Infinity, or bare values that break JSON.parse
+      text = text.replace(/\bNaN\b/g, 'null')
+                 .replace(/\bInfinity\b/g, 'null')
+                 .replace(/-Infinity\b/g, 'null');
+      return JSON.parse(text);
     }
 
     function parseLatestPlasma(data) {
