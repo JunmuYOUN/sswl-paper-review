@@ -743,6 +743,12 @@
       maxV += rangeV * 0.1;
       const finalRange = maxV - minV;
 
+      // Threshold Y position (pre-calculate to avoid grid label overlap)
+      let thresholdY = null;
+      if (thresholdVal != null) {
+        thresholdY = pad.top + chartH - ((thresholdVal - minV) / finalRange) * chartH;
+      }
+
       // Grid lines
       ctx.strokeStyle = '#E8E4DC';
       ctx.lineWidth = 0.5;
@@ -757,6 +763,8 @@
         ctx.moveTo(pad.left, y);
         ctx.lineTo(W - pad.right, y);
         ctx.stroke();
+        // Skip grid label if too close to threshold line (within 16px)
+        if (thresholdY != null && Math.abs(y - thresholdY) < 16) continue;
         ctx.fillText(v.toFixed(1), pad.left - 6, y + 4);
       }
 
@@ -772,19 +780,23 @@
       }
 
       // Threshold line
-      if (thresholdVal != null) {
-        const ty = pad.top + chartH - ((thresholdVal - minV) / finalRange) * chartH;
+      if (thresholdVal != null && thresholdY != null) {
         ctx.strokeStyle = 'rgba(244, 67, 54, 0.5)';
         ctx.lineWidth = 1.5;
         ctx.setLineDash([6, 4]);
         ctx.beginPath();
-        ctx.moveTo(pad.left, ty);
-        ctx.lineTo(W - pad.right, ty);
+        ctx.moveTo(pad.left, thresholdY);
+        ctx.lineTo(W - pad.right, thresholdY);
         ctx.stroke();
         ctx.setLineDash([]);
+        // Threshold value on left axis (replacing the skipped grid label)
         ctx.fillStyle = 'rgba(244, 67, 54, 0.7)';
-        ctx.textAlign = 'left';
-        ctx.fillText('Threshold: ' + thresholdVal, pad.left + 4, ty - 6);
+        ctx.font = 'bold 11px Arial';
+        ctx.textAlign = 'right';
+        ctx.fillText(thresholdVal.toString(), pad.left - 6, thresholdY + 4);
+        // Threshold label on right side
+        ctx.textAlign = 'right';
+        ctx.fillText('Threshold', W - pad.right - 4, thresholdY - 6);
       }
 
       // Data line
