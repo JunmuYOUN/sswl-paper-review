@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOES X-ray Flux — SSWL</title>
+  <link rel="icon" type="image/png" href="images/SSW_Lab_logo_gold1.png">
+  <style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --corona-red: #C75B3A;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+      --class-a: #4CAF50;
+      --class-b: #8BC34A;
+      --class-c: #FFC107;
+      --class-m: #FF9800;
+      --class-x: #F44336;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    /* --- GNB --- */
+    .gnb {
+      background: rgba(11,20,38,0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(232,168,56,0.15);
+    }
+
+    .gnb-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 48px;
+    }
+
+    .gnb-brand {
+      color: var(--sun-gold);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+
+    .gnb-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .gnb-links a {
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .gnb-links a:hover { color: var(--star-white); }
+
+    .gnb-links a.active {
+      color: var(--star-white);
+      font-weight: 600;
+    }
+
+    /* --- Hero --- */
+    .hero {
+      background: linear-gradient(135deg, var(--deep-space) 0%, var(--space-blue) 40%, var(--nebula-blue) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(232,168,56,0.15) 0%, rgba(232,168,56,0.05) 40%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse-glow 8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.6) 0%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px 24px 40px;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 .accent { color: var(--sun-gold); }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: rgba(244,241,236,0.7);
+      font-weight: 300;
+    }
+
+    .hero-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      color: var(--star-white);
+      background: rgba(76,175,80,0.2);
+      border: 1px solid rgba(76,175,80,0.4);
+      transition: all 0.3s;
+    }
+
+    .hero-status .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--class-a);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    .hero-status.B { background: rgba(139,195,74,0.2); border-color: rgba(139,195,74,0.4); }
+    .hero-status.B .pulse { background: var(--class-b); }
+    .hero-status.C { background: rgba(255,193,7,0.2); border-color: rgba(255,193,7,0.4); }
+    .hero-status.C .pulse { background: var(--class-c); }
+    .hero-status.M { background: rgba(255,152,0,0.2); border-color: rgba(255,152,0,0.4); }
+    .hero-status.M .pulse { background: var(--class-m); }
+    .hero-status.X { background: rgba(244,67,54,0.2); border-color: rgba(244,67,54,0.4); }
+    .hero-status.X .pulse { background: var(--class-x); }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* --- Dashboard --- */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    .refresh-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .refresh-bar button {
+      background: var(--deep-space);
+      color: var(--star-white);
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .refresh-bar button:hover { background: var(--space-blue); }
+
+    /* --- Metric Cards --- */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 22px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .metric-card .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .metric-card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      transition: color 0.3s;
+    }
+
+    .metric-card .unit {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .metric-card .sub-info {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .metric-card .status-dot {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .flare-class-badge {
+      display: inline-block;
+      font-size: 1.2rem;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 6px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .flare-A { color: var(--class-a); }
+    .flare-B { color: var(--class-b); }
+    .flare-C { color: var(--class-c); }
+    .flare-M { color: var(--class-m); }
+    .flare-X { color: var(--class-x); }
+
+    .dot-A { background: var(--class-a); }
+    .dot-B { background: var(--class-b); }
+    .dot-C { background: var(--class-c); }
+    .dot-M { background: var(--class-m); }
+    .dot-X { background: var(--class-x); }
+
+    /* --- Chart --- */
+    .chart-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .chart-section h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .chart-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .chart-tabs button {
+      background: var(--bg-warm);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .chart-tabs button.active {
+      background: var(--deep-space);
+      color: var(--sun-gold);
+      border-color: var(--deep-space);
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 320px;
+    }
+
+    .chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* --- Info --- */
+    .info-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .info-panel h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .info-panel p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .info-panel .source-link {
+      color: var(--aurora-cyan);
+      text-decoration: none;
+    }
+
+    .info-panel .source-link:hover { text-decoration: underline; }
+
+    .class-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.82rem;
+    }
+
+    .class-table th, .class-table td {
+      padding: 6px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .class-table th {
+      color: var(--text-light);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* --- Error / Loading --- */
+    .error-msg {
+      background: rgba(244,67,54,0.08);
+      border: 1px solid rgba(244,67,54,0.2);
+      border-radius: 8px;
+      padding: 14px 18px;
+      color: var(--corona-red);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    /* --- Footer --- */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--sun-orange);
+      text-decoration: none;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 640px) {
+      .hero-content { padding: 36px 20px 28px; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .metric-card .value { font-size: 1.6rem; }
+      .chart-container { height: 260px; }
+      .gnb-links { gap: 14px; }
+      .gnb-links a { font-size: 0.75rem; }
+    }
+
+    @media (max-width: 400px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GNB -->
+  <nav class="gnb">
+    <div class="gnb-inner">
+      <a href="index.html" class="gnb-brand">SSWL Paper Review</a>
+      <div class="gnb-links">
+        <a href="index.html">Paper Review</a>
+        <a href="solar-wind.html">Solar Wind</a>
+        <a href="goes-xray.html" class="active">GOES X-ray</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="https://sunspaceweather.khu.ac.kr/" target="_blank">SSWL Lab</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="stars"></div>
+    <div class="hero-content">
+      <h1><span class="accent">GOES X-ray</span> Flux Monitor</h1>
+      <p class="hero-sub">NOAA SWPC GOES 위성 실시간 X-ray Flux 데이터 — 태양 플레어 감시</p>
+      <div class="hero-status" id="overallStatus">
+        <span class="pulse"></span>
+        <span id="statusText">Loading...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard -->
+  <main class="container">
+    <div class="error-msg" id="errorMsg"></div>
+
+    <div class="refresh-bar">
+      <span id="updateInfo">Loading...</span>
+      <button onclick="fetchAllData()">Refresh Now</button>
+    </div>
+
+    <!-- Metric Cards -->
+    <div class="metrics-grid">
+      <div class="metric-card" id="cardLong">
+        <div class="status-dot dot-A" id="dotLong"></div>
+        <div class="label">X-ray Flux (0.1-0.8 nm)</div>
+        <div class="value" id="valLong">—</div>
+        <div class="unit">W/m² <span class="flare-class-badge" id="classLong"></span></div>
+        <div class="sub-info">XRS-B (Long) — Flare classification channel</div>
+      </div>
+
+      <div class="metric-card" id="cardShort">
+        <div class="status-dot dot-A" id="dotShort"></div>
+        <div class="label">X-ray Flux (0.05-0.4 nm)</div>
+        <div class="value" id="valShort">—</div>
+        <div class="unit">W/m²</div>
+        <div class="sub-info">XRS-A (Short)</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="label">Flare Class</div>
+        <div class="value" id="valClass" style="font-size:2.4rem;">—</div>
+        <div class="unit" id="classDesc">Based on 0.1-0.8 nm flux</div>
+        <div class="sub-info">A &lt; B &lt; C &lt; M &lt; X (x10 per class)</div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-section">
+      <h3>X-ray Flux Trend</h3>
+      <div class="chart-tabs">
+        <button class="active" onclick="switchRange('6h')">6 Hours</button>
+        <button onclick="switchRange('1d')">1 Day</button>
+        <button onclick="switchRange('3d')">3 Days</button>
+      </div>
+      <div class="chart-container">
+        <canvas id="xrayChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="info-panel">
+      <h3>About GOES X-ray Flux</h3>
+      <p>
+        NOAA GOES 위성의
+        <a class="source-link" href="https://www.swpc.noaa.gov/products/goes-x-ray-flux" target="_blank">XRS (X-Ray Sensor)</a>
+        데이터를 5분 간격으로 브라우저에서 직접 가져옵니다.
+        0.1-0.8 nm (XRS-B) 채널의 flux 값이 태양 플레어 등급 분류에 사용됩니다.
+      </p>
+      <table class="class-table">
+        <thead>
+          <tr><th>Class</th><th>Flux (W/m²)</th><th>Impact</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="flare-A">A</span></td><td>&lt; 10⁻⁷</td><td>Background level</td></tr>
+          <tr><td><span class="flare-B">B</span></td><td>10⁻⁷ ~ 10⁻⁶</td><td>Minor</td></tr>
+          <tr><td><span class="flare-C">C</span></td><td>10⁻⁶ ~ 10⁻⁵</td><td>Small — minor radio blackout</td></tr>
+          <tr><td><span class="flare-M">M</span></td><td>10⁻⁵ ~ 10⁻⁴</td><td>Medium — radio blackout, radiation storm</td></tr>
+          <tr><td><span class="flare-X">X</span></td><td>&ge; 10⁻⁴</td><td>Major — severe radio/GPS disruption</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory · Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      · Data from <a href="https://www.swpc.noaa.gov/" target="_blank">NOAA SWPC</a>
+    </p>
+  </footer>
+
+  <script>
+    // --- Config ---
+    const SWPC_BASE = 'https://services.swpc.noaa.gov';
+    const ENDPOINTS = {
+      '6h': '/json/goes/primary/xrays-6-hour.json',
+      '1d': '/json/goes/primary/xrays-1-day.json',
+      '3d': '/json/goes/primary/xrays-3-day.json'
+    };
+    const REFRESH_INTERVAL = 5 * 60 * 1000;
+
+    // --- State ---
+    let dataCache = {};
+    let currentRange = '6h';
+    let refreshTimer = null;
+    let nextRefreshAt = null;
+
+    // --- Flare Classification ---
+    function classifyFlare(flux) {
+      if (flux == null || flux <= 0) return { cls: '?', level: 0, color: '#888' };
+      if (flux >= 1e-4) return { cls: 'X' + (flux / 1e-4).toFixed(1), level: 5, color: '#F44336' };
+      if (flux >= 1e-5) return { cls: 'M' + (flux / 1e-5).toFixed(1), level: 4, color: '#FF9800' };
+      if (flux >= 1e-6) return { cls: 'C' + (flux / 1e-6).toFixed(1), level: 3, color: '#FFC107' };
+      if (flux >= 1e-7) return { cls: 'B' + (flux / 1e-7).toFixed(1), level: 2, color: '#8BC34A' };
+      return { cls: 'A' + (flux / 1e-8).toFixed(1), level: 1, color: '#4CAF50' };
+    }
+
+    function classLetter(flux) {
+      if (flux >= 1e-4) return 'X';
+      if (flux >= 1e-5) return 'M';
+      if (flux >= 1e-6) return 'C';
+      if (flux >= 1e-7) return 'B';
+      return 'A';
+    }
+
+    function formatFlux(flux) {
+      if (flux == null) return '—';
+      return flux.toExponential(2);
+    }
+
+    // --- Fetch ---
+    async function fetchJSON(url) {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      let text = await resp.text();
+      text = text.replace(/\bNaN\b/g, 'null').replace(/\bInfinity\b/g, 'null').replace(/-Infinity\b/g, 'null');
+      return JSON.parse(text);
+    }
+
+    function parseXrayData(data) {
+      const longWave = [];  // 0.1-0.8 nm
+      const shortWave = []; // 0.05-0.4 nm
+
+      for (const entry of data) {
+        const flux = entry.flux;
+        if (flux == null || flux <= 0) continue;
+        const point = { time: entry.time_tag, flux: flux };
+
+        if (entry.energy === '0.1-0.8nm') {
+          longWave.push(point);
+        } else if (entry.energy === '0.05-0.4nm') {
+          shortWave.push(point);
+        }
+      }
+
+      return { longWave, shortWave };
+    }
+
+    // --- UI ---
+    function updateDashboard(parsed) {
+      const { longWave, shortWave } = parsed;
+
+      // Latest long wave (flare classification channel)
+      const latestLong = longWave.length > 0 ? longWave[longWave.length - 1] : null;
+      const latestShort = shortWave.length > 0 ? shortWave[shortWave.length - 1] : null;
+
+      // Long wave card
+      const longFlux = latestLong ? latestLong.flux : null;
+      document.getElementById('valLong').textContent = formatFlux(longFlux);
+      const flare = classifyFlare(longFlux);
+      const letter = classLetter(longFlux);
+      document.getElementById('classLong').textContent = flare.cls;
+      document.getElementById('classLong').className = 'flare-class-badge flare-' + letter;
+      document.getElementById('dotLong').className = 'status-dot dot-' + letter;
+
+      // Short wave card
+      const shortFlux = latestShort ? latestShort.flux : null;
+      document.getElementById('valShort').textContent = formatFlux(shortFlux);
+      const shortLetter = classLetter(shortFlux || 0);
+      document.getElementById('dotShort').className = 'status-dot dot-' + shortLetter;
+
+      // Flare class card
+      const classEl = document.getElementById('valClass');
+      classEl.textContent = flare.cls;
+      classEl.style.color = flare.color;
+
+      // Hero status
+      const statusEl = document.getElementById('overallStatus');
+      const textEl = document.getElementById('statusText');
+      statusEl.className = 'hero-status ' + letter;
+      if (letter === 'A' || letter === 'B') {
+        textEl.textContent = 'Quiet — ' + flare.cls;
+      } else if (letter === 'C') {
+        textEl.textContent = 'Minor Activity — ' + flare.cls;
+      } else if (letter === 'M') {
+        textEl.textContent = 'Moderate Flare — ' + flare.cls;
+      } else if (letter === 'X') {
+        textEl.textContent = 'Major Flare — ' + flare.cls;
+      }
+    }
+
+    // --- Chart (Log scale) ---
+    function drawChart() {
+      const canvas = document.getElementById('xrayChart');
+      const ctx = canvas.getContext('2d');
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      const W = rect.width;
+      const H = rect.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const parsed = dataCache[currentRange];
+      if (!parsed || parsed.longWave.length < 2) {
+        ctx.fillStyle = '#8888A8';
+        ctx.font = '14px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('No data available', W / 2, H / 2);
+        return;
+      }
+
+      const pad = { top: 20, right: 16, bottom: 36, left: 62 };
+      const chartW = W - pad.left - pad.right;
+      const chartH = H - pad.top - pad.bottom;
+
+      // Log scale: 10^-9 to 10^-3
+      const logMin = -9;
+      const logMax = -3;
+      const logRange = logMax - logMin;
+
+      function yFromFlux(flux) {
+        if (flux <= 0) return pad.top + chartH;
+        const logVal = Math.log10(flux);
+        const clamped = Math.max(logMin, Math.min(logMax, logVal));
+        return pad.top + chartH - ((clamped - logMin) / logRange) * chartH;
+      }
+
+      // Flare class background bands
+      const bands = [
+        { label: 'A', min: 1e-9, max: 1e-7, color: 'rgba(76,175,80,0.06)' },
+        { label: 'B', min: 1e-7, max: 1e-6, color: 'rgba(139,195,74,0.06)' },
+        { label: 'C', min: 1e-6, max: 1e-5, color: 'rgba(255,193,7,0.06)' },
+        { label: 'M', min: 1e-5, max: 1e-4, color: 'rgba(255,152,0,0.08)' },
+        { label: 'X', min: 1e-4, max: 1e-3, color: 'rgba(244,67,54,0.08)' }
+      ];
+
+      const bandLabelColors = {
+        A: '#4CAF50', B: '#8BC34A', C: '#FFC107', M: '#FF9800', X: '#F44336'
+      };
+
+      bands.forEach(b => {
+        const y1 = yFromFlux(b.max);
+        const y2 = yFromFlux(b.min);
+        ctx.fillStyle = b.color;
+        ctx.fillRect(pad.left, y1, chartW, y2 - y1);
+
+        // Class label on right
+        ctx.fillStyle = bandLabelColors[b.label];
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'right';
+        ctx.fillText(b.label, W - pad.right - 4, (y1 + y2) / 2 + 4);
+      });
+
+      // Horizontal grid lines at each power of 10
+      ctx.strokeStyle = '#E8E4DC';
+      ctx.lineWidth = 0.5;
+      ctx.fillStyle = '#8888A8';
+      ctx.font = '10px Arial';
+      ctx.textAlign = 'right';
+      for (let exp = logMin; exp <= logMax; exp++) {
+        const y = yFromFlux(Math.pow(10, exp));
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(W - pad.right, y);
+        ctx.stroke();
+        ctx.fillText('10' + superscript(exp), pad.left - 6, y + 3);
+      }
+
+      // Time axis
+      const longPts = parsed.longWave;
+      const totalPts = longPts.length;
+
+      ctx.fillStyle = '#8888A8';
+      ctx.font = '10px Arial';
+      ctx.textAlign = 'center';
+      const timeSteps = Math.min(6, totalPts);
+      for (let i = 0; i < timeSteps; i++) {
+        const idx = Math.floor(i * (totalPts - 1) / (timeSteps - 1));
+        const x = pad.left + (idx / (totalPts - 1)) * chartW;
+        const t = longPts[idx].time;
+        let label;
+        if (currentRange === '3d') {
+          label = t.substring(5, 10) + ' ' + t.substring(11, 16);
+        } else {
+          label = t.substring(11, 16);
+        }
+        ctx.fillText(label, x, H - pad.bottom + 18);
+      }
+
+      // Draw short wave line
+      if (parsed.shortWave.length > 1) {
+        drawLine(ctx, parsed.shortWave, totalPts, longPts, pad, chartW, yFromFlux, 'rgba(100,181,198,0.5)', 1.2);
+      }
+
+      // Draw long wave line (primary)
+      drawLine(ctx, longPts, totalPts, longPts, pad, chartW, yFromFlux, '#E8A838', 2);
+
+      // Legend
+      ctx.font = '11px Arial';
+      ctx.textAlign = 'left';
+      const legendY = pad.top + 14;
+
+      ctx.strokeStyle = '#E8A838';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(pad.left + 4, legendY - 3); ctx.lineTo(pad.left + 24, legendY - 3); ctx.stroke();
+      ctx.fillStyle = '#E8A838';
+      ctx.fillText('0.1-0.8 nm', pad.left + 28, legendY);
+
+      ctx.strokeStyle = 'rgba(100,181,198,0.7)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(pad.left + 110, legendY - 3); ctx.lineTo(pad.left + 130, legendY - 3); ctx.stroke();
+      ctx.fillStyle = 'rgba(100,181,198,0.9)';
+      ctx.fillText('0.05-0.4 nm', pad.left + 134, legendY);
+    }
+
+    function drawLine(ctx, points, refLen, refPts, pad, chartW, yFn, color, width) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      let started = false;
+      for (let i = 0; i < points.length; i++) {
+        const x = pad.left + (i / (points.length - 1)) * chartW;
+        const y = yFn(points[i].flux);
+        if (!started) { ctx.moveTo(x, y); started = true; }
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    function superscript(n) {
+      const sup = { '-': '\u207B', '0': '\u2070', '1': '\u00B9', '2': '\u00B2', '3': '\u00B3',
+                    '4': '\u2074', '5': '\u2075', '6': '\u2076', '7': '\u2077', '8': '\u2078', '9': '\u2079' };
+      return String(n).split('').map(c => sup[c] || c).join('');
+    }
+
+    function switchRange(range) {
+      currentRange = range;
+      document.querySelectorAll('.chart-tabs button').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase().replace(' ', '') ===
+          { '6h': '6hours', '1d': '1day', '3d': '3days' }[range]);
+      });
+      // Fix active state
+      document.querySelectorAll('.chart-tabs button').forEach(btn => {
+        const map = { '6 Hours': '6h', '1 Day': '1d', '3 Days': '3d' };
+        btn.classList.toggle('active', map[btn.textContent] === range);
+      });
+      if (dataCache[range]) {
+        drawChart();
+      } else {
+        fetchRange(range);
+      }
+    }
+
+    async function fetchRange(range) {
+      try {
+        const data = await fetchJSON(SWPC_BASE + ENDPOINTS[range]);
+        dataCache[range] = parseXrayData(data);
+        drawChart();
+      } catch (err) {
+        console.error('Fetch error for range ' + range, err);
+      }
+    }
+
+    // --- Main Fetch ---
+    async function fetchAllData() {
+      const errorEl = document.getElementById('errorMsg');
+      errorEl.style.display = 'none';
+
+      try {
+        const data = await fetchJSON(SWPC_BASE + ENDPOINTS[currentRange]);
+        const parsed = parseXrayData(data);
+        dataCache[currentRange] = parsed;
+
+        updateDashboard(parsed);
+        drawChart();
+
+        const latestTime = parsed.longWave.length > 0
+          ? parsed.longWave[parsed.longWave.length - 1].time.substring(11, 16)
+          : 'N/A';
+        const now = new Date();
+        const nowStr = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('updateInfo').textContent =
+          'Data: ' + latestTime + ' UTC · Updated: ' + nowStr + ' · Next: 5min';
+
+        scheduleRefresh();
+      } catch (err) {
+        errorEl.textContent = 'Failed to fetch GOES X-ray data: ' + err.message;
+        errorEl.style.display = 'block';
+        document.getElementById('updateInfo').textContent = 'Fetch failed — click Refresh to retry';
+        scheduleRefresh();
+      }
+    }
+
+    function scheduleRefresh() {
+      if (refreshTimer) clearTimeout(refreshTimer);
+      nextRefreshAt = Date.now() + REFRESH_INTERVAL;
+      refreshTimer = setTimeout(fetchAllData, REFRESH_INTERVAL);
+    }
+
+    // Countdown
+    setInterval(() => {
+      if (!nextRefreshAt) return;
+      const remaining = Math.max(0, Math.ceil((nextRefreshAt - Date.now()) / 1000));
+      const min = Math.floor(remaining / 60);
+      const sec = remaining % 60;
+      const infoEl = document.getElementById('updateInfo');
+      const text = infoEl.textContent;
+      const nextIdx = text.lastIndexOf('Next:');
+      if (nextIdx > -1) {
+        infoEl.textContent = text.substring(0, nextIdx) + 'Next: ' + min + ':' + sec.toString().padStart(2, '0');
+      }
+    }, 1000);
+
+    window.addEventListener('resize', () => drawChart());
+
+    // --- Init ---
+    fetchAllData();
+  </script>
+
+</body>
+</html>
