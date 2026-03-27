@@ -579,10 +579,10 @@
 
       <div class="metric-card" id="cardRecent">
         <div class="status-dot dot-A" id="dotRecent"></div>
-        <div class="label">Recent Flare (30 min peak)</div>
-        <div class="value" id="valRecent" style="font-size:2.4rem;">—</div>
+        <div class="label">Latest Flare Event</div>
+        <div class="value" id="valRecent" style="font-size:2.2rem;">—</div>
         <div class="unit" id="recentFlux"></div>
-        <div class="sub-info" id="recentTime">Peak within last 30 minutes</div>
+        <div class="sub-info" id="recentTime">NOAA SWPC flare detection</div>
       </div>
     </div>
 
@@ -639,6 +639,7 @@
       '1d': '/json/goes/primary/xrays-1-day.json',
       '3d': '/json/goes/primary/xrays-3-day.json'
     };
+    const FLARE_URL = SWPC_BASE + '/json/goes/primary/xray-flares-latest.json';
     const REFRESH_INTERVAL = 5 * 60 * 1000;
 
     // --- State ---
@@ -727,41 +728,6 @@
       const classEl = document.getElementById('valClass');
       classEl.textContent = flare.cls;
       classEl.style.color = flare.color;
-
-      // Recent Flare (30 min peak)
-      const now = new Date();
-      const thirtyMinAgo = new Date(now.getTime() - 30 * 60 * 1000);
-      let peakFlux = 0;
-      let peakTime = null;
-      for (const pt of longWave) {
-        const t = new Date(pt.time);
-        if (t >= thirtyMinAgo && pt.flux > peakFlux) {
-          peakFlux = pt.flux;
-          peakTime = pt.time;
-        }
-      }
-
-      const recentEl = document.getElementById('valRecent');
-      const recentFluxEl = document.getElementById('recentFlux');
-      const recentTimeEl = document.getElementById('recentTime');
-      const dotRecentEl = document.getElementById('dotRecent');
-
-      if (peakFlux > 0) {
-        const peakFlare = classifyFlare(peakFlux);
-        const peakLetter = classLetter(peakFlux);
-        recentEl.textContent = peakFlare.cls;
-        recentEl.style.color = peakFlare.color;
-        recentFluxEl.textContent = formatFlux(peakFlux);
-        const peakHHMM = peakTime.substring(11, 16);
-        recentTimeEl.textContent = 'Peak at ' + peakHHMM + ' UTC (last 30 min)';
-        dotRecentEl.className = 'status-dot dot-' + peakLetter;
-      } else {
-        recentEl.textContent = '—';
-        recentEl.style.color = '';
-        recentFluxEl.textContent = '';
-        recentTimeEl.textContent = 'No data in last 30 minutes';
-        dotRecentEl.className = 'status-dot dot-A';
-      }
 
       // Hero status
       const statusEl = document.getElementById('overallStatus');
@@ -953,6 +919,61 @@
       }
     }
 
+    // --- Flare Event ---
+    async function updateFlareEvent() {
+      const recentEl = document.getElementById('valRecent');
+      const recentFluxEl = document.getElementById('recentFlux');
+      const recentTimeEl = document.getElementById('recentTime');
+      const dotRecentEl = document.getElementById('dotRecent');
+
+      try {
+        const data = await fetchJSON(FLARE_URL);
+        if (!data || (Array.isArray(data) && data.length === 0)) {
+          recentEl.textContent = 'None';
+          recentEl.style.color = '#4CAF50';
+          recentFluxEl.textContent = '';
+          recentTimeEl.textContent = 'No active flare detected';
+          dotRecentEl.className = 'status-dot dot-A';
+          return;
+        }
+
+        // API returns a single object or an array
+        const ev = Array.isArray(data) ? data[data.length - 1] : data;
+        const maxClass = ev.max_class || '—';
+        const maxFlux = ev.max_xrlong;
+        const letter = maxClass.charAt(0);
+        const flare = classifyFlare(maxFlux);
+
+        recentEl.textContent = maxClass;
+        recentEl.style.color = flare.color;
+        dotRecentEl.className = 'status-dot dot-' + letter;
+
+        if (maxFlux) {
+          recentFluxEl.textContent = formatFlux(maxFlux);
+        } else {
+          recentFluxEl.textContent = '';
+        }
+
+        // Build time info
+        const beginHM = ev.begin_time ? ev.begin_time.substring(11, 16) : '?';
+        const peakHM = ev.max_time ? ev.max_time.substring(11, 16) : '?';
+        const beginDate = ev.begin_time ? ev.begin_time.substring(5, 10) : '';
+
+        if (ev.end_time) {
+          const endHM = ev.end_time.substring(11, 16);
+          recentTimeEl.textContent = beginDate + ' ' + beginHM + ' → ' + peakHM + ' (peak) → ' + endHM + ' UTC';
+        } else {
+          recentTimeEl.textContent = beginDate + ' ' + beginHM + ' → ' + peakHM + ' (peak) — in progress';
+        }
+      } catch (err) {
+        recentEl.textContent = '—';
+        recentEl.style.color = '';
+        recentFluxEl.textContent = '';
+        recentTimeEl.textContent = 'Failed to fetch flare data';
+        dotRecentEl.className = 'status-dot dot-A';
+      }
+    }
+
     // --- Main Fetch ---
     async function fetchAllData() {
       const errorEl = document.getElementById('errorMsg');
@@ -964,6 +985,7 @@
         dataCache[currentRange] = parsed;
 
         updateDashboard(parsed);
+        updateFlareEvent();
         drawChart();
 
         const latestTime = parsed.longWave.length > 0
