@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Wind Monitor — SSWL</title>
+  <style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --corona-red: #C75B3A;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+      --status-normal: #4CAF50;
+      --status-warning: #FF9800;
+      --status-critical: #F44336;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    /* --- Top Nav --- */
+    .top-nav {
+      background: var(--deep-space);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .top-nav a {
+      color: var(--star-white);
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .top-nav a:hover { color: var(--sun-gold); }
+    .top-nav .brand { font-weight: 700; color: var(--sun-gold); }
+
+    /* --- Hero Header --- */
+    .hero {
+      background: linear-gradient(135deg, var(--deep-space) 0%, var(--space-blue) 40%, var(--nebula-blue) 100%);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(232,168,56,0.15) 0%, rgba(232,168,56,0.05) 40%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse-glow 8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.6) 0%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px 24px 40px;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 .accent { color: var(--sun-gold); }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: rgba(244,241,236,0.7);
+      font-weight: 300;
+    }
+
+    .hero-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      color: var(--star-white);
+      background: rgba(76,175,80,0.2);
+      border: 1px solid rgba(76,175,80,0.4);
+      transition: all 0.3s;
+    }
+
+    .hero-status .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--status-normal);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    .hero-status.warning {
+      background: rgba(255,152,0,0.2);
+      border-color: rgba(255,152,0,0.4);
+    }
+
+    .hero-status.warning .pulse { background: var(--status-warning); }
+
+    .hero-status.critical {
+      background: rgba(244,67,54,0.2);
+      border-color: rgba(244,67,54,0.4);
+    }
+
+    .hero-status.critical .pulse { background: var(--status-critical); }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* --- Dashboard --- */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    .refresh-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .refresh-bar button {
+      background: var(--deep-space);
+      color: var(--star-white);
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .refresh-bar button:hover { background: var(--space-blue); }
+
+    /* --- Metric Cards --- */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 22px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .metric-card.warning {
+      border-color: var(--status-warning);
+      box-shadow: 0 0 20px rgba(255,152,0,0.1);
+    }
+
+    .metric-card.critical {
+      border-color: var(--status-critical);
+      box-shadow: 0 0 20px rgba(244,67,54,0.1);
+    }
+
+    .metric-card .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .metric-card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      transition: color 0.3s;
+    }
+
+    .metric-card.warning .value { color: var(--status-warning); }
+    .metric-card.critical .value { color: var(--status-critical); }
+
+    .metric-card .unit {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .metric-card .threshold {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .metric-card .status-dot {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--status-normal);
+    }
+
+    .metric-card.warning .status-dot { background: var(--status-warning); }
+    .metric-card.critical .status-dot { background: var(--status-critical); }
+
+    /* --- Chart Section --- */
+    .chart-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .chart-section h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .chart-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .chart-tabs button {
+      background: var(--bg-warm);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .chart-tabs button.active {
+      background: var(--deep-space);
+      color: var(--sun-gold);
+      border-color: var(--deep-space);
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 280px;
+    }
+
+    .chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* --- Info Panel --- */
+    .info-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .info-panel h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .info-panel p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .info-panel .source-link {
+      color: var(--aurora-cyan);
+      text-decoration: none;
+    }
+
+    .info-panel .source-link:hover { text-decoration: underline; }
+
+    /* --- Loading / Error States --- */
+    .loading-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 40px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border-subtle);
+      border-top-color: var(--sun-gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-msg {
+      background: rgba(244,67,54,0.08);
+      border: 1px solid rgba(244,67,54,0.2);
+      border-radius: 8px;
+      padding: 14px 18px;
+      color: var(--corona-red);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    /* --- Footer --- */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--sun-orange);
+      text-decoration: none;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 640px) {
+      .hero-content { padding: 36px 20px 28px; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .metric-card .value { font-size: 1.6rem; }
+      .chart-container { height: 220px; }
+    }
+
+    @media (max-width: 400px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <a href="index.html" class="brand">SSWL Paper Review</a>
+    <a href="index.html">← Back to Home</a>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="stars"></div>
+    <div class="hero-content">
+      <h1><span class="accent">Solar Wind</span> Monitor</h1>
+      <p class="hero-sub">NOAA SWPC 실시간 태양풍 데이터 — 브라우저에서 직접 모니터링</p>
+      <div class="hero-status" id="overallStatus">
+        <span class="pulse"></span>
+        <span id="statusText">Loading...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard -->
+  <main class="container">
+    <div class="error-msg" id="errorMsg"></div>
+
+    <div class="refresh-bar">
+      <span id="updateInfo">데이터 로딩 중...</span>
+      <button onclick="fetchAllData()">Refresh Now</button>
+    </div>
+
+    <!-- Metric Cards -->
+    <div class="metrics-grid">
+      <div class="metric-card" id="cardSpeed">
+        <div class="status-dot"></div>
+        <div class="label">Solar Wind Speed</div>
+        <div class="value" id="valSpeed">—</div>
+        <div class="unit">km/s</div>
+        <div class="threshold">Threshold: > 500 km/s</div>
+      </div>
+
+      <div class="metric-card" id="cardDensity">
+        <div class="status-dot"></div>
+        <div class="label">Proton Density</div>
+        <div class="value" id="valDensity">—</div>
+        <div class="unit">p/cm³</div>
+        <div class="threshold">Threshold: > 20 p/cm³</div>
+      </div>
+
+      <div class="metric-card" id="cardBz">
+        <div class="status-dot"></div>
+        <div class="label">IMF Bz (GSM)</div>
+        <div class="value" id="valBz">—</div>
+        <div class="unit">nT</div>
+        <div class="threshold">Threshold: &lt; -10 nT</div>
+      </div>
+
+      <div class="metric-card" id="cardBt">
+        <div class="status-dot"></div>
+        <div class="label">IMF Bt</div>
+        <div class="value" id="valBt">—</div>
+        <div class="unit">nT</div>
+        <div class="threshold">Total magnetic field</div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-section">
+      <h3>2-Hour Trend</h3>
+      <div class="chart-tabs">
+        <button class="active" onclick="switchChart('speed')">Speed</button>
+        <button onclick="switchChart('density')">Density</button>
+        <button onclick="switchChart('bz')">Bz</button>
+        <button onclick="switchChart('bt')">Bt</button>
+      </div>
+      <div class="chart-container">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="info-panel">
+      <h3>About This Monitor</h3>
+      <p>
+        NOAA Space Weather Prediction Center (SWPC)의
+        <a class="source-link" href="https://services.swpc.noaa.gov" target="_blank">Real-Time Solar Wind (RTSW)</a>
+        데이터를 5분 간격으로 브라우저에서 직접 가져옵니다. 서버를 거치지 않으므로 이 페이지를 열어둔 동안만 갱신됩니다.
+      </p>
+      <p>
+        Thresholds: Solar wind speed > 500 km/s, IMF Bz &lt; -10 nT, Proton density > 20 /cm³.
+        DSCOVR 위성(L1 point) 관측 기준이며, 지구 도달까지 약 30-60분 소요됩니다.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory · Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      · Data from <a href="https://www.swpc.noaa.gov/" target="_blank">NOAA SWPC</a>
+    </p>
+  </footer>
+
+  <script>
+    // --- Config ---
+    const SWPC_BASE = 'https://services.swpc.noaa.gov';
+    const PLASMA_URL = SWPC_BASE + '/products/solar-wind/plasma-2-hour.json';
+    const MAG_URL = SWPC_BASE + '/products/solar-wind/mag-2-hour.json';
+    const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+    const THRESHOLDS = {
+      speed: 500,
+      density: 20,
+      bz: -10
+    };
+
+    // --- State ---
+    let plasmaHistory = [];
+    let magHistory = [];
+    let currentChart = 'speed';
+    let refreshTimer = null;
+    let nextRefreshAt = null;
+
+    // --- Fetch Data ---
+    async function fetchJSON(url) {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      return resp.json();
+    }
+
+    function parseLatestPlasma(data) {
+      if (!data || data.length < 2) return null;
+      for (let i = data.length - 1; i >= 1; i--) {
+        const row = data[i];
+        const speed = row[2];
+        const density = row[1];
+        if (speed == null || speed === '' || speed === 'null') continue;
+        if (density == null || density === '' || density === 'null') continue;
+        return {
+          time: row[0],
+          density: parseFloat(density),
+          speed: parseFloat(speed),
+          temperature: row[3] ? parseFloat(row[3]) : null
+        };
+      }
+      return null;
+    }
+
+    function parseLatestMag(data) {
+      if (!data || data.length < 2) return null;
+      for (let i = data.length - 1; i >= 1; i--) {
+        const row = data[i];
+        const bz = row[3];
+        if (bz == null || bz === '' || bz === 'null') continue;
+        return {
+          time: row[0],
+          bz: parseFloat(bz),
+          bt: row[6] ? parseFloat(row[6]) : null
+        };
+      }
+      return null;
+    }
+
+    function parsePlasmaHistory(data) {
+      if (!data || data.length < 2) return [];
+      const history = [];
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        const speed = row[2];
+        const density = row[1];
+        if (speed == null || speed === '' || speed === 'null') continue;
+        if (density == null || density === '' || density === 'null') continue;
+        history.push({
+          time: row[0],
+          speed: parseFloat(speed),
+          density: parseFloat(density)
+        });
+      }
+      return history;
+    }
+
+    function parseMagHistory(data) {
+      if (!data || data.length < 2) return [];
+      const history = [];
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        const bz = row[3];
+        if (bz == null || bz === '' || bz === 'null') continue;
+        history.push({
+          time: row[0],
+          bz: parseFloat(bz),
+          bt: row[6] ? parseFloat(row[6]) : null
+        });
+      }
+      return history;
+    }
+
+    // --- UI Updates ---
+    function updateMetricCard(cardId, valueId, value, unit, check) {
+      const card = document.getElementById(cardId);
+      const valEl = document.getElementById(valueId);
+      if (value == null) {
+        valEl.textContent = '—';
+        card.className = 'metric-card';
+        return;
+      }
+      valEl.textContent = typeof value === 'number' ? value.toFixed(1) : value;
+      const status = check(value);
+      card.className = 'metric-card' + (status ? ' ' + status : '');
+    }
+
+    function updateDashboard(plasma, mag) {
+      // Speed
+      updateMetricCard('cardSpeed', 'valSpeed', plasma?.speed, 'km/s', v => {
+        if (v > THRESHOLDS.speed * 1.2) return 'critical';
+        if (v > THRESHOLDS.speed) return 'warning';
+        return '';
+      });
+
+      // Density
+      updateMetricCard('cardDensity', 'valDensity', plasma?.density, 'p/cm³', v => {
+        if (v > THRESHOLDS.density * 1.5) return 'critical';
+        if (v > THRESHOLDS.density) return 'warning';
+        return '';
+      });
+
+      // Bz
+      updateMetricCard('cardBz', 'valBz', mag?.bz, 'nT', v => {
+        if (v < THRESHOLDS.bz * 1.5) return 'critical';
+        if (v < THRESHOLDS.bz) return 'warning';
+        return '';
+      });
+
+      // Bt
+      updateMetricCard('cardBt', 'valBt', mag?.bt, 'nT', () => '');
+
+      // Overall status
+      updateOverallStatus(plasma, mag);
+    }
+
+    function updateOverallStatus(plasma, mag) {
+      const statusEl = document.getElementById('overallStatus');
+      const textEl = document.getElementById('statusText');
+
+      let level = 'normal';
+      const alerts = [];
+
+      if (plasma?.speed > THRESHOLDS.speed) {
+        alerts.push('Speed ' + plasma.speed.toFixed(0) + ' km/s');
+        level = plasma.speed > THRESHOLDS.speed * 1.2 ? 'critical' : 'warning';
+      }
+      if (plasma?.density > THRESHOLDS.density) {
+        alerts.push('Density ' + plasma.density.toFixed(1) + '/cm³');
+        if (plasma.density > THRESHOLDS.density * 1.5 && level !== 'critical') level = 'critical';
+        else if (level === 'normal') level = 'warning';
+      }
+      if (mag?.bz != null && mag.bz < THRESHOLDS.bz) {
+        alerts.push('Bz ' + mag.bz.toFixed(1) + ' nT');
+        if (mag.bz < THRESHOLDS.bz * 1.5 && level !== 'critical') level = 'critical';
+        else if (level === 'normal') level = 'warning';
+      }
+
+      statusEl.className = 'hero-status' + (level !== 'normal' ? ' ' + level : '');
+      if (alerts.length === 0) {
+        textEl.textContent = 'All Quiet';
+      } else {
+        textEl.textContent = alerts.join(' · ');
+      }
+    }
+
+    // --- Chart Drawing (Canvas) ---
+    function drawChart() {
+      const canvas = document.getElementById('trendChart');
+      const ctx = canvas.getContext('2d');
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      const W = rect.width;
+      const H = rect.height;
+
+      ctx.clearRect(0, 0, W, H);
+
+      let points = [];
+      let thresholdVal = null;
+      let label = '';
+      let color = '';
+
+      if (currentChart === 'speed') {
+        points = plasmaHistory.map(d => ({ t: d.time, v: d.speed }));
+        thresholdVal = THRESHOLDS.speed;
+        label = 'Speed (km/s)';
+        color = '#E8A838';
+      } else if (currentChart === 'density') {
+        points = plasmaHistory.map(d => ({ t: d.time, v: d.density }));
+        thresholdVal = THRESHOLDS.density;
+        label = 'Density (p/cm³)';
+        color = '#64B5C6';
+      } else if (currentChart === 'bz') {
+        points = magHistory.map(d => ({ t: d.time, v: d.bz }));
+        thresholdVal = THRESHOLDS.bz;
+        label = 'Bz (nT)';
+        color = '#C75B3A';
+      } else if (currentChart === 'bt') {
+        points = magHistory.filter(d => d.bt != null).map(d => ({ t: d.time, v: d.bt }));
+        thresholdVal = null;
+        label = 'Bt (nT)';
+        color = '#9C27B0';
+      }
+
+      if (points.length < 2) {
+        ctx.fillStyle = '#8888A8';
+        ctx.font = '14px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('No data available', W / 2, H / 2);
+        return;
+      }
+
+      const pad = { top: 20, right: 16, bottom: 36, left: 56 };
+      const chartW = W - pad.left - pad.right;
+      const chartH = H - pad.top - pad.bottom;
+
+      const vals = points.map(p => p.v);
+      let minV = Math.min(...vals);
+      let maxV = Math.max(...vals);
+      if (thresholdVal != null) {
+        minV = Math.min(minV, thresholdVal);
+        maxV = Math.max(maxV, thresholdVal);
+      }
+      const rangeV = maxV - minV || 1;
+      minV -= rangeV * 0.1;
+      maxV += rangeV * 0.1;
+      const finalRange = maxV - minV;
+
+      // Grid lines
+      ctx.strokeStyle = '#E8E4DC';
+      ctx.lineWidth = 0.5;
+      ctx.fillStyle = '#8888A8';
+      ctx.font = '11px Arial';
+      ctx.textAlign = 'right';
+      const gridSteps = 5;
+      for (let i = 0; i <= gridSteps; i++) {
+        const y = pad.top + chartH - (i / gridSteps) * chartH;
+        const v = minV + (i / gridSteps) * finalRange;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(W - pad.right, y);
+        ctx.stroke();
+        ctx.fillText(v.toFixed(1), pad.left - 6, y + 4);
+      }
+
+      // Time labels
+      ctx.textAlign = 'center';
+      const timeSteps = Math.min(6, points.length);
+      for (let i = 0; i < timeSteps; i++) {
+        const idx = Math.floor(i * (points.length - 1) / (timeSteps - 1));
+        const x = pad.left + (idx / (points.length - 1)) * chartW;
+        const t = points[idx].t;
+        const hhmm = t.substring(11, 16);
+        ctx.fillText(hhmm, x, H - pad.bottom + 20);
+      }
+
+      // Threshold line
+      if (thresholdVal != null) {
+        const ty = pad.top + chartH - ((thresholdVal - minV) / finalRange) * chartH;
+        ctx.strokeStyle = 'rgba(244, 67, 54, 0.5)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        ctx.moveTo(pad.left, ty);
+        ctx.lineTo(W - pad.right, ty);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(244, 67, 54, 0.7)';
+        ctx.textAlign = 'left';
+        ctx.fillText('Threshold: ' + thresholdVal, pad.left + 4, ty - 6);
+      }
+
+      // Data line
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      for (let i = 0; i < points.length; i++) {
+        const x = pad.left + (i / (points.length - 1)) * chartW;
+        const y = pad.top + chartH - ((points[i].v - minV) / finalRange) * chartH;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Fill area under line
+      const lastX = pad.left + chartW;
+      const baseY = pad.top + chartH;
+      ctx.lineTo(lastX, baseY);
+      ctx.lineTo(pad.left, baseY);
+      ctx.closePath();
+      ctx.fillStyle = color.replace(')', ', 0.08)').replace('rgb', 'rgba');
+      // Hex to rgba for fill
+      const r = parseInt(color.slice(1,3), 16);
+      const g = parseInt(color.slice(3,5), 16);
+      const b = parseInt(color.slice(5,7), 16);
+      ctx.fillStyle = `rgba(${r},${g},${b},0.08)`;
+      ctx.fill();
+
+      // Label
+      ctx.fillStyle = color;
+      ctx.font = 'bold 12px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText(label, pad.left + 4, pad.top + 14);
+    }
+
+    function switchChart(type) {
+      currentChart = type;
+      document.querySelectorAll('.chart-tabs button').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase() === type);
+      });
+      drawChart();
+    }
+
+    // --- Main Fetch ---
+    async function fetchAllData() {
+      const errorEl = document.getElementById('errorMsg');
+      errorEl.style.display = 'none';
+
+      try {
+        const [plasmaData, magData] = await Promise.all([
+          fetchJSON(PLASMA_URL),
+          fetchJSON(MAG_URL)
+        ]);
+
+        const plasma = parseLatestPlasma(plasmaData);
+        const mag = parseLatestMag(magData);
+        plasmaHistory = parsePlasmaHistory(plasmaData);
+        magHistory = parseMagHistory(magData);
+
+        updateDashboard(plasma, mag);
+        drawChart();
+
+        const dataTime = plasma?.time || mag?.time || 'N/A';
+        const hhmm = dataTime.substring(11, 16) || '';
+        const now = new Date();
+        const nowStr = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('updateInfo').textContent =
+          `Data: ${hhmm} UTC · Updated: ${nowStr} · Next: 5min`;
+
+        scheduleRefresh();
+      } catch (err) {
+        errorEl.textContent = 'Failed to fetch SWPC data: ' + err.message;
+        errorEl.style.display = 'block';
+        document.getElementById('updateInfo').textContent = 'Fetch failed — click Refresh to retry';
+        scheduleRefresh();
+      }
+    }
+
+    function scheduleRefresh() {
+      if (refreshTimer) clearTimeout(refreshTimer);
+      nextRefreshAt = Date.now() + REFRESH_INTERVAL;
+      refreshTimer = setTimeout(fetchAllData, REFRESH_INTERVAL);
+    }
+
+    // --- Countdown updater ---
+    setInterval(() => {
+      if (!nextRefreshAt) return;
+      const remaining = Math.max(0, Math.ceil((nextRefreshAt - Date.now()) / 1000));
+      const min = Math.floor(remaining / 60);
+      const sec = remaining % 60;
+      const infoEl = document.getElementById('updateInfo');
+      const text = infoEl.textContent;
+      const nextIdx = text.lastIndexOf('Next:');
+      if (nextIdx > -1) {
+        infoEl.textContent = text.substring(0, nextIdx) + `Next: ${min}:${sec.toString().padStart(2, '0')}`;
+      }
+    }, 1000);
+
+    // --- Resize handler ---
+    window.addEventListener('resize', () => drawChart());
+
+    // --- Init ---
+    fetchAllData();
+  </script>
+
+</body>
+</html>
