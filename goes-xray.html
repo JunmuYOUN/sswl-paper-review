@@ -87,6 +87,67 @@
       font-weight: 600;
     }
 
+    .gnb-dropdown {
+      position: relative;
+    }
+
+    .gnb-dropdown > span {
+      color: rgba(244,241,236,0.7);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .gnb-dropdown > span::after {
+      content: ' \u25BE';
+      font-size: 0.7em;
+    }
+
+    .gnb-dropdown:hover > span,
+    .gnb-dropdown > span.active { color: var(--star-white); }
+    .gnb-dropdown > span.active { font-weight: 600; }
+
+    .gnb-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 8px;
+      background: rgba(11,20,38,0.97);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(232,168,56,0.15);
+      border-radius: 8px;
+      padding: 6px 0;
+      min-width: 150px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .gnb-dropdown:hover .gnb-dropdown-menu { display: block; }
+
+    .gnb-dropdown-menu a {
+      display: block;
+      padding: 8px 18px;
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .gnb-dropdown-menu a:hover {
+      color: var(--star-white);
+      background: rgba(232,168,56,0.1);
+    }
+
+    .gnb-dropdown-menu a.active {
+      color: var(--sun-gold);
+      font-weight: 600;
+    }
+
     /* --- Hero --- */
     .hero {
       background: linear-gradient(135deg, var(--deep-space) 0%, var(--space-blue) 40%, var(--nebula-blue) 100%);
@@ -425,7 +486,7 @@
       .metric-card .value { font-size: 1.6rem; }
       .chart-container { height: 260px; }
       .gnb-links { gap: 14px; }
-      .gnb-links a { font-size: 0.75rem; }
+      .gnb-links a, .gnb-dropdown > span { font-size: 0.75rem; }
     }
 
     @media (max-width: 400px) {
@@ -441,8 +502,13 @@
       <a href="index.html" class="gnb-brand">SSWL Paper Review</a>
       <div class="gnb-links">
         <a href="index.html">Paper Review</a>
-        <a href="solar-wind.html">Solar Wind</a>
-        <a href="goes-xray.html" class="active">GOES X-ray</a>
+        <div class="gnb-dropdown">
+          <span class="active">Surveillance</span>
+          <div class="gnb-dropdown-menu">
+            <a href="solar-wind.html">Solar Wind</a>
+            <a href="goes-xray.html" class="active">GOES X-ray</a>
+          </div>
+        </div>
         <a href="feedback.html">Feedback</a>
         <a href="https://sunspaceweather.khu.ac.kr/" target="_blank">SSWL Lab</a>
       </div>
