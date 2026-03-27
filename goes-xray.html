@@ -576,6 +576,14 @@
         <div class="unit" id="classDesc">Based on 0.1-0.8 nm flux</div>
         <div class="sub-info">A &lt; B &lt; C &lt; M &lt; X (x10 per class)</div>
       </div>
+
+      <div class="metric-card" id="cardRecent">
+        <div class="status-dot dot-A" id="dotRecent"></div>
+        <div class="label">Recent Flare (30 min peak)</div>
+        <div class="value" id="valRecent" style="font-size:2.4rem;">—</div>
+        <div class="unit" id="recentFlux"></div>
+        <div class="sub-info" id="recentTime">Peak within last 30 minutes</div>
+      </div>
     </div>
 
     <!-- Chart -->
@@ -719,6 +727,41 @@
       const classEl = document.getElementById('valClass');
       classEl.textContent = flare.cls;
       classEl.style.color = flare.color;
+
+      // Recent Flare (30 min peak)
+      const now = new Date();
+      const thirtyMinAgo = new Date(now.getTime() - 30 * 60 * 1000);
+      let peakFlux = 0;
+      let peakTime = null;
+      for (const pt of longWave) {
+        const t = new Date(pt.time);
+        if (t >= thirtyMinAgo && pt.flux > peakFlux) {
+          peakFlux = pt.flux;
+          peakTime = pt.time;
+        }
+      }
+
+      const recentEl = document.getElementById('valRecent');
+      const recentFluxEl = document.getElementById('recentFlux');
+      const recentTimeEl = document.getElementById('recentTime');
+      const dotRecentEl = document.getElementById('dotRecent');
+
+      if (peakFlux > 0) {
+        const peakFlare = classifyFlare(peakFlux);
+        const peakLetter = classLetter(peakFlux);
+        recentEl.textContent = peakFlare.cls;
+        recentEl.style.color = peakFlare.color;
+        recentFluxEl.textContent = formatFlux(peakFlux);
+        const peakHHMM = peakTime.substring(11, 16);
+        recentTimeEl.textContent = 'Peak at ' + peakHHMM + ' UTC (last 30 min)';
+        dotRecentEl.className = 'status-dot dot-' + peakLetter;
+      } else {
+        recentEl.textContent = '—';
+        recentEl.style.color = '';
+        recentFluxEl.textContent = '';
+        recentTimeEl.textContent = 'No data in last 30 minutes';
+        dotRecentEl.className = 'status-dot dot-A';
+      }
 
       // Hero status
       const statusEl = document.getElementById('overallStatus');
