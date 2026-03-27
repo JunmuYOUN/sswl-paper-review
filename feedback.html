@@ -96,8 +96,15 @@
     }
 
     .gnb-dropdown > span::after {
-      content: ' \u25BE';
-      font-size: 0.7em;
+      content: '';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-left: 3.5px solid transparent;
+      border-right: 3.5px solid transparent;
+      border-top: 4px solid currentColor;
+      margin-left: 5px;
+      vertical-align: middle;
     }
 
     .gnb-dropdown:hover > span,
@@ -110,7 +117,6 @@
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      margin-top: 8px;
       background: rgba(11,20,38,0.97);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -122,6 +128,15 @@
     }
 
     .gnb-dropdown:hover .gnb-dropdown-menu { display: block; }
+
+    .gnb-dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: 0;
+      right: 0;
+      height: 12px;
+    }
 
     .gnb-dropdown-menu a {
       display: block;
