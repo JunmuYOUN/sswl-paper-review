@@ -578,7 +578,9 @@
 
     function formatFlux(flux) {
       if (flux == null) return '—';
-      return flux.toExponential(2);
+      const exp = Math.floor(Math.log10(flux));
+      const coeff = flux / Math.pow(10, exp);
+      return coeff.toFixed(2) + ' \u00D7 10' + superscript(exp);
     }
 
     // --- Fetch ---
