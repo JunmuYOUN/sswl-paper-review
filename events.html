@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Events Calendar — SSWL Paper Review</title>
+  <meta name="description" content="태양물리·우주기상 학회 및 컨퍼런스 일정 캘린더. Google Calendar 구독 가능.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SSWL Paper Review">
+  <meta property="og:title" content="Solar Events Calendar — SSWL Paper Review">
+  <meta property="og:description" content="태양물리·우주기상 학회 및 컨퍼런스 일정 캘린더. Google Calendar 구독 가능.">
+  <meta property="og:url" content="https://junmuyoun.github.io/sswl-paper-review/events.html">
+  <meta property="og:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Solar Events Calendar — SSWL Paper Review">
+  <meta name="twitter:description" content="태양물리·우주기상 학회 및 컨퍼런스 일정 캘린더. Google Calendar 구독 가능.">
+  <meta name="twitter:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <link rel="icon" type="image/png" href="images/SSW_Lab_logo_gold1.png">
+  <style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --corona-red: #C75B3A;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: var(--bg-warm); color: var(--text-primary); line-height: 1.7; }
+
+    /* --- GNB --- */
+    .gnb { background: rgba(11,20,38,0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 0 24px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(232,168,56,0.15); }
+    .gnb-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 48px; }
+    .gnb-brand { color: var(--sun-gold); text-decoration: none; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; }
+    .gnb-links { display: flex; align-items: center; gap: 24px; }
+    .gnb-links a { color: rgba(244,241,236,0.7); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; white-space: nowrap; }
+    .gnb-links a:hover { color: var(--star-white); }
+    .gnb-links a.active { color: var(--star-white); font-weight: 600; }
+    .gnb-dropdown { position: relative; }
+    .gnb-dropdown > span { color: rgba(244,241,236,0.7); font-size: 0.82rem; cursor: pointer; transition: color 0.2s; white-space: nowrap; user-select: none; }
+    .gnb-dropdown > span::after { content: ''; display: inline-block; width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent; border-top: 4px solid currentColor; margin-left: 5px; vertical-align: middle; }
+    .gnb-dropdown:hover > span { color: var(--star-white); }
+    .gnb-dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: rgba(11,20,38,0.97); backdrop-filter: blur(8px); border: 1px solid rgba(232,168,56,0.15); border-radius: 8px; padding: 6px 0; min-width: 150px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+    .gnb-dropdown:hover .gnb-dropdown-menu { display: block; }
+    .gnb-dropdown-menu::before { content: ''; position: absolute; top: -12px; left: 0; right: 0; height: 12px; }
+    .gnb-dropdown-menu a { display: block; padding: 8px 18px; color: rgba(244,241,236,0.7); text-decoration: none; font-size: 0.8rem; transition: all 0.15s; white-space: nowrap; }
+    .gnb-dropdown-menu a:hover { color: var(--star-white); background: rgba(232,168,56,0.1); }
+
+    /* --- Page Header --- */
+    .page-header { background: linear-gradient(135deg, var(--deep-space) 0%, var(--space-blue) 40%, var(--nebula-blue) 100%); padding: 48px 24px 40px; position: relative; overflow: hidden; }
+    .page-header::before { content: ''; position: absolute; top: -30%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(232,168,56,0.12) 0%, transparent 70%); border-radius: 50%; }
+    .header-content { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+    .page-header h1 { color: var(--star-white); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; margin-bottom: 8px; }
+    .page-header h1 .accent { color: var(--sun-gold); }
+    .page-header p { color: rgba(244,241,236,0.7); font-size: 0.95rem; margin-bottom: 16px; }
+    .cal-export {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .btn-cal { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .btn-cal.primary { background: var(--sun-gold); color: var(--deep-space); }
+    .btn-cal.primary:hover { background: #f0b44a; }
+    .btn-cal.secondary { background: var(--deep-space); color: var(--star-white); border: 1px solid var(--border-subtle); }
+    .btn-cal.secondary:hover { background: var(--space-blue); }
+
+    /* --- Monthly Calendar --- */
+    .mc-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 24px 0;
+    }
+    .mc-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .mc-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, var(--deep-space), var(--space-blue));
+      user-select: none;
+    }
+    .mc-header .mc-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--star-white);
+      min-width: 160px;
+      text-align: center;
+    }
+    .mc-nav {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--star-white);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .mc-nav:hover { background: rgba(255,255,255,0.15); }
+    .mc-nav:disabled { opacity: 0.3; cursor: default; }
+    .mc-body {
+      padding: 16px 20px 20px;
+    }
+    .mc-dayrow {
+      display: flex;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      overflow-x: auto;
+    }
+    .mc-day {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--text-light);
+      line-height: 1;
+    }
+    .mc-day.today {
+      color: var(--corona-red);
+      font-weight: 800;
+      position: relative;
+    }
+    .mc-day.today::after {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      background: var(--corona-red);
+      border-radius: 50%;
+      margin: 2px auto 0;
+    }
+    .mc-day.weekend { color: var(--text-light); opacity: 0.5; }
+    .mc-track {
+      position: relative;
+      min-height: 32px;
+    }
+    .mc-bar {
+      position: absolute;
+      height: 24px;
+      border-radius: 5px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      padding: 0 8px;
+      line-height: 24px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 2;
+      opacity: 0.92;
+      transition: opacity 0.15s, transform 0.15s;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    .mc-bar:hover {
+      opacity: 1;
+      transform: scaleY(1.15);
+      z-index: 10;
+    }
+    .mc-count {
+      text-align: right;
+      font-size: 0.72rem;
+      color: var(--text-light);
+      margin-top: 8px;
+    }
+    .mc-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 0 16px;
+    }
+    .mc-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--border-subtle);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      padding: 0;
+    }
+    .mc-dot.active {
+      background: var(--sun-gold);
+      transform: scale(1.3);
+    }
+    .mc-dot.has-events {
+      background: var(--aurora-cyan);
+    }
+    .mc-dot.has-events.active {
+      background: var(--sun-gold);
+    }
+
+    /* --- Container --- */
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 24px 80px; }
+    .updated-info { font-size: 0.78rem; color: var(--text-light); margin-bottom: 32px; }
+
+    /* --- Month Section --- */
+    .month-section { margin-bottom: 36px; }
+    .month-label { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--sun-gold); display: inline-block; }
+
+    /* --- Event Card --- */
+    .event-list { display: flex; flex-direction: column; gap: 12px; }
+    .event-card { display: flex; gap: 16px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 20px; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+    .event-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(11,20,38,0.08); border-color: var(--sun-gold); }
+    .event-date-badge { flex-shrink: 0; width: 52px; height: 56px; background: linear-gradient(135deg, var(--deep-space), var(--space-blue)); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
+    .event-month { font-size: 0.65rem; color: var(--sun-gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .event-day { font-size: 1.3rem; color: var(--star-white); font-weight: 700; line-height: 1; }
+    .event-info { flex: 1; min-width: 0; }
+    .event-name { font-size: 1rem; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 6px; }
+    .event-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 8px; }
+    .event-daterange::before { content: "\1F4C5 "; }
+    .event-location::before { content: "\1F4CD "; }
+    .event-tags { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .source-tag { display: inline-block; background: var(--bg-warm); padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 500; color: var(--text-light); }
+    .dday { font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+    .dday.soon { background: rgba(232,168,56,0.15); color: var(--sun-orange); }
+    .dday.today { background: rgba(199,91,58,0.15); color: var(--corona-red); }
+    .dday.ongoing { background: rgba(100,181,198,0.15); color: var(--aurora-cyan); }
+
+    /* --- Past Events --- */
+    .past-events { margin-top: 40px; }
+    .past-events summary { font-size: 0.9rem; font-weight: 600; color: var(--text-light); cursor: pointer; padding: 12px 0; border-top: 1px solid var(--border-subtle); }
+    .past-events summary:hover { color: var(--text-secondary); }
+    .event-list.past .event-card { opacity: 0.6; }
+
+    footer { border-top: 1px solid var(--border-subtle); padding: 32px 24px; text-align: center; font-size: 0.8rem; color: var(--text-light); }
+    footer a { color: var(--sun-orange); text-decoration: none; }
+
+    @media (max-width: 640px) {
+      .page-header { padding: 36px 20px 32px; }
+      .event-card { padding: 16px; gap: 12px; }
+      .event-date-badge { width: 44px; height: 48px; }
+      .event-day { font-size: 1.1rem; }
+      .event-name { font-size: 0.92rem; }
+      .gnb-links { gap: 14px; }
+      .gnb-links a, .gnb-dropdown > span { font-size: 0.75rem; }
+      .cal-export { flex-direction: column; align-items: center; }
+      .tl-month { width: 36px; min-width: 36px; font-size: 0.65rem; }
+      .tl-bar { font-size: 0.55rem; height: 18px; line-height: 18px; }
+      .mc-section { padding: 20px 16px 0; }
+      .mc-body { padding: 12px 12px 16px; }
+      .mc-bar { font-size: 0.58rem; height: 20px; line-height: 20px; }
+      .mc-day { font-size: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="gnb">
+    <div class="gnb-inner">
+      <a href="index.html" class="gnb-brand">SSWL Paper Review</a>
+      <div class="gnb-links">
+        <a href="index.html">Paper Review</a>
+        <div class="gnb-dropdown">
+          <span>Surveillance</span>
+          <div class="gnb-dropdown-menu">
+            <a href="solar-wind.html">Solar Wind</a>
+            <a href="goes-xray.html">GOES X-ray</a>
+            <a href="solar-orbiter.html">Solar Orbiter</a>
+          </div>
+        </div>
+        <a href="events.html" class="active">Events</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="https://sunspaceweather.khu.ac.kr/" target="_blank">SSWL Lab</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Solar <span class="accent">Events</span> Calendar</h1>
+      <p>태양물리·우주기상 학회 및 컨퍼런스 일정 — 자동 수집 및 업데이트</p>
+    </div>
+  </header>
+
+  <!-- Monthly Calendar -->
+  <section class="mc-section">
+    <div class="mc-wrapper">
+      <div class="mc-header">
+        <button class="mc-nav" id="mc-prev" aria-label="Previous month">&#9664;</button>
+        <span class="mc-title" id="mc-title"></span>
+        <button class="mc-nav" id="mc-next" aria-label="Next month">&#9654;</button>
+      </div>
+      <div class="mc-body">
+
+    <div class="mc-slide" data-index="0" data-month="June 2026" style="display:block">
+      <div class="mc-dayrow"><span class="mc-day">1</span><span class="mc-day">2</span><span class="mc-day">3</span><span class="mc-day">4</span><span class="mc-day">5</span><span class="mc-day weekend">6</span><span class="mc-day weekend">7</span><span class="mc-day">8</span><span class="mc-day">9</span><span class="mc-day">10</span><span class="mc-day">11</span><span class="mc-day">12</span><span class="mc-day weekend">13</span><span class="mc-day weekend">14</span><span class="mc-day">15</span><span class="mc-day">16</span><span class="mc-day">17</span><span class="mc-day">18</span><span class="mc-day">19</span><span class="mc-day weekend">20</span><span class="mc-day weekend">21</span><span class="mc-day">22</span><span class="mc-day">23</span><span class="mc-day">24</span><span class="mc-day">25</span><span class="mc-day">26</span><span class="mc-day weekend">27</span><span class="mc-day today">28</span><span class="mc-day">29</span><span class="mc-day">30</span></div>
+      <div class="mc-track" style="height:200px">
+      <a href="https://solarnews.aas.org/2025/scostep-stp-16-symposium-1-5-june-2026-thessaloniki-greece/" target="_blank" class="mc-bar" style="left:0.0%;width:16.7%;background:#FF7043;top:0px" title="SCOSTEP STP-16 Symposium\nJune 1-5, 2026\nThessaloniki, Greece">SCOSTEP STP-16 Symposium</a>
+      <a href="https://www.northumbria.ac.uk/about-us/our-schools/school-of-engineering-physics-and-mathematics/coronal-loop-workshop" target="_blank" class="mc-bar" style="left:23.3%;width:13.3%;background:#E8A838;top:28px" title="Coronal Loop Workshop XII\nJune 8-11, 2026\nNewcastle-upon-Tyne, UK">Coronal Loop Workshop XII</a>
+      <a href="https://sites.google.com/uoi.gr/complexity-in-heliophysics" target="_blank" class="mc-bar" style="left:23.3%;width:10.0%;background:#AB47BC;top:56px" title="Complexity in Heliophysics: Celebrating the Career and Works of Loukas Vlahos\nJune 8-10, 2026\nThessaloniki, Greece">Complexity in Heliophysics: Ce...</a>
+      <a href="https://www.solarwind17.com/" target="_blank" class="mc-bar" style="left:43.3%;width:20.0%;background:#26A69A;top:84px" title="Solar Wind 17\nJune 14-19, 2026\nBath, UK">Solar Wind 17</a>
+      <a href="https://sites.google.com/view/cesra2026/home" target="_blank" class="mc-bar" style="left:46.7%;width:16.7%;background:#4CAF50;top:112px" title="CESRA Workshop\nJune 15-19, 2026\nBrugg/Windisch, Switzerland">CESRA Workshop</a>
+      <a href="https://eas.unige.ch/EAS_meeting/session.jsp?id=S14" target="_blank" class="mc-bar" style="left:93.3%;width:6.7%;background:#5C6BC0;top:140px" title="Symposium on Solar Physics at the 2026 European Astronomical Society Annual Meeting\nJune 29-30, 2026\nLausanne, Switzerland">Symposium on Solar Physics at ...</a>
+      <a href="https://solarnews.aas.org/2026/shine-workshop-2026/" target="_blank" class="mc-bar" style="left:93.3%;width:6.7%;background:#4CAF50;top:168px" title="SHINE Workshop 2026\nJune 29 - July 2, 2026\nMadison, Wisconsin, USA">SHINE Workshop 2026</a>
+
+      </div>
+      <div class="mc-count">7건</div>
+    </div>
+    <div class="mc-slide" data-index="1" data-month="July 2026" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day">1</span><span class="mc-day">2</span><span class="mc-day">3</span><span class="mc-day weekend">4</span><span class="mc-day weekend">5</span><span class="mc-day">6</span><span class="mc-day">7</span><span class="mc-day">8</span><span class="mc-day">9</span><span class="mc-day">10</span><span class="mc-day weekend">11</span><span class="mc-day weekend">12</span><span class="mc-day">13</span><span class="mc-day">14</span><span class="mc-day">15</span><span class="mc-day">16</span><span class="mc-day">17</span><span class="mc-day weekend">18</span><span class="mc-day weekend">19</span><span class="mc-day">20</span><span class="mc-day">21</span><span class="mc-day">22</span><span class="mc-day">23</span><span class="mc-day">24</span><span class="mc-day weekend">25</span><span class="mc-day weekend">26</span><span class="mc-day">27</span><span class="mc-day">28</span><span class="mc-day">29</span><span class="mc-day">30</span><span class="mc-day">31</span></div>
+      <div class="mc-track" style="height:32px">
+      <a href="https://solarnews.aas.org/2026/shine-workshop-2026/" target="_blank" class="mc-bar" style="left:0.0%;width:6.5%;background:#4CAF50;top:0px" title="SHINE Workshop 2026\nJune 29 - July 2, 2026\nMadison, Wisconsin, USA">SHINE Workshop 2026</a>
+
+      </div>
+      <div class="mc-count">1건</div>
+    </div>
+    <div class="mc-slide" data-index="2" data-month="August 2026" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day weekend">1</span><span class="mc-day weekend">2</span><span class="mc-day">3</span><span class="mc-day">4</span><span class="mc-day">5</span><span class="mc-day">6</span><span class="mc-day">7</span><span class="mc-day weekend">8</span><span class="mc-day weekend">9</span><span class="mc-day">10</span><span class="mc-day">11</span><span class="mc-day">12</span><span class="mc-day">13</span><span class="mc-day">14</span><span class="mc-day weekend">15</span><span class="mc-day weekend">16</span><span class="mc-day">17</span><span class="mc-day">18</span><span class="mc-day">19</span><span class="mc-day">20</span><span class="mc-day">21</span><span class="mc-day weekend">22</span><span class="mc-day weekend">23</span><span class="mc-day">24</span><span class="mc-day">25</span><span class="mc-day">26</span><span class="mc-day">27</span><span class="mc-day">28</span><span class="mc-day weekend">29</span><span class="mc-day weekend">30</span><span class="mc-day">31</span></div>
+      <div class="mc-track" style="height:144px">
+      <a href="https://cospar2026.org/" target="_blank" class="mc-bar" style="left:0.0%;width:29.0%;background:#AB47BC;top:0px" title="46th COSPAR Scientific Assembly and 
+Associated Events (COSPAR 2026)\nAugust 1-9, 2026\nReconciling Theory and Observations: a Session on High-resolution Diagnostics of the Photosphere, Chromosphere, and Corona">46th COSPAR Scientific Assembl...</a>
+      <a href="https://solarnews.aas.org/2025/spd-57th-annual-meeting-2026-save-the-date/" target="_blank" class="mc-bar" style="left:25.8%;width:19.4%;background:#4CAF50;top:28px" title="SPD 57th Annual Meeting\nAugust 9-14, 2026\nBaltimore, MD, USA">SPD 57th Annual Meeting</a>
+      <a href="https://solarnews.aas.org/2026/registration-and-abstract-submission-are-open-for-the-solar-mhd-2026-conference/" target="_blank" class="mc-bar" style="left:29.0%;width:16.1%;background:#5C6BC0;top:56px" title="Solar MHD 2026 Conference\nAugust 10-14, 2026\nA Coruña, Spain">Solar MHD 2026 Conference</a>
+      <a href="https://solarnews.aas.org/2026/gsst-cbers5-symposium-ml-heliophysics/" target="_blank" class="mc-bar" style="left:51.6%;width:16.1%;background:#FF7043;top:84px" title="GSST/CBERS-5 International Symposium on Machine Learning in Heliophysics and Space Weather\nAugust 17-21, 2026\nSão José dos Campos, Brazil">GSST/CBERS-5 International Sym...</a>
+      <a href="https://hsc-nagoya.github.io/hinode19/index.html" target="_blank" class="mc-bar" style="left:96.8%;width:3.2%;background:#4CAF50;top:112px" title="Hinode-19 and SOLAR-C Science Meeting\nAugust 31-September 4, 2026\nNagoya, Japan">Hinode-19 and SOLAR-C Science ...</a>
+
+      </div>
+      <div class="mc-count">5건</div>
+    </div>
+    <div class="mc-slide" data-index="3" data-month="September 2026" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day">1</span><span class="mc-day">2</span><span class="mc-day">3</span><span class="mc-day">4</span><span class="mc-day weekend">5</span><span class="mc-day weekend">6</span><span class="mc-day">7</span><span class="mc-day">8</span><span class="mc-day">9</span><span class="mc-day">10</span><span class="mc-day">11</span><span class="mc-day weekend">12</span><span class="mc-day weekend">13</span><span class="mc-day">14</span><span class="mc-day">15</span><span class="mc-day">16</span><span class="mc-day">17</span><span class="mc-day">18</span><span class="mc-day weekend">19</span><span class="mc-day weekend">20</span><span class="mc-day">21</span><span class="mc-day">22</span><span class="mc-day">23</span><span class="mc-day">24</span><span class="mc-day">25</span><span class="mc-day weekend">26</span><span class="mc-day weekend">27</span><span class="mc-day">28</span><span class="mc-day">29</span><span class="mc-day">30</span></div>
+      <div class="mc-track" style="height:32px">
+      <a href="https://hsc-nagoya.github.io/hinode19/index.html" target="_blank" class="mc-bar" style="left:0.0%;width:13.3%;background:#4CAF50;top:0px" title="Hinode-19 and SOLAR-C Science Meeting\nAugust 31-September 4, 2026\nNagoya, Japan">Hinode-19 and SOLAR-C Science ...</a>
+
+      </div>
+      <div class="mc-count">1건</div>
+    </div>
+    <div class="mc-slide" data-index="4" data-month="October 2026" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day">1</span><span class="mc-day">2</span><span class="mc-day weekend">3</span><span class="mc-day weekend">4</span><span class="mc-day">5</span><span class="mc-day">6</span><span class="mc-day">7</span><span class="mc-day">8</span><span class="mc-day">9</span><span class="mc-day weekend">10</span><span class="mc-day weekend">11</span><span class="mc-day">12</span><span class="mc-day">13</span><span class="mc-day">14</span><span class="mc-day">15</span><span class="mc-day">16</span><span class="mc-day weekend">17</span><span class="mc-day weekend">18</span><span class="mc-day">19</span><span class="mc-day">20</span><span class="mc-day">21</span><span class="mc-day">22</span><span class="mc-day">23</span><span class="mc-day weekend">24</span><span class="mc-day weekend">25</span><span class="mc-day">26</span><span class="mc-day">27</span><span class="mc-day">28</span><span class="mc-day">29</span><span class="mc-day">30</span><span class="mc-day weekend">31</span></div>
+      <div class="mc-track" style="height:88px">
+      <a href="https://dash.heliophysics.net/" target="_blank" class="mc-bar" style="left:12.9%;width:16.1%;background:#64B5C6;top:0px" title="DASH/IHDEA\nOctober 5-9, 2026\nDublin, Ireland">DASH/IHDEA</a>
+      <a href="https://www.kas.org/html/sub4_01.html" target="_blank" class="mc-bar" style="left:41.9%;width:9.7%;background:#4CAF50;top:28px" title="한국천문학회 2026년 가을학술대회 (KAS Fall Meeting)\nOctober 14-16, 2026\n국립과천과학관, 대한민국">한국천문학회 2026년 가을학술대회 (KAS Fall ...</a>
+      <a href="https://ksss.or.kr/homepage/custom/d_conference" target="_blank" class="mc-bar" style="left:87.1%;width:9.7%;background:#26A69A;top:56px" title="한국우주과학회 2026년 가을 학술대회 (KSSS Fall Conference)\nOctober 28-30, 2026\n제주 쉐라톤, 대한민국">한국우주과학회 2026년 가을 학술대회 (KSSS Fa...</a>
+
+      </div>
+      <div class="mc-count">3건</div>
+    </div>
+    <div class="mc-slide" data-index="5" data-month="November 2026" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day weekend">1</span><span class="mc-day">2</span><span class="mc-day">3</span><span class="mc-day">4</span><span class="mc-day">5</span><span class="mc-day">6</span><span class="mc-day weekend">7</span><span class="mc-day weekend">8</span><span class="mc-day">9</span><span class="mc-day">10</span><span class="mc-day">11</span><span class="mc-day">12</span><span class="mc-day">13</span><span class="mc-day weekend">14</span><span class="mc-day weekend">15</span><span class="mc-day">16</span><span class="mc-day">17</span><span class="mc-day">18</span><span class="mc-day">19</span><span class="mc-day">20</span><span class="mc-day weekend">21</span><span class="mc-day weekend">22</span><span class="mc-day">23</span><span class="mc-day">24</span><span class="mc-day">25</span><span class="mc-day">26</span><span class="mc-day">27</span><span class="mc-day weekend">28</span><span class="mc-day weekend">29</span><span class="mc-day">30</span></div>
+      <div class="mc-track" style="height:60px">
+      <a href="https://esww.aeronomie.be/" target="_blank" class="mc-bar" style="left:3.3%;width:16.7%;background:#FF7043;top:0px" title="European Space Weather Week 2026\nNovember 2-6, 2026\nFlorence, Italy">European Space Weather Week 20...</a>
+      <a href="https://www.shenzhen-astronomy.org.cn/iaus410.html" target="_blank" class="mc-bar" style="left:93.3%;width:6.7%;background:#FF7043;top:28px" title="IAU Symposium: IAUS410 New look at Solar and Stellar Coronae\nNovember 29-December 4, 2026\nShenzhen, China">IAU Symposium: IAUS410 New loo...</a>
+
+      </div>
+      <div class="mc-count">2건</div>
+    </div>
+    <div class="mc-slide" data-index="6" data-month="December 2026" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day">1</span><span class="mc-day">2</span><span class="mc-day">3</span><span class="mc-day">4</span><span class="mc-day weekend">5</span><span class="mc-day weekend">6</span><span class="mc-day">7</span><span class="mc-day">8</span><span class="mc-day">9</span><span class="mc-day">10</span><span class="mc-day">11</span><span class="mc-day weekend">12</span><span class="mc-day weekend">13</span><span class="mc-day">14</span><span class="mc-day">15</span><span class="mc-day">16</span><span class="mc-day">17</span><span class="mc-day">18</span><span class="mc-day weekend">19</span><span class="mc-day weekend">20</span><span class="mc-day">21</span><span class="mc-day">22</span><span class="mc-day">23</span><span class="mc-day">24</span><span class="mc-day">25</span><span class="mc-day weekend">26</span><span class="mc-day weekend">27</span><span class="mc-day">28</span><span class="mc-day">29</span><span class="mc-day">30</span><span class="mc-day">31</span></div>
+      <div class="mc-track" style="height:32px">
+      <a href="https://www.shenzhen-astronomy.org.cn/iaus410.html" target="_blank" class="mc-bar" style="left:0.0%;width:12.9%;background:#FF7043;top:0px" title="IAU Symposium: IAUS410 New look at Solar and Stellar Coronae\nNovember 29-December 4, 2026\nShenzhen, China">IAU Symposium: IAUS410 New loo...</a>
+
+      </div>
+      <div class="mc-count">1건</div>
+    </div>
+    <div class="mc-slide" data-index="7" data-month="January 2027" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day">1</span><span class="mc-day weekend">2</span><span class="mc-day weekend">3</span><span class="mc-day">4</span><span class="mc-day">5</span><span class="mc-day">6</span><span class="mc-day">7</span><span class="mc-day">8</span><span class="mc-day weekend">9</span><span class="mc-day weekend">10</span><span class="mc-day">11</span><span class="mc-day">12</span><span class="mc-day">13</span><span class="mc-day">14</span><span class="mc-day">15</span><span class="mc-day weekend">16</span><span class="mc-day weekend">17</span><span class="mc-day">18</span><span class="mc-day">19</span><span class="mc-day">20</span><span class="mc-day">21</span><span class="mc-day">22</span><span class="mc-day weekend">23</span><span class="mc-day weekend">24</span><span class="mc-day">25</span><span class="mc-day">26</span><span class="mc-day">27</span><span class="mc-day">28</span><span class="mc-day">29</span><span class="mc-day weekend">30</span><span class="mc-day weekend">31</span></div>
+      <div class="mc-track" style="height:32px">
+
+      </div>
+      <div class="mc-count">일정 없음</div>
+    </div>
+    <div class="mc-slide" data-index="8" data-month="February 2027" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day">1</span><span class="mc-day">2</span><span class="mc-day">3</span><span class="mc-day">4</span><span class="mc-day">5</span><span class="mc-day weekend">6</span><span class="mc-day weekend">7</span><span class="mc-day">8</span><span class="mc-day">9</span><span class="mc-day">10</span><span class="mc-day">11</span><span class="mc-day">12</span><span class="mc-day weekend">13</span><span class="mc-day weekend">14</span><span class="mc-day">15</span><span class="mc-day">16</span><span class="mc-day">17</span><span class="mc-day">18</span><span class="mc-day">19</span><span class="mc-day weekend">20</span><span class="mc-day weekend">21</span><span class="mc-day">22</span><span class="mc-day">23</span><span class="mc-day">24</span><span class="mc-day">25</span><span class="mc-day">26</span><span class="mc-day weekend">27</span><span class="mc-day weekend">28</span></div>
+      <div class="mc-track" style="height:32px">
+
+      </div>
+      <div class="mc-count">일정 없음</div>
+    </div>
+    <div class="mc-slide" data-index="9" data-month="March 2027" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day">1</span><span class="mc-day">2</span><span class="mc-day">3</span><span class="mc-day">4</span><span class="mc-day">5</span><span class="mc-day weekend">6</span><span class="mc-day weekend">7</span><span class="mc-day">8</span><span class="mc-day">9</span><span class="mc-day">10</span><span class="mc-day">11</span><span class="mc-day">12</span><span class="mc-day weekend">13</span><span class="mc-day weekend">14</span><span class="mc-day">15</span><span class="mc-day">16</span><span class="mc-day">17</span><span class="mc-day">18</span><span class="mc-day">19</span><span class="mc-day weekend">20</span><span class="mc-day weekend">21</span><span class="mc-day">22</span><span class="mc-day">23</span><span class="mc-day">24</span><span class="mc-day">25</span><span class="mc-day">26</span><span class="mc-day weekend">27</span><span class="mc-day weekend">28</span><span class="mc-day">29</span><span class="mc-day">30</span><span class="mc-day">31</span></div>
+      <div class="mc-track" style="height:32px">
+
+      </div>
+      <div class="mc-count">일정 없음</div>
+    </div>
+    <div class="mc-slide" data-index="10" data-month="April 2027" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day">1</span><span class="mc-day">2</span><span class="mc-day weekend">3</span><span class="mc-day weekend">4</span><span class="mc-day">5</span><span class="mc-day">6</span><span class="mc-day">7</span><span class="mc-day">8</span><span class="mc-day">9</span><span class="mc-day weekend">10</span><span class="mc-day weekend">11</span><span class="mc-day">12</span><span class="mc-day">13</span><span class="mc-day">14</span><span class="mc-day">15</span><span class="mc-day">16</span><span class="mc-day weekend">17</span><span class="mc-day weekend">18</span><span class="mc-day">19</span><span class="mc-day">20</span><span class="mc-day">21</span><span class="mc-day">22</span><span class="mc-day">23</span><span class="mc-day weekend">24</span><span class="mc-day weekend">25</span><span class="mc-day">26</span><span class="mc-day">27</span><span class="mc-day">28</span><span class="mc-day">29</span><span class="mc-day">30</span></div>
+      <div class="mc-track" style="height:32px">
+
+      </div>
+      <div class="mc-count">일정 없음</div>
+    </div>
+    <div class="mc-slide" data-index="11" data-month="May 2027" style="display:none">
+      <div class="mc-dayrow"><span class="mc-day weekend">1</span><span class="mc-day weekend">2</span><span class="mc-day">3</span><span class="mc-day">4</span><span class="mc-day">5</span><span class="mc-day">6</span><span class="mc-day">7</span><span class="mc-day weekend">8</span><span class="mc-day weekend">9</span><span class="mc-day">10</span><span class="mc-day">11</span><span class="mc-day">12</span><span class="mc-day">13</span><span class="mc-day">14</span><span class="mc-day weekend">15</span><span class="mc-day weekend">16</span><span class="mc-day">17</span><span class="mc-day">18</span><span class="mc-day">19</span><span class="mc-day">20</span><span class="mc-day">21</span><span class="mc-day weekend">22</span><span class="mc-day weekend">23</span><span class="mc-day">24</span><span class="mc-day">25</span><span class="mc-day">26</span><span class="mc-day">27</span><span class="mc-day">28</span><span class="mc-day weekend">29</span><span class="mc-day weekend">30</span><span class="mc-day">31</span></div>
+      <div class="mc-track" style="height:32px">
+
+      </div>
+      <div class="mc-count">일정 없음</div>
+    </div>
+      </div>
+      <div class="mc-dots" id="mc-dots"></div>
+    </div>
+  </section>
+
+  <script>
+  (function() {
+    const slides = document.querySelectorAll('.mc-slide');
+    const titleEl = document.getElementById('mc-title');
+    const dotsEl = document.getElementById('mc-dots');
+    const total = slides.length;
+    // 슬라이드에 지정된 실제 월 이름 사용
+    const monthNames = [];
+    slides.forEach(s => monthNames.push(s.dataset.month));
+
+    // 현재 월에 해당하는 슬라이드 찾기
+    const now = new Date();
+    const curMonthStr = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    let current = Math.max(0, monthNames.indexOf(curMonthStr));
+    if (current === 0 && monthNames[0] !== curMonthStr) current = 0;
+
+    // 이벤트 있는 월 확인
+    const hasEvents = [];
+    slides.forEach((s, i) => {
+      hasEvents.push(s.querySelectorAll('.mc-bar').length > 0);
+    });
+
+    // 도트 생성
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'mc-dot' + (hasEvents[i] ? ' has-events' : '');
+      dot.title = monthNames[i];
+      dot.addEventListener('click', () => show(i));
+      dotsEl.appendChild(dot);
+    }
+
+    function show(idx) {
+      slides.forEach(s => s.style.display = 'none');
+      slides[idx].style.display = 'block';
+      titleEl.textContent = monthNames[idx];
+      current = idx;
+      document.getElementById('mc-prev').disabled = idx === 0;
+      document.getElementById('mc-next').disabled = idx === total - 1;
+      // 도트 업데이트
+      dotsEl.querySelectorAll('.mc-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === idx);
+      });
+    }
+
+    document.getElementById('mc-prev').addEventListener('click', () => {
+      if (current > 0) show(current - 1);
+    });
+    document.getElementById('mc-next').addEventListener('click', () => {
+      if (current < total - 1) show(current + 1);
+    });
+
+    // 스와이프 지원
+    let touchStartX = 0;
+    const body = document.querySelector('.mc-body');
+    body.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+    body.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (dx > 50 && current > 0) show(current - 1);
+      if (dx < -50 && current < total - 1) show(current + 1);
+    });
+
+    // 키보드 좌우 화살표
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft' && current > 0) show(current - 1);
+      if (e.key === 'ArrowRight' && current < total - 1) show(current + 1);
+    });
+
+    show(current);
+  })();
+  </script>
+
+  <main class="container">
+    <p class="updated-info">
+      13건의 예정된 학회 &middot;
+      마지막 업데이트: 2026-06-28 &middot;
+      데이터 출처: SOHO Community, SolarNews (AAS)
+    </p>
+
+    <section class="month-section">
+      <h2 class="month-label">June 2026</h2>
+      <div class="event-list">
+      <a href="https://eas.unige.ch/EAS_meeting/session.jsp?id=S14" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Jun</span>
+          <span class="event-day">29</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">Symposium on Solar Physics at the 2026 European Astronomical Society Annual Meeting</h3>
+          <p class="event-meta">
+            <span class="event-daterange">June 29-30, 2026</span>
+            <span class="event-location">Lausanne, Switzerland</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday today">오늘</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://solarnews.aas.org/2026/shine-workshop-2026/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Jun</span>
+          <span class="event-day">29</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">SHINE Workshop 2026</h3>
+          <p class="event-meta">
+            <span class="event-daterange">June 29 - July 2, 2026</span>
+            <span class="event-location">Madison, Wisconsin, USA</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SolarNews</span>
+            <span class="dday today">오늘</span>
+          </div>
+        </div>
+      </a>
+      </div>
+    </section>
+    <section class="month-section">
+      <h2 class="month-label">August 2026</h2>
+      <div class="event-list">
+      <a href="https://cospar2026.org/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Aug</span>
+          <span class="event-day">01</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">46th COSPAR Scientific Assembly and 
+Associated Events (COSPAR 2026)</h3>
+          <p class="event-meta">
+            <span class="event-daterange">August 1-9, 2026</span>
+            <span class="event-location">Reconciling Theory and Observations: a Session on High-resolution Diagnostics of the Photosphere, Chromosphere, and Corona</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday">D-33</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://solarnews.aas.org/2025/spd-57th-annual-meeting-2026-save-the-date/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Aug</span>
+          <span class="event-day">09</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">SPD 57th Annual Meeting</h3>
+          <p class="event-meta">
+            <span class="event-daterange">August 9-14, 2026</span>
+            <span class="event-location">Baltimore, MD, USA</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SolarNews</span>
+            <span class="dday">D-41</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://solarnews.aas.org/2026/registration-and-abstract-submission-are-open-for-the-solar-mhd-2026-conference/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Aug</span>
+          <span class="event-day">10</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">Solar MHD 2026 Conference</h3>
+          <p class="event-meta">
+            <span class="event-daterange">August 10-14, 2026</span>
+            <span class="event-location">A Coruña, Spain</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SolarNews</span>
+            <span class="dday">D-42</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://solarnews.aas.org/2026/gsst-cbers5-symposium-ml-heliophysics/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Aug</span>
+          <span class="event-day">17</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">GSST/CBERS-5 International Symposium on Machine Learning in Heliophysics and Space Weather</h3>
+          <p class="event-meta">
+            <span class="event-daterange">August 17-21, 2026</span>
+            <span class="event-location">São José dos Campos, Brazil</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SolarNews</span>
+            <span class="dday">D-49</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://hsc-nagoya.github.io/hinode19/index.html" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Aug</span>
+          <span class="event-day">31</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">Hinode-19 and SOLAR-C Science Meeting</h3>
+          <p class="event-meta">
+            <span class="event-daterange">August 31-September 4, 2026</span>
+            <span class="event-location">Nagoya, Japan</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday">D-63</span>
+          </div>
+        </div>
+      </a>
+      </div>
+    </section>
+    <section class="month-section">
+      <h2 class="month-label">October 2026</h2>
+      <div class="event-list">
+      <a href="https://dash.heliophysics.net/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Oct</span>
+          <span class="event-day">05</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">DASH/IHDEA</h3>
+          <p class="event-meta">
+            <span class="event-daterange">October 5-9, 2026</span>
+            <span class="event-location">Dublin, Ireland</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday">D-98</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.kas.org/html/sub4_01.html" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Oct</span>
+          <span class="event-day">14</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">한국천문학회 2026년 가을학술대회 (KAS Fall Meeting)</h3>
+          <p class="event-meta">
+            <span class="event-daterange">October 14-16, 2026</span>
+            <span class="event-location">국립과천과학관, 대한민국</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">KAS</span>
+            <span class="dday">D-107</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://ksss.or.kr/homepage/custom/d_conference" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Oct</span>
+          <span class="event-day">28</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">한국우주과학회 2026년 가을 학술대회 (KSSS Fall Conference)</h3>
+          <p class="event-meta">
+            <span class="event-daterange">October 28-30, 2026</span>
+            <span class="event-location">제주 쉐라톤, 대한민국</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">KSSS</span>
+            <span class="dday">D-121</span>
+          </div>
+        </div>
+      </a>
+      </div>
+    </section>
+    <section class="month-section">
+      <h2 class="month-label">November 2026</h2>
+      <div class="event-list">
+      <a href="https://esww.aeronomie.be/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Nov</span>
+          <span class="event-day">02</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">European Space Weather Week 2026</h3>
+          <p class="event-meta">
+            <span class="event-daterange">November 2-6, 2026</span>
+            <span class="event-location">Florence, Italy</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday">D-126</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.shenzhen-astronomy.org.cn/iaus410.html" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Nov</span>
+          <span class="event-day">29</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">IAU Symposium: IAUS410 New look at Solar and Stellar Coronae</h3>
+          <p class="event-meta">
+            <span class="event-daterange">November 29-December 4, 2026</span>
+            <span class="event-location">Shenzhen, China</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday">D-153</span>
+          </div>
+        </div>
+      </a>
+      </div>
+    </section>
+    <section class="month-section">
+      <h2 class="month-label">August 2027</h2>
+      <div class="event-list">
+      <a href="https://www.iau.org/science/meetings/future/general_assemblies/2760/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Aug</span>
+          <span class="event-day">01</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">XXXIII IAU General Assembly</h3>
+          <p class="event-meta">
+            <span class="event-daterange">August 1-12, 2027</span>
+            <span class="event-location">Rome, Italy</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday">D-398</span>
+          </div>
+        </div>
+      </a>
+      </div>
+    </section>
+
+    <details class="past-events">
+      <summary>지난 학회 (17건)</summary>
+      <div class="event-list past">
+      <a href="https://sites.google.com/view/cesra2026/home" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Jun</span>
+          <span class="event-day">15</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">CESRA Workshop</h3>
+          <p class="event-meta">
+            <span class="event-daterange">June 15-19, 2026</span>
+            <span class="event-location">Brugg/Windisch, Switzerland</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.solarwind17.com/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Jun</span>
+          <span class="event-day">14</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">Solar Wind 17</h3>
+          <p class="event-meta">
+            <span class="event-daterange">June 14-19, 2026</span>
+            <span class="event-location">Bath, UK</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://sites.google.com/uoi.gr/complexity-in-heliophysics" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Jun</span>
+          <span class="event-day">08</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">Complexity in Heliophysics: Celebrating the Career and Works of Loukas Vlahos</h3>
+          <p class="event-meta">
+            <span class="event-daterange">June 8-10, 2026</span>
+            <span class="event-location">Thessaloniki, Greece</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.northumbria.ac.uk/about-us/our-schools/school-of-engineering-physics-and-mathematics/coronal-loop-workshop" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Jun</span>
+          <span class="event-day">08</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">Coronal Loop Workshop XII</h3>
+          <p class="event-meta">
+            <span class="event-daterange">June 8-11, 2026</span>
+            <span class="event-location">Newcastle-upon-Tyne, UK</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://solarnews.aas.org/2025/scostep-stp-16-symposium-1-5-june-2026-thessaloniki-greece/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Jun</span>
+          <span class="event-day">01</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">SCOSTEP STP-16 Symposium</h3>
+          <p class="event-meta">
+            <span class="event-daterange">June 1-5, 2026</span>
+            <span class="event-location">Thessaloniki, Greece</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SolarNews</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://ccapp.osu.edu/workshops/cosmic-ray-transport-workshop" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">May</span>
+          <span class="event-day">18</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">Cosmic Ray Transport Workshop</h3>
+          <p class="event-meta">
+            <span class="event-daterange">May 18-19, 2026</span>
+            <span class="event-location">Columbus, OH, USA</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://sasw.akdeniz.edu.tr/tr/home-16264" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">May</span>
+          <span class="event-day">11</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">First Workshop on Sun and Space Weather</h3>
+          <p class="event-meta">
+            <span class="event-daterange">May 11-15, 2026</span>
+            <span class="event-location">Antalya, Turkiye, USA</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://cpaess.ucar.edu/meetings/nasa-5th-eddy-cross-disciplinary-symposium" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">May</span>
+          <span class="event-day">04</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">NASA 5th Eddy Cross-Disciplinary Symposium</h3>
+          <p class="event-meta">
+            <span class="event-daterange">May 4-8, 2026</span>
+            <span class="event-location">Boulder, CO, USA</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.egu26.eu/" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">May</span>
+          <span class="event-day">03</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">EGU General Assembly</h3>
+          <p class="event-meta">
+            <span class="event-daterange">May 3-8, 2026</span>
+            <span class="event-location">Vienna, Austria</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      <a href="https://cpaess.ucar.edu/meetings/2026-space-weather-workshop" target="_blank" class="event-card">
+        <div class="event-date-badge">
+          <span class="event-month">Apr</span>
+          <span class="event-day">27</span>
+        </div>
+        <div class="event-info">
+          <h3 class="event-name">2026 Space Weather Workshop</h3>
+          <p class="event-meta">
+            <span class="event-daterange">April 27-May 1, 2026</span>
+            <span class="event-location">Boulder, CO, USA</span>
+          </p>
+          <div class="event-tags">
+            <span class="source-tag">SOHO</span>
+            <span class="dday ongoing">진행 중</span>
+          </div>
+        </div>
+      </a>
+      </div>
+    </details>
+
+    <div class="cal-export">
+      <a href="events.ics" class="btn-cal primary" download>ICS 다운로드</a>
+      <a href="https://calendar.google.com/calendar/r?cid=https://junmuyoun.github.io/sswl-paper-review/events.ics" target="_blank" class="btn-cal secondary">Google Calendar에 추가</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory &middot; Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      &middot; <a href="sitemap.xml">Sitemap</a>
+    </p>
+  </footer>
+
+</body>
+</html>

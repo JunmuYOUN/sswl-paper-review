@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback — SSWL Paper Review</title>
+  <meta name="description" content="SSWL 주간 논문 리뷰에 대한 피드백과 의견을 남겨주세요.">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SSWL Paper Review">
+  <meta property="og:title" content="Feedback — SSWL Paper Review">
+  <meta property="og:description" content="SSWL 주간 논문 리뷰에 대한 피드백과 의견을 남겨주세요.">
+  <meta property="og:url" content="https://junmuyoun.github.io/sswl-paper-review/feedback.html">
+  <meta property="og:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Feedback — SSWL Paper Review">
+  <meta name="twitter:description" content="SSWL 주간 논문 리뷰에 대한 피드백과 의견을 남겨주세요.">
+  <meta name="twitter:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <link rel="icon" type="image/png" href="images/SSW_Lab_logo_gold1.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* --- Hero Header --- */
+    .hero {
+      background: linear-gradient(135deg, var(--deep-space) 0%, var(--space-blue) 40%, var(--nebula-blue) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.6) 0%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px 24px 40px;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 .accent { color: var(--sun-gold); }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: rgba(244,241,236,0.7);
+      font-weight: 300;
+    }
+
+    /* --- Main --- */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* --- Form Embed --- */
+    .form-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .form-wrapper iframe {
+      width: 100%;
+      min-height: 800px;
+      border: none;
+      display: block;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 640px) {
+      .hero-content { padding: 36px 20px 28px; }
+      .form-wrapper iframe { min-height: 700px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GNB -->
+  <nav class="gnb">
+    <div class="gnb-inner">
+      <a href="index.html" class="gnb-brand">SSWL Paper Review</a>
+      <button class="gnb-hamburger" onclick="this.classList.toggle('active');document.querySelector('.gnb-links').classList.toggle('open')" aria-label="메뉴">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="gnb-links">
+        <a href="index.html">Paper Review</a>
+        <div class="gnb-dropdown">
+          <span>Surveillance</span>
+          <div class="gnb-dropdown-menu">
+            <a href="solar-wind.html">Solar Wind</a>
+            <a href="goes-xray.html">GOES X-ray</a>
+            <a href="solar-orbiter.html">Solar Orbiter</a>
+          </div>
+        </div>
+        <a href="events.html">Events</a>
+        <a href="feedback.html" class="active">Feedback</a>
+        <a href="https://sunspaceweather.khu.ac.kr/" target="_blank">SSWL Lab</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="stars"></div>
+    <div class="hero-content">
+      <h1><span class="accent">Feedback</span></h1>
+      <p class="hero-sub">불편사항, 건의사항, 기능 요청 등 자유롭게 의견을 남겨주세요. 로그인 없이 작성할 수 있습니다.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="form-wrapper">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSeZ2x-6CZEtxijUrEUGk5yZdFNkHdSv5gwWkQtX7n54aKfvCw/viewform?embedded=true"
+        loading="lazy"
+      >로딩 중...</iframe>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory · Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      · <a href="sitemap.xml">Sitemap</a>
+      · <a href="mailto:jmyoun@aifactory.page">jmyoun@aifactory.page</a>
+    </p>
+  </footer>
+
+  <script>
+  document.querySelectorAll('.gnb-dropdown > span').forEach(function(span) {
+    span.addEventListener('click', function() {
+      if (window.innerWidth > 640) return;
+      var menu = this.parentElement.querySelector('.gnb-dropdown-menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+  </script>
+
+</body>
+</html>

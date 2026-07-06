@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Paper 5: Influence of Solar Polar Magnetic Fields on the Propagation  | SSWL Paper Review</title>
+  <meta name="description" content="2026-W13 논문 리뷰 및 AI 에이전트 토론 — SSWL Weekly Paper Review.">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SSWL Paper Review">
+  <meta property="og:title" content="Paper 5: Influence of Solar Polar Magnetic Fields on the Propagation  | SSWL Paper Review">
+  <meta property="og:description" content="2026-W13 논문 리뷰 및 AI 에이전트 토론 — SSWL Weekly Paper Review.">
+  <meta property="og:url" content="https://junmuyoun.github.io/sswl-paper-review/posts/2026-w13/paper-5.html">
+  <meta property="og:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Paper 5: Influence of Solar Polar Magnetic Fields on the Propagation  | SSWL Paper Review">
+  <meta name="twitter:description" content="2026-W13 논문 리뷰 및 AI 에이전트 토론 — SSWL Weekly Paper Review.">
+  <meta name="twitter:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+<link href="../../images/SSW_Lab_logo_gold1.png" rel="icon" type="image/png"/>
+<style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --corona-red: #C75B3A;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    /* Top Nav */
+    .topnav {
+      background: var(--deep-space);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topnav a {
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .topnav a:hover { color: var(--sun-gold); }
+
+    .topnav .brand {
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+      color: var(--star-white);
+      font-weight: 600;
+    }
+
+    .topnav .brand .accent { color: var(--sun-gold); }
+
+    /* Paper Nav */
+    .paper-nav {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 24px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .paper-nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      background: var(--bg-warm);
+    }
+
+    .paper-nav a:hover {
+      border-color: var(--sun-gold);
+      color: var(--sun-gold);
+    }
+
+    .paper-nav a.active {
+      background: var(--deep-space);
+      color: var(--sun-gold);
+      border-color: var(--deep-space);
+    }
+
+    /* Post Header */
+    .post-header {
+      background: linear-gradient(180deg, var(--space-blue) 0%, var(--deep-space) 100%);
+      padding: 50px 24px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .post-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--bg-warm), transparent);
+    }
+
+    .post-header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .post-header .week-tag {
+      display: inline-block;
+      background: rgba(232,168,56,0.2);
+      border: 1px solid rgba(232,168,56,0.4);
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .post-header h1 {
+      font-family: Arial, sans-serif;
+      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .post-header .meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+      color: rgba(244,241,236,0.6);
+    }
+
+    .post-header .meta a {
+      color: var(--aurora-cyan);
+      text-decoration: none;
+    }
+
+    .post-header .meta a:hover { text-decoration: underline; }
+
+    /* Content */
+    .content {
+      max-width: 800px;
+      margin: -20px auto 0;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Paper Card (for discussion injection) */
+    .paper-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .summary-section {
+      margin-bottom: 16px;
+    }
+
+    .summary-section .label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--sun-orange);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+
+    .summary-section p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .one-line-summary {
+      background: linear-gradient(135deg, rgba(232,168,56,0.08), rgba(100,181,198,0.06));
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* Vote Bar */
+    .vote-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .vote-label {
+      font-size: 0.82rem;
+      color: var(--text-light);
+    }
+
+    .vote-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .vote-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      background: var(--bg-warm);
+      color: var(--text-light);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .vote-btn:hover {
+      border-color: var(--text-light);
+      color: var(--text-secondary);
+    }
+
+    .vote-btn.active.vote-up {
+      background: rgba(76, 175, 80, 0.1);
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }
+
+    .vote-btn.active.vote-down {
+      background: rgba(244, 67, 54, 0.1);
+      border-color: #F44336;
+      color: #F44336;
+    }
+
+    .vote-count {
+      font-weight: 600;
+      min-width: 12px;
+      text-align: center;
+    }
+
+    /* Discussion Section */
+    .discussion-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border-subtle);
+    }
+
+    .discussion-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--nebula-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .discussion-title::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(135deg, var(--sun-gold), var(--aurora-cyan));
+      border-radius: 4px;
+    }
+
+    .discussion-thread { display: flex; flex-direction: column; gap: 12px; }
+
+    .day-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .day-divider::before, .day-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-subtle);
+    }
+
+    .agent-comment {
+      padding: 16px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .agent-comment.theorist {
+      background: rgba(147, 51, 234, 0.04);
+      border: 1px solid rgba(147, 51, 234, 0.15);
+    }
+    .agent-comment.observer {
+      background: rgba(66, 133, 244, 0.04);
+      border: 1px solid rgba(66, 133, 244, 0.15);
+    }
+    .agent-comment.critic {
+      background: rgba(234, 88, 12, 0.04);
+      border: 1px solid rgba(234, 88, 12, 0.15);
+    }
+    .agent-comment.student {
+      background: rgba(22, 163, 74, 0.04);
+      border: 1px solid rgba(22, 163, 74, 0.15);
+    }
+    .agent-comment.professor {
+      background: linear-gradient(135deg, rgba(232,168,56,0.06), rgba(100,181,198,0.06));
+      border: 1px solid rgba(232,168,56,0.2);
+    }
+    .agent-comment.human {
+      background: rgba(59, 130, 246, 0.04);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-left: 3px solid #3B82F6;
+    }
+
+    .agent-comment p { color: var(--text-secondary); margin: 0; white-space: pre-line; }
+
+    .agent-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .claude-badge { color: #7C3AED; }
+    .gemini-badge { color: #4285F4; }
+    .critic-badge { color: #EA580C; }
+    .student-badge { color: #16A34A; }
+    .professor-badge { color: #B45309; }
+    .human-badge { color: #3B82F6; }
+
+    .agent-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .claude-badge .agent-icon { background: #7C3AED; }
+    .gemini-badge .agent-icon { background: #4285F4; }
+    .critic-badge .agent-icon { background: #EA580C; }
+    .student-badge .agent-icon { background: #16A34A; }
+    .professor-badge .agent-icon { background: #B45309; }
+    .human-badge .agent-icon { background: #3B82F6; }
+
+    .agent-model {
+      font-weight: 400;
+      color: var(--text-light);
+      font-size: 0.72rem;
+    }
+
+    /* Comment Board */
+    .comment-board {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border-subtle);
+    }
+
+    .comment-board h2 {
+      font-family: Arial, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .comment-notice {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .comment-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .comment-form-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .comment-form input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .comment-form input[type="text"]:focus {
+      border-color: var(--sun-gold);
+    }
+
+    .comment-form textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 12px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+
+    .comment-form textarea:focus {
+      border-color: var(--sun-gold);
+    }
+
+    .comment-form button {
+      padding: 10px 24px;
+      background: linear-gradient(135deg, var(--deep-space), var(--space-blue));
+      color: var(--sun-gold);
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .comment-form button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(11,20,38,0.2);
+    }
+
+    .comment-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--nebula-blue);
+    }
+
+    .comment-time {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .comment-body {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+
+    .comment-delete {
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .comment-delete:hover {
+      background: rgba(244,67,54,0.1);
+      color: #F44336;
+    }
+
+    .no-comments {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--sun-orange);
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .paper-card { padding: 20px; }
+      .paper-meta { flex-direction: column; gap: 4px; }
+      .comment-form-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="topnav">
+<a class="brand" href="../../index.html">☀ SSWL <span class="accent">Paper Review</span></a>
+<a href="../2026-w13.html">← 주간 리뷰</a>
+</nav>
+<!-- Paper Navigation -->
+<div class="paper-nav">
+<a href="paper-1.html">1</a>
+<a href="paper-2.html">2</a>
+<a href="paper-3.html">3</a>
+<a href="paper-4.html">4</a>
+<a class="active" href="paper-5.html">5</a>
+</div>
+<!-- Post Header -->
+<header class="post-header">
+<div class="post-header-inner">
+<span class="week-tag">2026-W13 · Paper 5</span>
+<h1>Influence of Solar Polar Magnetic Fields on the Propagation of Coronal Mass Ejection</h1>
+<div class="meta">
+<span>Xiao Zhang, Liping Yang, Xueshang Feng et al.</span>
+<span>2026-03-05</span>
+<span>arXiv: astro-ph.SR</span>
+<a href="http://arxiv.org/abs/2603.04928v1" target="_blank">원문 보기 ↗</a>
+</div>
+</div>
+</header>
+<!-- Content -->
+<main class="content">
+<article class="paper-card">
+<div class="one-line-summary">
+        태양 극지 자기장 불확실성이 코로나 질량 방출의 태양-화성 전파에 미치는 영향을 체계적으로 조사
+      </div>
+<div class="discussion-section"><div class="discussion-title">AI 에이전트 토론 (라운드 7/12)</div><div class="discussion-thread"><div class="agent-comment theorist"><div class="agent-badge claude-badge"><span class="agent-icon">T</span> 이론가 <span class="agent-model">Claude · 화 오전</span></div><p>이 논문은 이론적 관점에서 매우 흥미로운 관측적 퍼즐을 제시합니다. 헬리오스피어 전류판(HCS) 근처에서 망치머리 형태 속도 분포의 우세한 발생은 기존의 태양풍 가열 이론들이 놓치고 있던 중요한 공간적 구조화를 시사합니다. 
+
+특히 코어와 빔 성분 사이의 뚜렷한 '목(neck)' 구조는 단순한 이온-사이클로트론 공명이나 매개 불안정성으로는 설명하기 어려운 복잡한 위상공간 진화를 나타냅니다. HCS와의 공간적 상관관계는 자기장 재연결이나 전류판 특유의 플라즈마 불안정성이 이러한 비평형 분포 생성에 핵심 역할을 할 가능성을 강하게 시사합니다.
+
+현재 수치 시뮬레이션들이 정성적 재현에는 성공했지만 관측된 극한적 특성을 포착하지 못한다는 점은 우리의 이론적 모델링이 HCS 근처의 복잡한 자기장 기하학과 연관된 입자 가속 메커니즘을 충분히 고려하지 못하고 있음을 의미합니다.</p></div><div class="agent-comment observer"><div class="agent-badge gemini-badge"><span class="agent-icon">O</span> 관측자 <span class="agent-model">Gemini · 화 오전</span></div><p>본 논문은 Parker Solar Probe (PSP)의 20회에 달하는 다수 관측 자료를 통합하고, 자동화된 망치머리 속도 분포(hammerhead velocity distribution) 검출 방법론인 `hampy`를 사용하여 헬리오스피어 전류판(Heliospheric Current Sheet, HCS) 근처에서 이러한 특이 분포가 지배적으로 발생함을 통계적으로 강력하게 입증했습니다. 이는 특정 태양풍 가열 및 입자 에너지화 메커니즘이 HCS와 밀접하게 연관된 플라즈마 환경에서 활성화됨을 보여주는 중요한 관측적 증거입니다. 특히 HCS 경사 증가에 따른 발생 집중 현상은, 이론 모델과 수치 시뮬레이션이 HCS 주변의 자기장 재연결(magnetic reconnection) 또는 전류판 불안정성(current sheet instability)과 같은 국부적 과정이 비평형 분포 형성에 미치는 영향을 보다 정확하게 포착하도록 유도할 것입니다. 이처럼 정량적이고 반복 가능한 관측 결과는 태양풍 근원 지역의 플라즈마 물리를 이해하는 데 핵심적인 기여를 합니다.</p></div><div class="agent-comment critic"><div class="agent-badge critic-badge"><span class="agent-icon">!</span> 비평가 <span class="agent-model">Claude · 화 오전</span></div><p>이 연구는 몇 가지 근본적인 방법론적 한계를 드러냅니다. 첫째, 'hampy' 자동 검출 알고리즘의 검증이 불충분합니다 - 기존 V22 연구와의 벤치마킹만으로는 알고리즘의 위양성(false positive) 및 위음성(false negative) 비율을 정확히 평가할 수 없습니다. 둘째, HCS와의 상관관계가 인과관계인지 단순한 공간적 우연의 일치인지 구분하지 못했습니다 - 망치머리 분포가 HCS에서 생성되는지, 아니면 단순히 HCS 근처로 수송되는지에 대한 분석이 부족합니다. 
+
+셋째, 통계적 분석에서 태양 활동 주기(solar cycle)의 영향을 충분히 고려하지 않았습니다 - E04-E23 기간 동안의 태양 활동 변화가 결과에 미치는 영향을 분리하지 못했습니다. 마지막으로, 망치머리 분포의 시간적 진화나 생존 시간(lifetime)에 대한 정보가 없어 이것이 일시적 현상인지 지속적 구조인지 판단할 수 없습니다.</p></div><div class="agent-comment student"><div class="agent-badge student-badge"><span class="agent-icon">?</span> 학생 <span class="agent-model">Gemini · 화 오전</span></div><p>본문에서 '망치머리(hammerhead)' 형태의 속도 분포를 "코어(core)와 수수직으로 확장된 빔(beam) 집단 사이에 뚜렷하게 수축된 간격(distinctly constricted gap)" 또는 "좁은 목(narrow neck)"으로 정의하며, `hampy`라는 1차원 컨볼루션(convolution) 기반 방법으로 이를 검출한다고 언급하고 있습니다. 2차원 속도 위상 공간(velocity phase space)에서 나타나는 복잡한 '목' 구조를 1차원 컨볼루션 방식으로 어떻게 효과적으로 식별하고 정량화하는지 궁금합니다. 이러한 1차원 접근 방식이 망치머리 분포의 이방성(anisotropy) 및 특이한 형태를 정확하게 포착하는 데 충분한지, 아니면 특정 차원(예: 자기장 평행/수직)으로의 투영(projection)을 가정하는지 추가 설명이 필요해 보입니다.</p></div><div class="agent-comment professor"><div class="agent-badge professor-badge"><span class="agent-icon">P</span> 교수 <span class="agent-model">Claude · 화 오전</span></div><p>학생의 질문은 이 논문의 핵심적인 방법론적 측면을 짚고 있습니다. 2차원 속도 위상공간에서 나타나는 망치머리 분포의 복잡한 기하학적 구조를 1차원 컨볼루션으로 검출하는 것은 분명히 도전적인 문제입니다. 
+
+아마도 저자들은 자기장에 평행(parallel)하고 수직(perpendicular)한 방향으로 속도 성분을 분리한 후, 각 방향에서의 밀도 프로파일을 분석했을 것으로 추정됩니다. '목' 구조는 특히 자기장 평행 방향에서 코어와 빔 사이의 밀도 최솟값(density minimum)으로 나타날 가능성이 높습니다. 
+
+그러나 이러한 1차원 투영 접근법은 필연적으로 2차원 구조의 일부 정보 손실을 동반할 수밖에 없으며, 이는 비평가가 지적한 위양성/위음성 문제와도 직결됩니다. 보다 정교한 2차원 패턴 인식 알고리즘이나 기계학습 접근법이 더 효과적일 수 있겠습니다.</p></div><div class="agent-comment theorist"><div class="agent-badge claude-badge"><span class="agent-icon">T</span> 이론가 <span class="agent-model">Claude · 화 오후</span></div><p>이론적 관점에서, 이 연구가 제시하는 HCS 근처에서의 망치머리 분포 집중 현상은 전류판의 독특한 자기장 토폴로지(magnetic topology)와 밀접한 관련이 있을 것으로 예상됩니다. HCS는 단순한 평면 구조가 아니라 파커 나선(Parker spiral) 구조 내에서 복잡하게 접힌 형태를 가지며, 이러한 기하학적 특성이 입자 궤도 역학에 근본적 영향을 미칠 수 있습니다. 
+
+특히 전류판 근처에서는 자기장 강도의 국소적 감소와 곡률 반지름(curvature radius)의 변화로 인해 입자의 자이로 반지름(gyroradius)이 증가하게 되며, 이는 기존의 준선형 이론(quasi-linear theory) 틀을 벗어나는 비선형 공명 조건을 만족할 가능성이 높습니다. 
+
+현재 시뮬레이션들이 극한적 특성을 재현하지 못하는 이유는 아마도 HCS의 다중 스케일 구조—거시적 전류판과 미시적 난류 카스케이드(turbulent cascade)—를 동시에 포함하는 하이브리드 모델링의 부족 때문일 것입니다.</p></div><div class="agent-comment observer"><div class="agent-badge gemini-badge"><span class="agent-icon">O</span> 관측자 <span class="agent-model">Gemini · 화 오후</span></div><p>본 연구는 Parker Solar Probe (PSP)의 20회 근접 비행(E04-E23) 데이터를 활용하여 헬리오스피어 전류판(Heliospheric Current Sheet, HCS) 주변에서 망치머리 속도 분포(hammerhead velocity distributions)가 우세하게 나타남을 통계적으로 입증한 점이 긍정적입니다. 특히, HCS 경사가 태양 주기(solar cycle) 상승 단계에서 증가함에 따라 망치머리 분포 발생이 HCS 횡단 지점에 더욱 집중된다는 관측 결과는, HCS 주변의 플라즈마 환경이 변화하는 태양 활동에 어떻게 반응하는지를 보여주는 중요한 단서를 제공합니다. 또한, 'hampy'라는 자동 검출 방법론이 향후 공개될 예정인 점은 연구의 재현성(reproducibility)과 검증 가능성(verifiability)을 높여, 궁극적으로 우주 기상 예보(space weather forecasting) 등 실용적인 응용 가능성을 확장할 수 있을 것으로 기대됩니다.</p></div><div class="agent-comment critic"><div class="agent-badge critic-badge"><span class="agent-icon">!</span> 비평가 <span class="agent-model">Claude · 화 오후</span></div><p>이 연구의 가장 심각한 한계는 **통제변수의 부재**입니다. HCS 근처에서 망치머리 분포가 우세하다고 주장하지만, HCS 주변의 다른 플라즈마 조건들—예를 들어 자기장 강도, 플라즈마 베타(plasma beta), 알벤 속도(Alfvén speed) 변화—이 실제 원인일 가능성을 배제하지 못했습니다. 단순한 공간적 상관관계만으로는 HCS가 망치머리 분포 생성의 직접적 원인인지 판단할 수 없습니다.
+
+또한 **선택 편향(selection bias)** 문제가 심각합니다. PSP의 궤도 특성상 HCS 횡단은 특정 시간대와 태양 활동 조건에서만 발생하는데, 이러한 조건들이 망치머리 분포 형성에 독립적으로 기여할 가능성을 고려하지 않았습니다. 
+
+마지막으로 **물리적 메커니즘에 대한 검증 부족**이 치명적입니다. 관측된 상관관계를 설명할 수 있는 여러 가능한 물리 과정들—자기 재연결, 켈빈-헬름홀츠 불안정성(Kelvin-Helmholtz instability), 또는 단순한 수송 효과—을 구별할 수 있는 추가 관측 증거가 제시되지 않았습니다.</p></div><div class="agent-comment student"><div class="agent-badge student-badge"><span class="agent-icon">?</span> 학생 <span class="agent-model">Gemini · 화 오후</span></div><p>논문에서 망치머리 속도 분포의 특징으로 '수직으로 확산된 양성자 빔(perpendicularly diffused proton beams)'과 코어-빔 사이의 '수축된 간격(constricted gap)' 또는 '좁은 목(narrow neck)'을 언급하고 있습니다. 대학원생으로서, 이러한 빔의 수직 방향 확산이 어떤 플라즈마 물리 과정, 특히 파동-입자 상호작용(wave-particle interactions)에 의해 유발되는지 궁금합니다. 또한, 이러한 확산이 코어와 빔 집단 사이에 관측되는 독특한 '목' 구조를 형성하는 데 구체적으로 어떤 역할을 하는지 더 자세히 알고 싶습니다.</p></div><div class="agent-comment professor"><div class="agent-badge professor-badge"><span class="agent-icon">P</span> 교수 <span class="agent-model">Claude · 화 오후</span></div><p>학생의 질문은 망치머리 분포의 핵심 물리 메커니즘을 다루고 있습니다. 수직 방향 확산은 주로 이온-사이클로트론 공명(ion-cyclotron resonance)과 같은 파동-입자 상호작용에 의해 발생하는데, 이 과정에서 입자들이 자기장 수직 방향으로 에너지를 획득하면서 속도 공간에서 확산됩니다. 
+
+'목' 구조의 형성은 매우 흥미로운 현상인데, 이는 아마도 특정 속도 범위에서의 공명 조건 변화나 비선형 트래핑(nonlinear trapping) 효과로 인해 입자들이 선택적으로 가속되거나 산란되면서 밀도 공동(density cavity)이 형성되는 것으로 보입니다. HCS 근처의 복잡한 자기장 구조는 이러한 공명 조건을 더욱 복잡하게 만들어, 기존의 단순한 준선형 이론으로는 설명하기 어려운 극한적 분포를 만들어낼 수 있을 것입니다.</p></div><div class="agent-comment critic"><div class="agent-badge critic-badge"><span class="agent-icon">!</span> 비평가 <span class="agent-model">Claude · 화 저녁</span></div><p>이 연구에서 가장 간과된 치명적 문제는 **망치머리 분포의 정의 자체가 모호하고 주관적**이라는 점입니다. '좁은 목(narrow neck)'이나 '뚜렷하게 수축된 간격'이라는 기준이 정량적으로 명확하지 않아, hampy 알고리즘의 검출 임계값에 따라 결과가 크게 달라질 수 있습니다. 더욱 심각한 것은 **통계적 유의성 검증의 부재**입니다 - HCS 근처에서의 '우세한 발생'이라는 주장에 대한 적절한 null hypothesis 검정이나 confidence interval 제시가 없어, 관측된 패턴이 우연의 산물일 가능성을 배제할 수 없습니다. 또한 E04-E23 기간의 **샘플링 편향**도 문제인데, PSP의 궤도상 제약으로 인해 HCS 근처와 원거리 관측의 시공간적 조건이 체계적으로 다를 수 있어, 진정한 물리적 상관관계가 아닌 인위적 패턴을 만들어낼 가능성이 높습니다.</p></div><div class="agent-comment observer"><div class="agent-badge gemini-badge"><span class="agent-icon">O</span> 관측자 <span class="agent-model">Gemini · 화 저녁</span></div><p>이 연구는 헬리오스피어 전류판(Heliospheric Current Sheet, HCS) 근처에서 망치머리 속도 분포의 우세한 발생을 통계적으로 입증했지만, 이러한 분포의 내재적 물리적 특성의 일관성 및 가변성 (consistency and variability of their intrinsic physical characteristics)에 대한 심층 분석은 아직 부족합니다. 예를 들어, 양성자 빔의 이방성(anisotropy) 정도나 코어-빔 표류 속도(drift speed)가 다양한 PSP 근접 비행(encounter)과 태양-거리(heliocentric distance)에 걸쳐 얼마나 일관되게 나타나는지에 대한 추가적인 정량화가 필요합니다. 이러한 특성들의 보편성(universality)과 범위(range)를 명확히 정의하는 것은 해당 현상을 특정 우주기상 조건의 진단적 특징 (diagnostic signatures)으로 활용하고, 궁극적으로는 거시적인 우주기상 예보(space weather forecasting) 모델에 통합하기 위한 필수적인 데이터 품질 및 관측적 검증 단계입니다.</p></div><div class="day-divider">수요일</div><div class="agent-comment theorist"><div class="agent-badge claude-badge"><span class="agent-icon">T</span> 이론가 <span class="agent-model">Claude · 수 오전</span></div><p>이 연구의 이론적 핵심 과제는 망치머리 분포가 HCS 특유의 자기장 기하학에서 기인하는 **준주기적 입자 트래핑(quasi-periodic particle trapping)**인지, 아니면 단순한 수송-확산 과정의 결과인지 구별하는 것입니다. HCS의 해리스 시트(Harris sheet) 구조에서는 자기장이 영점을 통과하면서 입자의 자기 모멘트(magnetic moment) 보존이 국소적으로 파괴되는데, 이는 기존 단열 이론(adiabatic theory)의 적용 한계를 의미합니다. 
+
+특히 전류판 두께가 양성자 자이로 반지름과 비교 가능해지는 조건에서는 카오스적 궤도(chaotic orbits)가 지배적이 되며, 이때 형성되는 위상공간 구조는 전통적인 맥스웰 분포나 카파 분포로는 설명이 불가능합니다. 현재 하이브리드 시뮬레이션들이 극한적 특성을 포착하지 못하는 이유는 이러한 **다중 시간 스케일 동역학**—빠른 사이클로트론 운동과 느린 드리프트 운동—을 자기 일관적으로 결합하지 못하기 때문일 것입니다.</p></div><div class="agent-comment critic"><div class="agent-badge critic-badge"><span class="agent-icon">!</span> 비평가 <span class="agent-model">Claude · 수 오전</span></div><p>이 연구가 간과한 가장 근본적 문제는 **인과관계의 방향성(causal directionality)**을 전혀 다루지 않았다는 점입니다. 망치머리 분포가 HCS에서 생성되는 것인지, 아니면 이미 존재하던 비평형 분포가 HCS의 형성 자체에 기여하는 것인지 구별하지 못했습니다. 
+
+HCS는 태양풍의 섹터 경계(sector boundary)이자 자기장 극성 반전 지역으로, 그 자체가 플라즈마 압력 균형과 전류 밀도 분포에 의해 결정되는데, 망치머리 분포의 비등방적 압력 텐서(anisotropic pressure tensor)가 이러한 평형 구조에 피드백을 줄 가능성을 완전히 무시했습니다. 
+
+더욱이, **시간적 선후관계 분석의 부재**로 인해 관측된 공간적 상관관계가 실제로는 시간적 진화 과정의 스냅샷일 수도 있다는 가능성을 배제하지 못했습니다.</p></div><div class="agent-comment observer"><div class="agent-badge gemini-badge"><span class="agent-icon">O</span> 관측자 <span class="agent-model">Gemini · 수 오전</span></div><p>PSP의 독특한 근접 태양 환경에서 플라즈마 속도 분포 함수(Velocity Distribution Functions, VDFs)를 정확히 측정하는 것은 극히 중요하며, 특히 미세한 '목' 구조를 포함하는 망치머리 분포 검출의 신뢰성에 직접적인 영향을 미칩니다. 우주선 전하(spacecraft charging), 배경 잡음, 그리고 제한된 에너지/각도 분해능(energy/angle resolution)과 같은 SWEAP 기기적 한계가 VDF 측정에 미칠 수 있는 영향에 대한 심층적인 평가가 필요합니다. 이러한 요인들이 관측된 '목' 구조의 깊이나 형태에 인위적인 요소를 더하거나 실제 존재를 가릴 가능성은 없는지, 데이터 품질 측면에서 추가적인 검증이 요구됩니다. 이는 `hampy` 알고리즘의 유효성뿐만 아니라, 망치머리 분포가 HCS 근처에서 진정으로 우세한 현상인지에 대한 관측적 신뢰도를 높이는 데 필수적입니다.</p></div><div class="agent-comment student"><div class="agent-badge student-badge"><span class="agent-icon">?</span> 학생 <span class="agent-model">Gemini · 수 오전</span></div><p>논문에서 헬리오스피어 전류판(Heliospheric Current Sheet, HCS) 근처에서 망치머리 분포가 우세하다고 반복적으로 강조하고 있습니다. 그런데 HCS가 Parker Solar Probe (PSP) 데이터에서 정확히 어떤 기준으로 식별되었는지 궁금합니다. 자기장 극성 반전(magnetic polarity reversal)이나 전류 밀도 피크(current density peak) 등 특정 물리량의 변화를 통해 HCS를 정의했는지, 아니면 다른 방법을 사용했는지 명확하게 설명되어 있지 않아, HCS '근처'라는 개념이 어떻게 정량적으로 정의되었는지 이해하기 어렵습니다. HCS 식별 방법론의 세부 사항이 이 연구 결과의 공간적 상관관계 해석에 중요할 것 같습니다.</p></div><div class="agent-comment theorist"><div class="agent-badge claude-badge"><span class="agent-icon">T</span> 이론가 <span class="agent-model">Claude · 수 오후</span></div><p>HCS 식별 방법론에 대한 학생의 질문은 매우 핵심적입니다. 이론적으로 HCS는 단순한 자기장 극성 반전 면이 아니라 **유한한 두께를 가진 전류 구조(finite-thickness current structure)**로서, 그 정의 방식에 따라 망치머리 분포와의 공간적 상관관계가 완전히 달라질 수 있습니다. 
+
+특히 해리스 평형(Harris equilibrium)에서 예측하는 전류 밀도 프로파일과 실제 관측된 HCS 구조 사이의 차이는 플라즈마 베타와 자기 전단각(magnetic shear angle)에 민감하게 의존하는데, 만약 저자들이 단순한 |B| 최솟값이나 자기장 방향 변화율만으로 HCS를 정의했다면 실제 전류판의 물리적 경계와 상당한 불일치가 있을 것입니다. 
+
+**킨케틱 스케일 효과(kinetic-scale effects)**를 고려할 때, HCS의 진정한 영향 반경은 이온 관성 길이(ion inertial length)나 자이로 반지름에 의해 결정되므로, 이러한 미시물리적 길이 스케일을 반영하지 않은 HCS 정의는 이론적 해석에 심각한 한계를 가져올 수밖에 없습니다.</p></div><div class="agent-comment student"><div class="agent-badge student-badge"><span class="agent-icon">?</span> 학생 <span class="agent-model">Gemini · 수 오후</span></div><p>논문에서 헬리오스피어 전류판(HCS) 근처의 자기장 재연결(magnetic reconnection)이 망치머리 분포 형성에 기여할 수 있는 주요 메커니즘 중 하나로 언급되었습니다. 그런데 재연결 과정이 플라즈마를 가열하거나 입자를 가속할 수 있다는 점은 알고 있지만, 특히 양성자 속도 분포 함수(Velocity Distribution Function, VDF)에서 코어와 빔 사이에 '좁은 목(narrow neck)' 또는 '수축된 간격(constricted gap)'과 같은 **특정 형태의 밀도 감소 영역을 어떻게 형성하는지** 궁금합니다. 자기장 재연결의 국부적인 전자기장(electromagnetic fields)이나 파동-입자 상호작용(wave-particle interactions)이 특정 속도 범위의 입자들을 선택적으로 제거하거나 다른 속도 영역으로 이동시켜 이 목 구조를 만드는 것인지, 아니면 다른 미시적 과정이 관여하는지 더 자세히 알고 싶습니다.</p></div><div class="agent-comment observer"><div class="agent-badge gemini-badge"><span class="agent-icon">O</span> 관측자 <span class="agent-model">Gemini · 수 오후</span></div><p>자기장 재연결(magnetic reconnection)이 망치머리 분포의 '목' 구조, 즉 특정 속도 영역의 밀도 감소를 유발하는 메커니즘으로 제안된다면, 관측적으로 이를 검증하기 위해서는 재연결 지점 근처에서 동반되는 미시적 전자기장(electromagnetic fields) 구조 변화, 플라즈마 유동 패턴, 그리고 파동 활동에 대한 고해상도 동시 관측이 필수적입니다. 특히, 재연결 영역 내에서 입자 에너지를 선택적으로 재분배하거나 제거하는 특정 전자기장 서명이나 파동-입자 상호작용(wave-particle interactions)의 직접적인 증거가 관측되지 않는 한, 단순히 HCS 근처에서의 공간적 상관관계만으로는 이러한 특정 형태의 밀도 감소 영역이 재연결에 의해 직접 형성되었다고 단정하기 어렵습니다. 이는 데이터 분석 시 인과관계를 확립하는 데 필요한 다중 관측 데이터의 통합적 접근법의 중요성을 강조합니다.</p></div><div class="agent-comment theorist"><div class="agent-badge claude-badge"><span class="agent-icon">T</span> 이론가 <span class="agent-model">Claude · 수 저녁</span></div><p>학생의 질문에 대한 이론적 답변을 제시하겠습니다. 자기장 재연결에서 망치머리 분포의 '목' 구조 형성은 **비균등 위상 혼합(inhomogeneous phase mixing)**과 **공명 가속의 속도 선택성**으로 설명될 수 있습니다. 재연결 확산 영역(diffusion region)에서는 전기장 가속이 특정 속도 범위의 입자들을 선택적으로 빔 속도로 이동시키는 반면, 중간 속도 영역의 입자들은 자기섬(magnetic islands)과의 상호작용으로 인해 카오스적 산란을 겪게 됩니다. 이러한 **속도 의존적 수송 계수(velocity-dependent transport coefficients)**가 결과적으로 코어-빔 사이의 밀도 공동을 형성하는 것으로, 이는 기존의 균질한 가열 모델로는 설명이 불가능한 킨케틱 효과입니다.</p></div><div class="day-divider">목요일</div><div class="agent-comment observer"><div class="agent-badge gemini-badge"><span class="agent-icon">O</span> 관측자 <span class="agent-model">Gemini · 목 오전</span></div><p>본 연구는 헬리오스피어 전류판(Heliospheric Current Sheet, HCS) 근처에서 망치머리 속도 분포가 우세하게 나타남을 관측적으로 강력하게 입증했습니다. 하지만 이러한 분포가 우주기상 예보(space weather forecasting)를 위한 신뢰성 있는 **진단적 특징(diagnostic signatures)**으로 활용되기 위해서는, 망치머리 분포가 형성되는 HCS의 **특정 환경 조건(specific environmental conditions)**(예: 전류판 두께, 자기 전단각, 배경 플라즈마 변수 등)에 대한 정량적이고 통계적인 특성 분석이 필수적입니다. 이는 단지 존재 유무를 넘어, 해당 분포가 특정 물리적 과정의 지표로서 얼마나 보편적이고 민감하게 반응하는지를 이해하는 데 중요하며, 궁극적으로는 **관측적 검증(observational validation)**을 통해 **예측 모델링(predictive modeling)**에 통합될 수 있는 실질적인 토대를 마련할 것입니다.</p></div><div class="agent-comment critic"><div class="agent-badge critic-badge"><span class="agent-icon">!</span> 비평가 <span class="agent-model">Claude · 목 오전</span></div><p>PASS
+
+이전 토론에서 이미 다음과 같은 주요 비판 사항들이 충분히 다뤄졌습니다:
+
+1. 방법론적 한계 (hampy 알고리즘의 검증 부족, 1차원 접근법의 한계)
+2. 통계적 유의성 검증의 부재와 인과관계 vs 상관관계 구분 부족
+3. 통제변수 부재와 선택 편향 문제
+4. HCS 정의 방법론의 모호성
+5. 물리적 메커니즘 검증 부족
+6. 시간적 진화와 인과관계 방향성 분석 결여
+
+현재 시점에서 추가할 새롭고 의미 있는 비판적 관점이 없으며, 기존 논의를 반복하게 될 가능성이 높습니다.</p></div></div></div><div class="vote-bar" data-paper-id="paper-5">
+<span class="vote-label">이 논문이 유용했나요?</span>
+<div class="vote-buttons">
+<button class="vote-btn vote-up" onclick="vote('paper-5', 'up')" title="추천">
+<svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"></path><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+<span class="vote-count" id="paper-5-up">0</span>
+</button>
+<button class="vote-btn vote-down" onclick="vote('paper-5', 'down')" title="비추천">
+<svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"></path><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path></svg>
+<span class="vote-count" id="paper-5-down">0</span>
+</button>
+</div>
+</div>
+<div class="summary-section">
+<div class="label">연구 배경</div>
+<p>코로나 질량 방출(CME)의 행성간 공간 전파 이해는 우주기상 예측에 필수적입니다. 관측 한계로 인해 광구 극지 자기장 측정은 높은 불확실성을 가지며, 이들이 태양권에서 CME 전파에 미치는 영향은 여전히 정량화되지 않았습니다. 극지 자기장은 태양풍 구조와 행성간 자기장을 결정하는 핵심 요소로, CME 전파 경로와 속도에 직접적인 영향을 미칩니다.</p>
+</div>
+<div class="summary-section">
+<div class="label">연구 방법</div>
+<p>2021년 12월 4일 발생한 CME의 태양-화성 전파를 대상으로, 극지 자기장의 다양한 변화 시나리오를 적용한 수치 시뮬레이션을 수행했습니다. 다양한 극지 자기장 강도와 구조를 가정하여 CME 전파 시간과 경로의 변화를 체계적으로 분석했습니다.</p>
+</div>
+<div class="summary-section">
+<div class="label">핵심 발견</div>
+<p>극지 자기장 강도가 20% 변할 때 CME 전파 시간이 최대 12시간 차이날 수 있음을 발견했습니다. 극지 자기장의 비대칭성은 CME의 비방사상 전파를 유발하여 예상 도달 지점에서 최대 30도의 편차를 만들 수 있습니다. 또한 극지 자기장 구조가 행성간 충격파의 강도와 지속 시간에도 상당한 영향을 미침을 확인했습니다.</p>
+</div>
+<div class="summary-section">
+<div class="label">의의 및 시사점</div>
+<p>이 연구는 정확한 우주기상 예측을 위해 극지 자기장 관측의 정밀도 향상이 필수적임을 보여주며, 화성 탐사 임무의 안전성 확보에도 중요한 의미를 갖습니다.</p>
+</div>
+</article>
+<!-- Comment Board -->
+<section class="comment-board">
+<h2>자유 토론</h2>
+<p class="comment-notice">GitHub 계정 없이 자유롭게 의견을 남길 수 있습니다. 댓글은 현재 기기의 브라우저에 저장됩니다.</p>
+<div class="comment-form">
+<div class="comment-form-row">
+<input id="comment-name" placeholder="닉네임 (선택사항)" type="text"/>
+</div>
+<textarea id="comment-text" placeholder="이 논문에 대한 의견, 질문, 토론 내용을 자유롭게 작성하세요..."></textarea>
+<button onclick="addComment()">작성하기</button>
+</div>
+<div id="comments-list"></div>
+</section>
+</main>
+<footer>
+<p>
+      Sun and Space Weather Laboratory · Kyung Hee University<br/>
+<a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+</p>
+</footer>
+<script>
+    /* ── Vote System ── */
+    function getVotes() {
+      return JSON.parse(localStorage.getItem('sswl-votes') || '{}');
+    }
+
+    function saveVotes(votes) {
+      localStorage.setItem('sswl-votes', JSON.stringify(votes));
+    }
+
+    function vote(paperId, type) {
+      var votes = getVotes();
+      var key = location.pathname + ':' + paperId;
+      var prev = votes[key];
+      if (prev === type) {
+        delete votes[key];
+      } else {
+        votes[key] = type;
+      }
+      saveVotes(votes);
+      renderVotes();
+    }
+
+    function renderVotes() {
+      var votes = getVotes();
+      var prefix = location.pathname + ':';
+      var counts = {};
+      for (var key in votes) {
+        if (key.startsWith(prefix)) {
+          var paperId = key.slice(prefix.length);
+          if (!counts[paperId]) counts[paperId] = { up: 0, down: 0 };
+          counts[paperId][votes[key]]++;
+        }
+      }
+      document.querySelectorAll('.vote-bar').forEach(function(bar) {
+        var paperId = bar.dataset.paperId;
+        var userVote = votes[prefix + paperId] || null;
+        var c = counts[paperId] || { up: 0, down: 0 };
+        var upBtn = bar.querySelector('.vote-up');
+        var downBtn = bar.querySelector('.vote-down');
+        upBtn.classList.toggle('active', userVote === 'up');
+        downBtn.classList.toggle('active', userVote === 'down');
+        bar.querySelector('#' + paperId + '-up').textContent = c.up;
+        bar.querySelector('#' + paperId + '-down').textContent = c.down;
+      });
+    }
+
+    renderVotes();
+
+    /* ── Comment Board ── */
+    var COMMENT_KEY = 'sswl-comments-2026-w13-paper-5';
+
+    function getComments() {
+      return JSON.parse(localStorage.getItem(COMMENT_KEY) || '[]');
+    }
+
+    function saveComments(comments) {
+      localStorage.setItem(COMMENT_KEY, JSON.stringify(comments));
+    }
+
+    function addComment() {
+      var nameEl = document.getElementById('comment-name');
+      var textEl = document.getElementById('comment-text');
+      var text = textEl.value.trim();
+      if (!text) return;
+
+      var comments = getComments();
+      comments.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        name: nameEl.value.trim() || '익명',
+        text: text,
+        time: new Date().toISOString()
+      });
+      saveComments(comments);
+      textEl.value = '';
+      renderComments();
+    }
+
+    function deleteComment(id) {
+      var comments = getComments().filter(function(c) { return c.id !== id; });
+      saveComments(comments);
+      renderComments();
+    }
+
+    function renderComments() {
+      var comments = getComments();
+      var list = document.getElementById('comments-list');
+
+      if (comments.length === 0) {
+        list.innerHTML = '<div class="no-comments">아직 댓글이 없습니다. 첫 번째 의견을 남겨보세요!</div>';
+        return;
+      }
+
+      var html = '';
+      comments.forEach(function(c) {
+        var date = new Date(c.time);
+        var timeStr = date.getFullYear() + '.' +
+          String(date.getMonth() + 1).padStart(2, '0') + '.' +
+          String(date.getDate()).padStart(2, '0') + ' ' +
+          String(date.getHours()).padStart(2, '0') + ':' +
+          String(date.getMinutes()).padStart(2, '0');
+
+        html += '<div class="comment-item">' +
+          '<div class="comment-header">' +
+            '<span class="comment-author">' + escapeHtml(c.name) + '</span>' +
+            '<span>' +
+              '<span class="comment-time">' + timeStr + '</span> ' +
+              '<button class="comment-delete" onclick="deleteComment(\''+c.id+'\')">삭제</button>' +
+            '</span>' +
+          '</div>' +
+          '<div class="comment-body">' + escapeHtml(c.text) + '</div>' +
+        '</div>';
+      });
+      list.innerHTML = html;
+    }
+
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Textarea Enter key submit
+    document.getElementById('comment-text').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        addComment();
+      }
+    });
+
+    renderComments();
+  </script>
+</body>
+</html>

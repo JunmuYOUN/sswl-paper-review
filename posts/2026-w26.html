@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주간 논문 추천 2026-W26 | SSWL Paper Review</title>
+  <meta name="description" content="2026-W26 주간 태양물리·우주기상 논문 추천 — 최신 논문 추천 + 신청 논문 한국어 전문 번역.">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SSWL Paper Review">
+  <meta property="og:title" content="주간 논문 추천 2026-W26 | SSWL Paper Review">
+  <meta property="og:description" content="2026-W26 주간 태양물리·우주기상 논문 추천 — 최신 논문 추천 + 신청 논문 한국어 전문 번역.">
+  <meta property="og:url" content="https://junmuyoun.github.io/sswl-paper-review/posts/2026-w26.html">
+  <meta property="og:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="주간 논문 추천 2026-W26 | SSWL Paper Review">
+  <meta name="twitter:description" content="2026-W26 주간 태양물리·우주기상 논문 추천 — 최신 논문 추천 + 신청 논문 한국어 전문 번역.">
+  <meta name="twitter:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --corona-red: #C75B3A;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    .topnav {
+      background: var(--deep-space);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topnav a {
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .topnav a:hover { color: var(--sun-gold); }
+
+    .topnav .brand {
+      font-size: 1rem;
+      color: var(--star-white);
+      font-weight: 600;
+    }
+
+    .topnav .brand .accent { color: var(--sun-gold); }
+
+    .post-header {
+      background: linear-gradient(180deg, var(--space-blue) 0%, var(--deep-space) 100%);
+      padding: 60px 24px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .post-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--bg-warm), transparent);
+    }
+
+    .post-header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .post-header .week-tag {
+      display: inline-block;
+      background: rgba(232,168,56,0.2);
+      border: 1px solid rgba(232,168,56,0.4);
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .post-header h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    .post-header .meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: rgba(244,241,236,0.6);
+    }
+
+    .content {
+      max-width: 800px;
+      margin: -20px auto 0;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .intro-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--sun-gold);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+    }
+
+    .intro-box strong { color: var(--text-primary); }
+    .intro-box b { color: var(--sun-orange); }
+
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin: 48px 0 20px;
+    }
+
+    /* 번역 섹션 */
+    .translation-section {
+      background: linear-gradient(135deg, #14213D 0%, var(--space-blue) 100%);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 48px;
+    }
+
+    .translation-section h2 {
+      color: var(--star-white);
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .tr-guide {
+      color: rgba(244,241,236,0.65);
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    .tr-guide b { color: var(--sun-gold); }
+
+    .tr-empty {
+      color: rgba(244,241,236,0.5);
+      font-size: 0.9rem;
+      padding: 12px 0;
+    }
+
+    .tr-card {
+      display: block;
+      background: rgba(244,241,236,0.06);
+      border: 1px solid rgba(244,241,236,0.12);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .tr-card.tr-published:hover {
+      border-color: var(--sun-gold);
+      background: rgba(232,168,56,0.08);
+    }
+
+    .tr-title {
+      color: var(--star-white);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      line-height: 1.5;
+      display: block;
+    }
+
+    a.tr-title:hover { color: var(--sun-gold); }
+
+    .tr-authors {
+      display: block;
+      color: rgba(244,241,236,0.55);
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .tr-meta {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: rgba(244,241,236,0.45);
+    }
+
+    .tr-status { color: var(--aurora-cyan); font-weight: 600; }
+    .tr-published .tr-status { color: var(--sun-gold); }
+    .tr-failed .tr-status { color: var(--corona-red); }
+
+    /* 추천 논문 카드 */
+    .paper-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .paper-num {
+      position: absolute;
+      top: -14px;
+      left: 24px;
+      background: var(--sun-gold);
+      color: var(--deep-space);
+      font-weight: 700;
+      font-size: 0.85rem;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .requested-topic {
+      display: inline-block;
+      background: rgba(100,181,198,0.15);
+      color: #3A8FA3;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .paper-card h2 {
+      font-size: 1.15rem;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .paper-card h2 a {
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .paper-card h2 a:hover { color: var(--sun-orange); }
+
+    .paper-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    .source-badge {
+      background: rgba(232,168,56,0.12);
+      color: var(--sun-orange);
+      padding: 1px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .one-line-summary {
+      background: var(--bg-warm);
+      border-left: 3px solid var(--sun-gold);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .why-recommended {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .why-recommended strong { color: var(--sun-orange); font-size: 0.82rem; letter-spacing: 0.05em; }
+
+    .key-points {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+
+    .key-points li {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+
+    .key-points li::before {
+      content: '☀';
+      position: absolute;
+      left: 0;
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .tag-list span {
+      background: rgba(42,63,110,0.08);
+      color: var(--nebula-blue);
+      font-size: 0.75rem;
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 16px;
+    }
+
+    .vote-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .vote-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .vote-buttons { display: flex; gap: 8px; }
+
+    .vote-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
+      color: var(--text-light);
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+
+    .vote-btn:hover { border-color: var(--sun-gold); color: var(--sun-orange); }
+    .vote-btn.active { background: rgba(232,168,56,0.12); border-color: var(--sun-gold); color: var(--sun-orange); }
+
+    .action-buttons { display: flex; gap: 10px; }
+
+    .origin-btn, .request-btn {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .origin-btn {
+      color: var(--nebula-blue);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .origin-btn:hover { border-color: var(--nebula-blue); }
+
+    .request-btn {
+      background: var(--sun-gold);
+      color: var(--deep-space);
+    }
+
+    .request-btn:hover { background: var(--sun-orange); color: #fff; }
+
+    .giscus-section {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border-subtle);
+    }
+
+    .giscus-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .giscus-guide {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--sun-orange);
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .paper-card { padding: 20px; }
+      .card-actions { flex-direction: column; align-items: flex-start; }
+    }
+</style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="../index.html" class="brand">&#9728; SSWL <span class="accent">Paper Review</span></a>
+    <a href="../index.html">&larr; 목록으로</a>
+  </nav>
+
+  <header class="post-header">
+    <div class="post-header-inner">
+      <span class="week-tag">2026-W26</span>
+      <h1>주간 태양/우주기상 논문 추천<br>2026년 6월 4주차</h1>
+      <div class="meta">
+        <span>&#128197; 2026.06.22 — 06.28</span>
+        <span>&#128196; 3편 추천</span>
+        <span>&#128225; NASA ADS &middot; arXiv</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div class="intro-box">
+      <strong>이번 주 태양물리·우주기상 분야 논문 3편입니다.</strong><br>
+      신청 논문을 우선 포함하고, 나머지는 NASA ADS와 arXiv에서 검색해 AI가 선별했습니다.
+      <b>3편 전부 주말 동안 순차적으로 한국어 전문 번역</b>되어 아래 번역 섹션에 게시됩니다.
+      다음 주에 읽고 싶은 논문이 있다면 댓글에 링크를 남겨주세요.
+    </div>
+
+    <section class="translation-section" id="translations">
+      <h2>&#128214; 논문 전문 번역</h2>
+      <p class="tr-guide">
+        이번 주 논문은 <b>일요일~월요일에 걸쳐 한 편씩</b> 번역됩니다
+        (수식·그림 포함 PDF). <b>arXiv / ADS / DOI 링크</b>를 댓글로 남기면
+        다음 주기에 우선 번역 대상으로 포함됩니다.
+      </p>
+      <!-- TRANSLATIONS:START -->
+
+      <a class="tr-card tr-published" href="translations/arxiv-2606-17361.html">
+        <div class="tr-card-body">
+          <span class="tr-title">Extreme Ultraviolet Microflashes at Plume Bases: A Candidate for Powering the Corona and Solar Wind?</span>
+          <span class="tr-authors">Navdeep K. Panesar, Sanjiv K. Tiwari, Meng Jin et al.</span>
+          <div class="tr-meta">
+            <span>신청: 주간추천 · 게시: 2026-06-21</span>
+            <span class="tr-status">📖 번역본 읽기 &rarr;</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="tr-card tr-published" href="translations/arxiv-2606-19335.html">
+        <div class="tr-card-body">
+          <span class="tr-title">Fine-scale downflows above flare ribbons captured by Solar Orbiter/EUI</span>
+          <span class="tr-authors">Zheng Sun, Alexander G. M. Pietrow, Malcolm K. Druett et al.</span>
+          <div class="tr-meta">
+            <span>신청: 주간추천 · 게시: 2026-06-21</span>
+            <span class="tr-status">📖 번역본 읽기 &rarr;</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="tr-card tr-published" href="translations/ads-2026a-a...710a.107k.html">
+        <div class="tr-card-body">
+          <span class="tr-title">Hard X-ray sources from the high corona are an integral part of solar eruptions</span>
+          <span class="tr-authors">Krucker, Säm, Masuda, Satoshi</span>
+          <div class="tr-meta">
+            <span>신청: 주간추천 · 게시: 2026-06-20</span>
+            <span class="tr-status">📖 번역본 읽기 &rarr;</span>
+          </div>
+        </div>
+      </a>
+    <!-- TRANSLATIONS:END -->
+    </section>
+
+    <p class="section-label">이번 주 추천 논문</p>
+
+    <!-- Paper 1 -->
+    <article class="paper-card">
+      <div class="paper-num">1</div><span class="requested-topic">Solar Orbiter STIX 요청 주제에 대한 논문입니다</span>
+      <h2>
+        <a href="https://ui.adsabs.harvard.edu/abs/2026A&A...710A.107K" target="_blank" rel="noopener">
+          Hard X-ray sources from the high corona are an integral part of solar eruptions
+        </a>
+      </h2>
+      <div class="paper-meta">
+        <span>Krucker, Säm, Masuda, Satoshi</span>
+        <span>2026-06-00</span>
+        <span class="source-badge">Astronomy and Astrophysics</span>
+      </div>
+
+      <div class="one-line-summary">
+        Solar Orbiter STIX의 경엄폐(limb occultation) 진단 기법으로 주 플레어 위치 상부의 희미한 고코로나 경X선(Hard X-ray) 방출원을 체계적으로 확인.
+      </div>
+
+      <div class="why-recommended">
+        <strong>왜 추천하나요?</strong><br>
+        Solar Orbiter의 지구-태양 직선 이탈 시점을 활용한 경엄폐 기법은 기존 HXR 망원경의 동적범위(dynamic range) 한계로 놓쳐왔던 코로나 상부 방출원을 탐지할 수 있는 새로운 진단 창구를 열어줍니다. STIX 데이터를 활용하는 연구자에게 방법론적으로 즉시 활용 가능한 레퍼런스이며, 플레어 전자 가속 및 에너지 방출 위치 연구에 핵심적 증거를 제공합니다. 고코로나 HXR 방출원이 태양 폭발의 일반적 구성요소라는 주장은 표준 플레어 모델(standard flare model)을 재검토하게 합니다.
+      </div>
+
+      <ul class="key-points">
+        <li>Solar Orbiter의 독특한 공전 궤도가 경엄폐 기법을 가능하게 하며, 주 플레어 위치 상부에 위치한 희미한 HXR 방출원을 동적범위 문제 없이 분리 관측할 수 있음을 입증했습니다.</li>
+        <li>고코로나 HXR 방출원이 강한 플레어에 국한되지 않고 태양 폭발의 보편적 구성요소일 가능성을 제시하며, 자기 재연결(magnetic reconnection) 부위의 입자 가속 위치 특정에 중요한 함의를 가집니다.</li>
+        <li>STIX 기반 경엄폐 관측의 실현 가능성(feasibility)과 진단적 잠재력을 체계적으로 논증함으로써, 향후 Solar Orbiter 관측 전략 수립에 직접 활용될 수 있는 방법론적 프레임워크를 제공합니다.</li>
+      </ul>
+
+      <div class="tag-list"><span>#태양플레어</span><span>#경X선</span><span>#Solar Orbiter</span><span>#자기재연결</span></div>
+
+      <div class="card-actions">
+        <div class="vote-bar" data-paper-id="paper-1">
+          <span class="vote-label">이 추천이 유용했나요?</span>
+          <div class="vote-buttons">
+            <button class="vote-btn vote-up" onclick="vote('paper-1', 'up')" title="추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              <span class="vote-count" id="paper-1-up">0</span>
+            </button>
+            <button class="vote-btn vote-down" onclick="vote('paper-1', 'down')" title="비추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38-9a2 2 0 0 0-2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+              <span class="vote-count" id="paper-1-down">0</span>
+            </button>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <a href="https://ui.adsabs.harvard.edu/abs/2026A&A...710A.107K" target="_blank" rel="noopener" class="origin-btn">원문 보기</a>
+          <a href="#translations" class="request-btn">번역 진행 보기 &uarr;</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Paper 2 -->
+    <article class="paper-card">
+      <div class="paper-num">2</div><span class="requested-topic">Solar Orbiter EUI 요청 주제에 대한 논문입니다</span>
+      <h2>
+        <a href="http://arxiv.org/abs/2606.19335v1" target="_blank" rel="noopener">
+          Fine-scale downflows above flare ribbons captured by Solar Orbiter/EUI
+        </a>
+      </h2>
+      <div class="paper-meta">
+        <span>Zheng Sun, Alexander G. M. Pietrow, Malcolm K. Druett et al.</span>
+        <span>2026-06-17</span>
+        <span class="source-badge">arXiv: astro-ph.SR</span>
+      </div>
+
+      <div class="one-line-summary">
+        Solar Orbiter EUI가 플레어 리본(flare ribbon) 위에서 EUV 파장의 세밀한 하강류 구조('리블릿(riblet)')를 최초로 포착, 코로나에서 색구(chromosphere)로의 에너지 수송 경로를 직접 가시화.
+      </div>
+
+      <div class="why-recommended">
+        <strong>왜 추천하나요?</strong><br>
+        기존 Hα/Hβ 관측에서만 보고됐던 플레어 리본 위 세밀 하강류를 EUV 파장에서 처음 검출한 논문으로, EUI의 고공간해상도가 플레어 에너지 전달 연구에 새로운 관측 채널을 제공함을 증명합니다. 코로나-색구 결합(coronal-chromospheric coupling)의 미세 구조를 이해하려는 연구자에게 필수 참고문헌이며, Solar Orbiter EUI 데이터를 분석하는 연구팀에게 직접적 방법론 사례가 됩니다. 2026년 6월 17일 공개된 최신 논문입니다.
+      </div>
+
+      <ul class="key-points">
+        <li>EUI 171 Å 고해상도 EUV 영상에서 플레어 리본 위의 세밀한 하강류 구조(리블릿)를 최초 검출했으며, 이는 자기 재연결 이후 코로나 플라스마가 색구로 유입되는 물리적 과정의 직접 증거입니다.</li>
+        <li>검출된 리블릿의 속도·공간 규모가 기존 Hα 관측 결과와 정성적으로 일치하여, EUV와 광학 파장에서의 현상이 동일 물리 과정임을 지지합니다.</li>
+        <li>이 연구는 Solar Orbiter EUI의 공간 해상도가 플레어 세밀 구조 연구에 필수적임을 실증하며, 향후 Solar-C(EUVST)와의 공동 관측 전략 설계에 직접 활용될 수 있습니다.</li>
+      </ul>
+
+      <div class="tag-list"><span>#태양플레어</span><span>#플레어리본</span><span>#Solar Orbiter EUI</span><span>#색구</span></div>
+
+      <div class="card-actions">
+        <div class="vote-bar" data-paper-id="paper-2">
+          <span class="vote-label">이 추천이 유용했나요?</span>
+          <div class="vote-buttons">
+            <button class="vote-btn vote-up" onclick="vote('paper-2', 'up')" title="추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              <span class="vote-count" id="paper-2-up">0</span>
+            </button>
+            <button class="vote-btn vote-down" onclick="vote('paper-2', 'down')" title="비추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38-9a2 2 0 0 0-2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+              <span class="vote-count" id="paper-2-down">0</span>
+            </button>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <a href="http://arxiv.org/abs/2606.19335v1" target="_blank" rel="noopener" class="origin-btn">원문 보기</a>
+          <a href="#translations" class="request-btn">번역 진행 보기 &uarr;</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Paper 3 -->
+    <article class="paper-card">
+      <div class="paper-num">3</div><span class="requested-topic">Solar Orbiter EUI 요청 주제에 대한 논문입니다</span>
+      <h2>
+        <a href="http://arxiv.org/abs/2606.17361v1" target="_blank" rel="noopener">
+          Extreme Ultraviolet Microflashes at Plume Bases: A Candidate for Powering the Corona and Solar Wind?
+        </a>
+      </h2>
+      <div class="paper-meta">
+        <span>Navdeep K. Panesar, Sanjiv K. Tiwari, Meng Jin et al.</span>
+        <span>2026-06-15</span>
+        <span class="source-badge">arXiv: astro-ph.SR</span>
+      </div>
+
+      <div class="one-line-summary">
+        Solar Orbiter EUI가 태양 플럼(plume) 기저부의 자기 네트워크에서 새로운 유형의 EUV 마이크로플래시(microflash)를 발견, 코로나 가열 및 태양풍 구동의 에너지원 후보로 제시.
+      </div>
+
+      <div class="why-recommended">
+        <strong>왜 추천하나요?</strong><br>
+        태양풍의 주요 기원지인 플럼 기저부에서 기존에 알려지지 않은 미세 폭발 현상을 EUI 174 Å 이미지로 처음 식별한 논문으로, 코로나 가열 문제에 새로운 관측 단서를 제공합니다. 단극(unipolar) 자기속 내에서 발생한다는 특성이 기존 캠프파이어(campfire) 이벤트와 구별되는 새 범주를 시사하여, EUI 기반 소규모 이벤트 연구의 분류 체계를 확장합니다. 2026년 6월 15일 공개된 최신 논문입니다.
+      </div>
+
+      <ul class="key-points">
+        <li>플럼 기저부 단극 자기속 내에서 발생하는 마이크로플래시는 기존의 쌍극(bipolar) 자기 구조에서 유발되는 캠프파이어·나노플레어와 구별되는 새로운 유형의 네트워크 이벤트로 확인됩니다.</li>
+        <li>마이크로플래시의 발생 빈도(~2×10⁻² events s⁻¹ per plume)와 에너지 규모를 추정했을 때, 플럼을 통한 코로나 가열 및 태양풍 구동에 충분한 에너지 공급이 가능함을 시사합니다.</li>
+        <li>EUI의 174 Å 고해상도·고시간분해능 영상이 이 현상을 처음으로 포착할 수 있게 해준 핵심 요소이며, 향후 SPICE·HRI 동시 관측으로 플라스마 특성 규명이 기대됩니다.</li>
+      </ul>
+
+      <div class="tag-list"><span>#코로나가열</span><span>#태양풍</span><span>#Solar Orbiter EUI</span><span>#마이크로플래시</span></div>
+
+      <div class="card-actions">
+        <div class="vote-bar" data-paper-id="paper-3">
+          <span class="vote-label">이 추천이 유용했나요?</span>
+          <div class="vote-buttons">
+            <button class="vote-btn vote-up" onclick="vote('paper-3', 'up')" title="추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              <span class="vote-count" id="paper-3-up">0</span>
+            </button>
+            <button class="vote-btn vote-down" onclick="vote('paper-3', 'down')" title="비추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38-9a2 2 0 0 0-2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+              <span class="vote-count" id="paper-3-down">0</span>
+            </button>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <a href="http://arxiv.org/abs/2606.17361v1" target="_blank" rel="noopener" class="origin-btn">원문 보기</a>
+          <a href="#translations" class="request-btn">번역 진행 보기 &uarr;</a>
+        </div>
+      </div>
+    </article>
+
+
+    <section class="giscus-section" id="translation-request">
+      <h2 class="giscus-title">번역 신청 &middot; 주제 제안</h2>
+      <p class="giscus-guide">
+        <b>번역 신청:</b> 논문의 arXiv/ADS/DOI 링크를 댓글로 남겨주세요. &middot;
+        <b>주제 제안:</b> 다음 주 추천에 반영할 키워드를 자유롭게 작성해주세요.
+      </p>
+      <script src="https://giscus.app/client.js"
+        data-repo="JunmuYOUN/sswl-paper-review-comments"
+        data-repo-id="R_kgDOS-byPw"
+        data-category="General"
+        data-category-id="DIC_kwDOS-byP84C_aiw"
+        data-mapping="pathname"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory &middot; Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+    </p>
+  </footer>
+
+  <script>
+    function getVotes() {
+      return JSON.parse(localStorage.getItem('sswl-votes') || '{}');
+    }
+
+    function saveVotes(votes) {
+      localStorage.setItem('sswl-votes', JSON.stringify(votes));
+    }
+
+    function vote(paperId, type) {
+      var votes = getVotes();
+      var key = location.pathname + ':' + paperId;
+      var prev = votes[key];
+
+      if (prev === type) {
+        delete votes[key];
+      } else {
+        votes[key] = type;
+      }
+
+      saveVotes(votes);
+      renderVotes();
+    }
+
+    function renderVotes() {
+      var votes = getVotes();
+      var prefix = location.pathname + ':';
+      var counts = {};
+
+      for (var key in votes) {
+        if (key.startsWith(prefix)) {
+          var paperId = key.slice(prefix.length);
+          if (!counts[paperId]) counts[paperId] = { up: 0, down: 0 };
+          counts[paperId][votes[key]]++;
+        }
+      }
+
+      document.querySelectorAll('.vote-bar').forEach(function(bar) {
+        var paperId = bar.dataset.paperId;
+        var userVote = votes[prefix + paperId] || null;
+        var c = counts[paperId] || { up: 0, down: 0 };
+
+        var upBtn = bar.querySelector('.vote-up');
+        var downBtn = bar.querySelector('.vote-down');
+
+        upBtn.classList.toggle('active', userVote === 'up');
+        downBtn.classList.toggle('active', userVote === 'down');
+
+        bar.querySelector('#' + paperId + '-up').textContent = c.up;
+        bar.querySelector('#' + paperId + '-down').textContent = c.down;
+      });
+    }
+
+    renderVotes();
+  </script>
+
+</body>
+</html>

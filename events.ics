@@ -1,0 +1,279 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//SSWL Paper Review//Solar Events//KO
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Solar Physics Conferences
+X-WR-TIMEZONE:UTC
+BEGIN:VEVENT
+UID:sswl-event-0-20260119@sswl-paper-review
+DTSTART;VALUE=DATE:20260119
+DTEND;VALUE=DATE:20260124
+SUMMARY:ISRO-ESA Heliophysics Workshop on Aditya-L1\, Solar Orbiter and Proba-3
+LOCATION:Thiruvananthapuram\, India
+URL:https://events.iist.ac.in/ISRO-ESA/index.php
+DESCRIPTION:Source: SOHO\nDate: January 19-23, 2026\nhttps://events.iist.ac.in/ISRO-ESA/index.php
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-1-20260210@sswl-paper-review
+DTSTART;VALUE=DATE:20260210
+DTEND;VALUE=DATE:20260214
+SUMMARY:"Exploring the Sun at High Resolution: Present Perspectives & Future Horizons"
+LOCATION:Udaipur\, India
+URL:https://www.prl.res.in/~uso50yr/uso50yr.shtml
+DESCRIPTION:Source: SOHO\nDate: February 10-13, 2026\nhttps://www.prl.res.in/~uso50yr/uso50yr.shtml
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-2-20260302@sswl-paper-review
+DTSTART;VALUE=DATE:20260302
+DTEND;VALUE=DATE:20260307
+SUMMARY:Heliophysics in Europe #3
+LOCATION:meeting\, ESA ESTEC in Noorwijk\, the Netherlands
+URL:https://www.cosmos.esa.int/web/esa-heliophysics/heliophysics-in-europe-2026
+DESCRIPTION:Source: SOHO\nDate: March 2-6, 2026\nhttps://www.cosmos.esa.int/web/esa-heliophysics/heliophysics-in-europe-2026
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-4-20260315@sswl-paper-review
+DTSTART;VALUE=DATE:20260315
+DTEND;VALUE=DATE:20260320
+SUMMARY:Solar Orbiter Workshop #10
+LOCATION:Berlin\, Germany
+URL:https://www.mps.mpg.de/sow2026
+DESCRIPTION:Source: SOHO\nDate: March 15-19, 2026\nhttps://www.mps.mpg.de/sow2026
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-5-20260427@sswl-paper-review
+DTSTART;VALUE=DATE:20260427
+DTEND;VALUE=DATE:20260502
+SUMMARY:2026 Space Weather Workshop
+LOCATION:Boulder\, CO\, USA
+URL:https://cpaess.ucar.edu/meetings/2026-space-weather-workshop
+DESCRIPTION:Source: SOHO\nDate: April 27-May 1, 2026\nhttps://cpaess.ucar.edu/meetings/2026-space-weather-workshop
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-6-20260503@sswl-paper-review
+DTSTART;VALUE=DATE:20260503
+DTEND;VALUE=DATE:20260509
+SUMMARY:EGU General Assembly
+LOCATION:Vienna\, Austria
+URL:https://www.egu26.eu/
+DESCRIPTION:Source: SOHO\nDate: May 3-8, 2026\nhttps://www.egu26.eu/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-7-20260504@sswl-paper-review
+DTSTART;VALUE=DATE:20260504
+DTEND;VALUE=DATE:20260509
+SUMMARY:NASA 5th Eddy Cross-Disciplinary Symposium
+LOCATION:Boulder\, CO\, USA
+URL:https://cpaess.ucar.edu/meetings/nasa-5th-eddy-cross-disciplinary-symposium
+DESCRIPTION:Source: SOHO\nDate: May 4-8, 2026\nhttps://cpaess.ucar.edu/meetings/nasa-5th-eddy-cross-disciplinary-symposium
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-8-20260511@sswl-paper-review
+DTSTART;VALUE=DATE:20260511
+DTEND;VALUE=DATE:20260516
+SUMMARY:First Workshop on Sun and Space Weather
+LOCATION:Antalya\, Turkiye\, USA
+URL:https://sasw.akdeniz.edu.tr/tr/home-16264
+DESCRIPTION:Source: SOHO\nDate: May 11-15, 2026\nhttps://sasw.akdeniz.edu.tr/tr/home-16264
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-9-20260518@sswl-paper-review
+DTSTART;VALUE=DATE:20260518
+DTEND;VALUE=DATE:20260520
+SUMMARY:Cosmic Ray Transport Workshop
+LOCATION:Columbus\, OH\, USA
+URL:https://ccapp.osu.edu/workshops/cosmic-ray-transport-workshop
+DESCRIPTION:Source: SOHO\nDate: May 18-19, 2026\nhttps://ccapp.osu.edu/workshops/cosmic-ray-transport-workshop
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-10-20260608@sswl-paper-review
+DTSTART;VALUE=DATE:20260608
+DTEND;VALUE=DATE:20260612
+SUMMARY:Coronal Loop Workshop XII
+LOCATION:Newcastle-upon-Tyne\, UK
+URL:https://www.northumbria.ac.uk/about-us/our-schools/school-of-engineering-physics-and-mathematics/coronal-loop-workshop
+DESCRIPTION:Source: SOHO\nDate: June 8-11, 2026\nhttps://www.northumbria.ac.uk/about-us/our-schools/school-of-engineering-physics-and-mathematics/coronal-loop-workshop
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-11-20260608@sswl-paper-review
+DTSTART;VALUE=DATE:20260608
+DTEND;VALUE=DATE:20260611
+SUMMARY:Complexity in Heliophysics: Celebrating the Career and Works of Loukas Vlahos
+LOCATION:Thessaloniki\, Greece
+URL:https://sites.google.com/uoi.gr/complexity-in-heliophysics
+DESCRIPTION:Source: SOHO\nDate: June 8-10, 2026\nhttps://sites.google.com/uoi.gr/complexity-in-heliophysics
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-12-20260614@sswl-paper-review
+DTSTART;VALUE=DATE:20260614
+DTEND;VALUE=DATE:20260620
+SUMMARY:Solar Wind 17
+LOCATION:Bath\, UK
+URL:https://www.solarwind17.com/
+DESCRIPTION:Source: SOHO\nDate: June 14-19, 2026\nhttps://www.solarwind17.com/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-13-20260615@sswl-paper-review
+DTSTART;VALUE=DATE:20260615
+DTEND;VALUE=DATE:20260620
+SUMMARY:CESRA Workshop
+LOCATION:Brugg/Windisch\, Switzerland
+URL:https://sites.google.com/view/cesra2026/home
+DESCRIPTION:Source: SOHO\nDate: June 15-19, 2026\nhttps://sites.google.com/view/cesra2026/home
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-14-20260629@sswl-paper-review
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260701
+SUMMARY:Symposium on Solar Physics at the 2026 European Astronomical Society Annual Meeting
+LOCATION:Lausanne\, Switzerland
+URL:https://eas.unige.ch/EAS_meeting/session.jsp?id=S14
+DESCRIPTION:Source: SOHO\nDate: June 29-30, 2026\nhttps://eas.unige.ch/EAS_meeting/session.jsp?id=S14
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-15-20260801@sswl-paper-review
+DTSTART;VALUE=DATE:20260801
+DTEND;VALUE=DATE:20260810
+SUMMARY:46th COSPAR Scientific Assembly and 
+Associated Events (COSPAR 2026)
+LOCATION:Reconciling Theory and Observations: a Session on High-resolution Diagnostics of the Photosphere\, Chromosphere\, and Corona
+URL:https://cospar2026.org/
+DESCRIPTION:Source: SOHO\nDate: August 1-9, 2026\nhttps://cospar2026.org/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-16-20260831@sswl-paper-review
+DTSTART;VALUE=DATE:20260831
+DTEND;VALUE=DATE:20260905
+SUMMARY:Hinode-19 and SOLAR-C Science Meeting
+LOCATION:Nagoya\, Japan
+URL:https://hsc-nagoya.github.io/hinode19/index.html
+DESCRIPTION:Source: SOHO\nDate: August 31-September 4, 2026\nhttps://hsc-nagoya.github.io/hinode19/index.html
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-17-20261005@sswl-paper-review
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261010
+SUMMARY:DASH/IHDEA
+LOCATION:Dublin\, Ireland
+URL:https://dash.heliophysics.net/
+DESCRIPTION:Source: SOHO\nDate: October 5-9, 2026\nhttps://dash.heliophysics.net/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-18-20261102@sswl-paper-review
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261107
+SUMMARY:European Space Weather Week 2026
+LOCATION:Florence\, Italy
+URL:https://esww.aeronomie.be/
+DESCRIPTION:Source: SOHO\nDate: November 2-6, 2026\nhttps://esww.aeronomie.be/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-19-20261129@sswl-paper-review
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261205
+SUMMARY:IAU Symposium: IAUS410 New look at Solar and Stellar Coronae
+LOCATION:Shenzhen\, China
+URL:https://www.shenzhen-astronomy.org.cn/iaus410.html
+DESCRIPTION:Source: SOHO\nDate: November 29-December 4, 2026\nhttps://www.shenzhen-astronomy.org.cn/iaus410.html
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-20-20270801@sswl-paper-review
+DTSTART;VALUE=DATE:20270801
+DTEND;VALUE=DATE:20270813
+SUMMARY:XXXIII IAU General Assembly
+LOCATION:Rome\, Italy
+URL:https://www.iau.org/science/meetings/future/general_assemblies/2760/
+DESCRIPTION:Source: SOHO\nDate: August 1-12, 2027\nhttps://www.iau.org/science/meetings/future/general_assemblies/2760/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-21-20260809@sswl-paper-review
+DTSTART;VALUE=DATE:20260809
+DTEND;VALUE=DATE:20260815
+SUMMARY:SPD 57th Annual Meeting
+LOCATION:Baltimore\, MD\, USA
+URL:https://solarnews.aas.org/2025/spd-57th-annual-meeting-2026-save-the-date/
+DESCRIPTION:Source: SolarNews\nDate: August 9-14, 2026\nhttps://solarnews.aas.org/2025/spd-57th-annual-meeting-2026-save-the-date/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-22-20260810@sswl-paper-review
+DTSTART;VALUE=DATE:20260810
+DTEND;VALUE=DATE:20260815
+SUMMARY:Solar MHD 2026 Conference
+LOCATION:A Coruña\, Spain
+URL:https://solarnews.aas.org/2026/registration-and-abstract-submission-are-open-for-the-solar-mhd-2026-conference/
+DESCRIPTION:Source: SolarNews\nDate: August 10-14, 2026\nhttps://solarnews.aas.org/2026/registration-and-abstract-submission-are-open-for-the-solar-mhd-2026-conference/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-23-20260629@sswl-paper-review
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260703
+SUMMARY:SHINE Workshop 2026
+LOCATION:Madison\, Wisconsin\, USA
+URL:https://solarnews.aas.org/2026/shine-workshop-2026/
+DESCRIPTION:Source: SolarNews\nDate: June 29 - July 2, 2026\nhttps://solarnews.aas.org/2026/shine-workshop-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-24-20260601@sswl-paper-review
+DTSTART;VALUE=DATE:20260601
+DTEND;VALUE=DATE:20260606
+SUMMARY:SCOSTEP STP-16 Symposium
+LOCATION:Thessaloniki\, Greece
+URL:https://solarnews.aas.org/2025/scostep-stp-16-symposium-1-5-june-2026-thessaloniki-greece/
+DESCRIPTION:Source: SolarNews\nDate: June 1-5, 2026\nhttps://solarnews.aas.org/2025/scostep-stp-16-symposium-1-5-june-2026-thessaloniki-greece/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-25-20260204@sswl-paper-review
+DTSTART;VALUE=DATE:20260204
+DTEND;VALUE=DATE:20260207
+SUMMARY:1st iPIC3D Conference
+LOCATION:KU Leuven\, Belgium
+URL:https://solarnews.aas.org/2025/1st-ipic3d-conference-at-ku-leuven-belgium-from-4th-6th-february-2026/
+DESCRIPTION:Source: SolarNews\nDate: February 4-6, 2026\nhttps://solarnews.aas.org/2025/1st-ipic3d-conference-at-ku-leuven-belgium-from-4th-6th-february-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-26-20260817@sswl-paper-review
+DTSTART;VALUE=DATE:20260817
+DTEND;VALUE=DATE:20260822
+SUMMARY:GSST/CBERS-5 International Symposium on Machine Learning in Heliophysics and Space Weather
+LOCATION:São José dos Campos\, Brazil
+URL:https://solarnews.aas.org/2026/gsst-cbers5-symposium-ml-heliophysics/
+DESCRIPTION:Source: SolarNews\nDate: August 17-21, 2026\nhttps://solarnews.aas.org/2026/gsst-cbers5-symposium-ml-heliophysics/
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-27-20260408@sswl-paper-review
+DTSTART;VALUE=DATE:20260408
+DTEND;VALUE=DATE:20260411
+SUMMARY:한국천문학회 2026년 봄학술대회 (KAS Spring Meeting)
+LOCATION:수원컨벤션센터\, 대한민국
+URL:https://www.kas.org/html/sub4_01.html
+DESCRIPTION:Source: KAS\nDate: April 8-10, 2026\nhttps://www.kas.org/html/sub4_01.html
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-28-20260422@sswl-paper-review
+DTSTART;VALUE=DATE:20260422
+DTEND;VALUE=DATE:20260425
+SUMMARY:한국우주과학회 2026년 봄 학술대회 (KSSS Spring Conference)
+LOCATION:소노캄 여수\, 대한민국
+URL:https://ksss.or.kr/homepage/custom/d_conference
+DESCRIPTION:Source: KSSS\nDate: April 22-24, 2026\nhttps://ksss.or.kr/homepage/custom/d_conference
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-29-20261014@sswl-paper-review
+DTSTART;VALUE=DATE:20261014
+DTEND;VALUE=DATE:20261017
+SUMMARY:한국천문학회 2026년 가을학술대회 (KAS Fall Meeting)
+LOCATION:국립과천과학관\, 대한민국
+URL:https://www.kas.org/html/sub4_01.html
+DESCRIPTION:Source: KAS\nDate: October 14-16, 2026\nhttps://www.kas.org/html/sub4_01.html
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-30-20261028@sswl-paper-review
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261031
+SUMMARY:한국우주과학회 2026년 가을 학술대회 (KSSS Fall Conference)
+LOCATION:제주 쉐라톤\, 대한민국
+URL:https://ksss.or.kr/homepage/custom/d_conference
+DESCRIPTION:Source: KSSS\nDate: October 28-30, 2026\nhttps://ksss.or.kr/homepage/custom/d_conference
+END:VEVENT
+END:VCALENDAR

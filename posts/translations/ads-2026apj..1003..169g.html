@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MMS Insights into Coronal Mass Ejection─driven Sub-Alfvénic Solar Wind at 1 au | SSWL Paper Review</title>
+  <meta name="description" content="논문 한국어 전문 번역 — MMS Insights into Coronal Mass Ejection─driven Sub-Alfvénic Solar Wind at 1 au">
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="SSWL Paper Review">
+  <meta property="og:title" content="MMS Insights into Coronal Mass Ejection─driven Sub-Alfvénic Solar Wind at 1 au | SSWL Paper Review">
+  <meta property="og:description" content="논문 한국어 전문 번역 — Paper-Mate 하네스">
+  <meta property="og:url" content="https://junmuyoun.github.io/sswl-paper-review/posts/translations/ads-2026apj..1003..169g.html">
+  <meta property="og:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --star-white: #F4F1EC;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --border-subtle: #E8E4DC;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    .topnav {
+      background: var(--deep-space);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topnav a {
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .topnav a:hover { color: var(--sun-gold); }
+    .topnav .brand { font-size: 1rem; color: var(--star-white); font-weight: 600; }
+    .topnav .brand .accent { color: var(--sun-gold); }
+
+    .post-header {
+      background: linear-gradient(180deg, var(--space-blue) 0%, var(--deep-space) 100%);
+      padding: 50px 24px 40px;
+    }
+
+    .post-header-inner { max-width: 960px; margin: 0 auto; }
+
+    .post-header .badge {
+      display: inline-block;
+      background: rgba(232,168,56,0.2);
+      border: 1px solid rgba(232,168,56,0.4);
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .post-header h1 {
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      color: var(--star-white);
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .post-header .subtitle {
+      color: rgba(244,241,236,0.7);
+      font-size: 0.92rem;
+      margin-bottom: 14px;
+    }
+
+    .post-header .meta {
+      font-size: 0.82rem;
+      color: rgba(244,241,236,0.55);
+      line-height: 1.7;
+    }
+
+    .header-actions { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .header-actions a {
+      display: inline-block;
+      font-size: 0.83rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .btn-origin { color: var(--star-white); border: 1px solid rgba(244,241,236,0.3); }
+    .btn-origin:hover { border-color: var(--sun-gold); color: var(--sun-gold); }
+    .btn-pdf { background: var(--sun-gold); color: var(--deep-space); }
+    .btn-pdf:hover { background: var(--sun-orange); color: #fff; }
+
+    .content {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    .pdf-viewer {
+      width: 100%;
+      height: 88vh;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .pdf-fallback {
+      padding: 24px;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .pdf-fallback a { color: var(--sun-orange); font-weight: 600; }
+
+    .pdf-note {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    .giscus-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .giscus-section h2 {
+      font-size: 1.1rem;
+      padding-top: 32px;
+      border-top: 2px solid var(--border-subtle);
+      margin-bottom: 8px;
+    }
+
+    .giscus-guide { font-size: 0.85rem; color: var(--text-light); margin-bottom: 20px; }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    footer a { color: var(--sun-orange); text-decoration: none; }
+</style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="../../index.html" class="brand">&#9728; SSWL <span class="accent">Paper Review</span></a>
+    <a href="../../index.html">&larr; 목록으로</a>
+  </nav>
+
+  <header class="post-header">
+    <div class="post-header-inner">
+      <span class="badge">&#128214; 논문 전문 번역 &middot; Paper-Mate</span>
+      <h1>MMS Insights into Coronal Mass Ejection─driven Sub-Alfvénic Solar Wind at 1 au</h1>
+      
+      <div class="meta">Gurram, Harsha, Chen, Li-Jen, Argall, Matthew R. et al.<br>게시: 2026.07.04</div>
+      <div class="header-actions"><a class="btn-pdf" href="ads-2026apj..1003..169g.pdf" download>번역 PDF 다운로드</a> <a class="btn-origin" href="https://ui.adsabs.harvard.edu/abs/2026ApJ..1003..169G" target="_blank" rel="noopener">원문 보기</a></div>
+    </div>
+  </header>
+
+  <main class="content">
+    <object data="ads-2026apj..1003..169g.pdf" type="application/pdf" class="pdf-viewer">
+      <div class="pdf-fallback">
+        이 브라우저에서는 PDF 미리보기가 지원되지 않습니다.<br>
+        <a href="ads-2026apj..1003..169g.pdf" download>번역 PDF 다운로드</a>
+      </div>
+    </object>
+    <p class="pdf-note">모바일에서는 미리보기가 안 될 수 있습니다 — 위의 다운로드 버튼을 이용하세요.</p>
+  </main>
+
+  <section class="giscus-section">
+    <h2>질문 &middot; 의견</h2>
+    <p class="giscus-guide">번역본 내용에 대해 궁금한 점을 남겨주세요.</p>
+    <script src="https://giscus.app/client.js"
+      data-repo="JunmuYOUN/sswl-paper-review-comments"
+      data-repo-id="R_kgDOS-byPw"
+      data-category="General"
+      data-category-id="DIC_kwDOS-byP84C_aiw"
+      data-mapping="pathname"
+      data-strict="1"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="light"
+      data-lang="ko"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </section>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory &middot; Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      &middot; Translated by Paper-Mate Harness
+    </p>
+  </footer>
+
+</body>
+</html>

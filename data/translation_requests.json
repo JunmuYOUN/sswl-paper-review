@@ -1,0 +1,137 @@
+{
+  "requests": [
+    {
+      "slug": "arxiv-2605-31046",
+      "url": "http://arxiv.org/abs/2605.31046v3",
+      "title": "Extreme, transient bursts of energy in the auroral ionosphere. I. Predictive radar tracking",
+      "authors": "Magnus F Ivarsen, Saif Marei, Jordan Cho et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-06-13",
+      "status": "published",
+      "page": "posts/translations/arxiv-2605-31046.html",
+      "published_at": "2026-06-13",
+      "week": "2026-W25"
+    },
+    {
+      "slug": "ads-2026apj..1004...66z",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026ApJ..1004...66Z",
+      "title": "Can We Distinguish the Source Region Location of Filament/Prominence Eruptions from the Sun-as-a-star Hα Spectrum?",
+      "authors": "Zhang, Junyi, Hou, Yijun, Liu, Xiaofeng et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-06-13",
+      "status": "published",
+      "page": "posts/translations/ads-2026apj..1004...66z.html",
+      "published_at": "2026-06-14",
+      "week": "2026-W25"
+    },
+    {
+      "slug": "ads-2026a-a...710a.105p",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026A&A...710A.105P",
+      "title": "3D reconstruction of thermal hard X-ray sources in solar flares from combined STIX and HXI visibilities",
+      "authors": "Palumbo, Barbara, Massa, Paolo, Stiefel, Muriel Z. et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-06-13",
+      "status": "published",
+      "page": "posts/translations/ads-2026a-a...710a.105p.html",
+      "published_at": "2026-06-14",
+      "week": "2026-W25"
+    },
+    {
+      "slug": "ads-2026a-a...710a.107k",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026A&A...710A.107K",
+      "title": "Hard X-ray sources from the high corona are an integral part of solar eruptions",
+      "authors": "Krucker, Säm, Masuda, Satoshi",
+      "requested_by": "주간추천",
+      "requested_at": "2026-06-19",
+      "status": "published",
+      "page": "posts/translations/ads-2026a-a...710a.107k.html",
+      "published_at": "2026-06-20",
+      "week": "2026-W26"
+    },
+    {
+      "slug": "arxiv-2606-19335",
+      "url": "http://arxiv.org/abs/2606.19335v1",
+      "title": "Fine-scale downflows above flare ribbons captured by Solar Orbiter/EUI",
+      "authors": "Zheng Sun, Alexander G. M. Pietrow, Malcolm K. Druett et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-06-19",
+      "status": "published",
+      "page": "posts/translations/arxiv-2606-19335.html",
+      "published_at": "2026-06-21",
+      "week": "2026-W26"
+    },
+    {
+      "slug": "arxiv-2606-17361",
+      "url": "http://arxiv.org/abs/2606.17361v1",
+      "title": "Extreme Ultraviolet Microflashes at Plume Bases: A Candidate for Powering the Corona and Solar Wind?",
+      "authors": "Navdeep K. Panesar, Sanjiv K. Tiwari, Meng Jin et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-06-19",
+      "status": "published",
+      "page": "posts/translations/arxiv-2606-17361.html",
+      "published_at": "2026-06-21",
+      "week": "2026-W26"
+    },
+    {
+      "slug": "ads-2026soph..301...87t",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026SoPh..301...87T",
+      "title": "An Algorithm for the Onboard Detection of Solar Flare Onset",
+      "authors": "Toy-Edens, Vicki, Mo, Wenli, Vourlidas, Angelos et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-06-26",
+      "status": "published",
+      "page": "posts/translations/ads-2026soph..301...87t.html",
+      "attempts": 1,
+      "published_at": "2026-06-28",
+      "week": "2026-W27"
+    },
+    {
+      "slug": "ads-2026soph..301...85a",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026SoPh..301...85A",
+      "title": "Statistical Study of Intense Geomagnetic Storms and Their Solar Origins over the Period 1996 ─ 2025",
+      "authors": "Augustine D'Awarave, Arron, Panditi, Vemareddy",
+      "requested_by": "주간추천",
+      "requested_at": "2026-06-26",
+      "status": "published",
+      "page": "posts/translations/ads-2026soph..301...85a.html",
+      "published_at": "2026-06-28",
+      "week": "2026-W27"
+    },
+    {
+      "slug": "ads-2026apj..1003..169g",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026ApJ..1003..169G",
+      "title": "MMS Insights into Coronal Mass Ejection─driven Sub-Alfvénic Solar Wind at 1 au",
+      "authors": "Gurram, Harsha, Chen, Li-Jen, Argall, Matthew R. et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-06-26",
+      "status": "published",
+      "page": "posts/translations/ads-2026apj..1003..169g.html",
+      "week": "2026-W27",
+      "published_at": "2026-07-04"
+    },
+    {
+      "slug": "ads-2026apj..1005l..26k",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026ApJ..1005L..26K",
+      "title": "Interpretable Data-driven Model Reveals Current Helicity Evolution as Key to Solar Flare Forecasting",
+      "authors": "Kim, Youngjae, Moon, Yong-jae, Jeong, Hyun-jin et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-07-04",
+      "status": "published",
+      "page": "posts/translations/ads-2026apj..1005l..26k.html",
+      "week": "2026-W28",
+      "published_at": "2026-07-05"
+    },
+    {
+      "slug": "ads-2026apj..1004..174f",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026ApJ..1004..174F",
+      "title": "Fundamental Understanding of Magnetic Reconnection via Spiral CT Scan. VII. Energy Conversion",
+      "authors": "Fu, H. S., Wang, Z., Cao, J. B.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-07-04",
+      "status": "requested",
+      "page": "",
+      "week": "2026-W28",
+      "attempts": 1
+    }
+  ]
+}

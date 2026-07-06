@@ -1,0 +1,288 @@
+{
+  "updated": "2026-06-28T02:56:02Z",
+  "sources": [
+    "SOHO Community",
+    "SolarNews (AAS)"
+  ],
+  "events": [
+    {
+      "name": "ISRO-ESA Heliophysics Workshop on Aditya-L1, Solar Orbiter and Proba-3",
+      "date_raw": "January 19-23, 2026",
+      "start_date": "2026-01-19",
+      "end_date": "2026-01-23",
+      "location": "Thiruvananthapuram, India",
+      "url": "https://events.iist.ac.in/ISRO-ESA/index.php",
+      "source": "SOHO"
+    },
+    {
+      "name": "\"Exploring the Sun at High Resolution: Present Perspectives & Future Horizons\"",
+      "date_raw": "February 10-13, 2026",
+      "start_date": "2026-02-10",
+      "end_date": "2026-02-13",
+      "location": "Udaipur, India",
+      "url": "https://www.prl.res.in/~uso50yr/uso50yr.shtml",
+      "source": "SOHO"
+    },
+    {
+      "name": "Heliophysics in Europe #3",
+      "date_raw": "March 2-6, 2026",
+      "start_date": "2026-03-02",
+      "end_date": "2026-03-06",
+      "location": "meeting, ESA ESTEC in Noorwijk, the Netherlands",
+      "url": "https://www.cosmos.esa.int/web/esa-heliophysics/heliophysics-in-europe-2026",
+      "source": "SOHO"
+    },
+    {
+      "name": "Solar-Stellar and Star-Planet Connections: Mind the Gap",
+      "date_raw": "March 13, 2026",
+      "start_date": null,
+      "end_date": null,
+      "location": "RAS specialist meeting in London, UK",
+      "url": "https://ras.ac.uk/events-and-meetings/ras-meetings/solar-stella-and-star-planet-connectionsmind-gap",
+      "source": "SOHO"
+    },
+    {
+      "name": "Solar Orbiter Workshop #10",
+      "date_raw": "March 15-19, 2026",
+      "start_date": "2026-03-15",
+      "end_date": "2026-03-19",
+      "location": "Berlin, Germany",
+      "url": "https://www.mps.mpg.de/sow2026",
+      "source": "SOHO"
+    },
+    {
+      "name": "2026 Space Weather Workshop",
+      "date_raw": "April 27-May 1, 2026",
+      "start_date": "2026-04-27",
+      "end_date": "2026-05-01",
+      "location": "Boulder, CO, USA",
+      "url": "https://cpaess.ucar.edu/meetings/2026-space-weather-workshop",
+      "source": "SOHO"
+    },
+    {
+      "name": "EGU General Assembly",
+      "date_raw": "May 3-8, 2026",
+      "start_date": "2026-05-03",
+      "end_date": "2026-05-08",
+      "location": "Vienna, Austria",
+      "url": "https://www.egu26.eu/",
+      "source": "SOHO"
+    },
+    {
+      "name": "NASA 5th Eddy Cross-Disciplinary Symposium",
+      "date_raw": "May 4-8, 2026",
+      "start_date": "2026-05-04",
+      "end_date": "2026-05-08",
+      "location": "Boulder, CO, USA",
+      "url": "https://cpaess.ucar.edu/meetings/nasa-5th-eddy-cross-disciplinary-symposium",
+      "source": "SOHO"
+    },
+    {
+      "name": "First Workshop on Sun and Space Weather",
+      "date_raw": "May 11-15, 2026",
+      "start_date": "2026-05-11",
+      "end_date": "2026-05-15",
+      "location": "Antalya, Turkiye, USA",
+      "url": "https://sasw.akdeniz.edu.tr/tr/home-16264",
+      "source": "SOHO"
+    },
+    {
+      "name": "Cosmic Ray Transport Workshop",
+      "date_raw": "May 18-19, 2026",
+      "start_date": "2026-05-18",
+      "end_date": "2026-05-19",
+      "location": "Columbus, OH, USA",
+      "url": "https://ccapp.osu.edu/workshops/cosmic-ray-transport-workshop",
+      "source": "SOHO"
+    },
+    {
+      "name": "Coronal Loop Workshop XII",
+      "date_raw": "June 8-11, 2026",
+      "start_date": "2026-06-08",
+      "end_date": "2026-06-11",
+      "location": "Newcastle-upon-Tyne, UK",
+      "url": "https://www.northumbria.ac.uk/about-us/our-schools/school-of-engineering-physics-and-mathematics/coronal-loop-workshop",
+      "source": "SOHO"
+    },
+    {
+      "name": "Complexity in Heliophysics: Celebrating the Career and Works of Loukas Vlahos",
+      "date_raw": "June 8-10, 2026",
+      "start_date": "2026-06-08",
+      "end_date": "2026-06-10",
+      "location": "Thessaloniki, Greece",
+      "url": "https://sites.google.com/uoi.gr/complexity-in-heliophysics",
+      "source": "SOHO"
+    },
+    {
+      "name": "Solar Wind 17",
+      "date_raw": "June 14-19, 2026",
+      "start_date": "2026-06-14",
+      "end_date": "2026-06-19",
+      "location": "Bath, UK",
+      "url": "https://www.solarwind17.com/",
+      "source": "SOHO"
+    },
+    {
+      "name": "CESRA Workshop",
+      "date_raw": "June 15-19, 2026",
+      "start_date": "2026-06-15",
+      "end_date": "2026-06-19",
+      "location": "Brugg/Windisch, Switzerland",
+      "url": "https://sites.google.com/view/cesra2026/home",
+      "source": "SOHO"
+    },
+    {
+      "name": "Symposium on Solar Physics at the 2026 European Astronomical Society Annual Meeting",
+      "date_raw": "June 29-30, 2026",
+      "start_date": "2026-06-29",
+      "end_date": "2026-06-30",
+      "location": "Lausanne, Switzerland",
+      "url": "https://eas.unige.ch/EAS_meeting/session.jsp?id=S14",
+      "source": "SOHO"
+    },
+    {
+      "name": "46th COSPAR Scientific Assembly and \nAssociated Events (COSPAR 2026)",
+      "date_raw": "August 1-9, 2026",
+      "start_date": "2026-08-01",
+      "end_date": "2026-08-09",
+      "location": "Reconciling Theory and Observations: a Session on High-resolution Diagnostics of the Photosphere, Chromosphere, and Corona",
+      "url": "https://cospar2026.org/",
+      "source": "SOHO"
+    },
+    {
+      "name": "Hinode-19 and SOLAR-C Science Meeting",
+      "date_raw": "August 31-September 4, 2026",
+      "start_date": "2026-08-31",
+      "end_date": "2026-09-04",
+      "location": "Nagoya, Japan",
+      "url": "https://hsc-nagoya.github.io/hinode19/index.html",
+      "source": "SOHO"
+    },
+    {
+      "name": "DASH/IHDEA",
+      "date_raw": "October 5-9, 2026",
+      "start_date": "2026-10-05",
+      "end_date": "2026-10-09",
+      "location": "Dublin, Ireland",
+      "url": "https://dash.heliophysics.net/",
+      "source": "SOHO"
+    },
+    {
+      "name": "European Space Weather Week 2026",
+      "date_raw": "November 2-6, 2026",
+      "start_date": "2026-11-02",
+      "end_date": "2026-11-06",
+      "location": "Florence, Italy",
+      "url": "https://esww.aeronomie.be/",
+      "source": "SOHO"
+    },
+    {
+      "name": "IAU Symposium: IAUS410 New look at Solar and Stellar Coronae",
+      "date_raw": "November 29-December 4, 2026",
+      "start_date": "2026-11-29",
+      "end_date": "2026-12-04",
+      "location": "Shenzhen, China",
+      "url": "https://www.shenzhen-astronomy.org.cn/iaus410.html",
+      "source": "SOHO"
+    },
+    {
+      "name": "XXXIII IAU General Assembly",
+      "date_raw": "August 1-12, 2027",
+      "start_date": "2027-08-01",
+      "end_date": "2027-08-12",
+      "location": "Rome, Italy",
+      "url": "https://www.iau.org/science/meetings/future/general_assemblies/2760/",
+      "source": "SOHO"
+    },
+    {
+      "name": "SPD 57th Annual Meeting",
+      "date_raw": "August 9-14, 2026",
+      "start_date": "2026-08-09",
+      "end_date": "2026-08-14",
+      "location": "Baltimore, MD, USA",
+      "url": "https://solarnews.aas.org/2025/spd-57th-annual-meeting-2026-save-the-date/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "Solar MHD 2026 Conference",
+      "date_raw": "August 10-14, 2026",
+      "start_date": "2026-08-10",
+      "end_date": "2026-08-14",
+      "location": "A Coruña, Spain",
+      "url": "https://solarnews.aas.org/2026/registration-and-abstract-submission-are-open-for-the-solar-mhd-2026-conference/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "SHINE Workshop 2026",
+      "date_raw": "June 29 - July 2, 2026",
+      "start_date": "2026-06-29",
+      "end_date": "2026-07-02",
+      "location": "Madison, Wisconsin, USA",
+      "url": "https://solarnews.aas.org/2026/shine-workshop-2026/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "SCOSTEP STP-16 Symposium",
+      "date_raw": "June 1-5, 2026",
+      "start_date": "2026-06-01",
+      "end_date": "2026-06-05",
+      "location": "Thessaloniki, Greece",
+      "url": "https://solarnews.aas.org/2025/scostep-stp-16-symposium-1-5-june-2026-thessaloniki-greece/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "1st iPIC3D Conference",
+      "date_raw": "February 4-6, 2026",
+      "start_date": "2026-02-04",
+      "end_date": "2026-02-06",
+      "location": "KU Leuven, Belgium",
+      "url": "https://solarnews.aas.org/2025/1st-ipic3d-conference-at-ku-leuven-belgium-from-4th-6th-february-2026/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "GSST/CBERS-5 International Symposium on Machine Learning in Heliophysics and Space Weather",
+      "date_raw": "August 17-21, 2026",
+      "start_date": "2026-08-17",
+      "end_date": "2026-08-21",
+      "location": "São José dos Campos, Brazil",
+      "url": "https://solarnews.aas.org/2026/gsst-cbers5-symposium-ml-heliophysics/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "한국천문학회 2026년 봄학술대회 (KAS Spring Meeting)",
+      "date_raw": "April 8-10, 2026",
+      "start_date": "2026-04-08",
+      "end_date": "2026-04-10",
+      "location": "수원컨벤션센터, 대한민국",
+      "url": "https://www.kas.org/html/sub4_01.html",
+      "source": "KAS"
+    },
+    {
+      "name": "한국우주과학회 2026년 봄 학술대회 (KSSS Spring Conference)",
+      "date_raw": "April 22-24, 2026",
+      "start_date": "2026-04-22",
+      "end_date": "2026-04-24",
+      "location": "소노캄 여수, 대한민국",
+      "url": "https://ksss.or.kr/homepage/custom/d_conference",
+      "source": "KSSS"
+    },
+    {
+      "name": "한국천문학회 2026년 가을학술대회 (KAS Fall Meeting)",
+      "date_raw": "October 14-16, 2026",
+      "start_date": "2026-10-14",
+      "end_date": "2026-10-16",
+      "location": "국립과천과학관, 대한민국",
+      "url": "https://www.kas.org/html/sub4_01.html",
+      "source": "KAS"
+    },
+    {
+      "name": "한국우주과학회 2026년 가을 학술대회 (KSSS Fall Conference)",
+      "date_raw": "October 28-30, 2026",
+      "start_date": "2026-10-28",
+      "end_date": "2026-10-30",
+      "location": "제주 쉐라톤, 대한민국",
+      "url": "https://ksss.or.kr/homepage/custom/d_conference",
+      "source": "KSSS"
+    }
+  ]
+}

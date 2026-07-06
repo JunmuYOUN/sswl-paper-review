@@ -1,0 +1,104 @@
+{
+  "updated": "2026-06-28T02:56:02Z",
+  "events": [
+    {
+      "name": "SPD 57th Annual Meeting",
+      "date_raw": "August 9-14, 2026",
+      "start_date": "2026-08-09",
+      "end_date": "2026-08-14",
+      "location": "Baltimore, MD, USA",
+      "url": "https://solarnews.aas.org/2025/spd-57th-annual-meeting-2026-save-the-date/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "Solar MHD 2026 Conference",
+      "date_raw": "August 10-14, 2026",
+      "start_date": "2026-08-10",
+      "end_date": "2026-08-14",
+      "location": "A Coruña, Spain",
+      "url": "https://solarnews.aas.org/2026/registration-and-abstract-submission-are-open-for-the-solar-mhd-2026-conference/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "SHINE Workshop 2026",
+      "date_raw": "June 29 - July 2, 2026",
+      "start_date": "2026-06-29",
+      "end_date": "2026-07-02",
+      "location": "Madison, Wisconsin, USA",
+      "url": "https://solarnews.aas.org/2026/shine-workshop-2026/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "SCOSTEP STP-16 Symposium",
+      "date_raw": "June 1-5, 2026",
+      "start_date": "2026-06-01",
+      "end_date": "2026-06-05",
+      "location": "Thessaloniki, Greece",
+      "url": "https://solarnews.aas.org/2025/scostep-stp-16-symposium-1-5-june-2026-thessaloniki-greece/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "European Space Weather Week (ESWW) 2026",
+      "date_raw": "November 2-6, 2026",
+      "start_date": "2026-11-02",
+      "end_date": "2026-11-06",
+      "location": "Florence, Italy",
+      "url": "https://solarnews.aas.org/2026/first-announcement-european-space-weather-week-2026-call-for-convening-of-sessions-and-discussion-meetings/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "1st iPIC3D Conference",
+      "date_raw": "February 4-6, 2026",
+      "start_date": "2026-02-04",
+      "end_date": "2026-02-06",
+      "location": "KU Leuven, Belgium",
+      "url": "https://solarnews.aas.org/2025/1st-ipic3d-conference-at-ku-leuven-belgium-from-4th-6th-february-2026/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "GSST/CBERS-5 International Symposium on Machine Learning in Heliophysics and Space Weather",
+      "date_raw": "August 17-21, 2026",
+      "start_date": "2026-08-17",
+      "end_date": "2026-08-21",
+      "location": "São José dos Campos, Brazil",
+      "url": "https://solarnews.aas.org/2026/gsst-cbers5-symposium-ml-heliophysics/",
+      "source": "SolarNews"
+    },
+    {
+      "name": "한국천문학회 2026년 봄학술대회 (KAS Spring Meeting)",
+      "date_raw": "April 8-10, 2026",
+      "start_date": "2026-04-08",
+      "end_date": "2026-04-10",
+      "location": "수원컨벤션센터, 대한민국",
+      "url": "https://www.kas.org/html/sub4_01.html",
+      "source": "KAS"
+    },
+    {
+      "name": "한국우주과학회 2026년 봄 학술대회 (KSSS Spring Conference)",
+      "date_raw": "April 22-24, 2026",
+      "start_date": "2026-04-22",
+      "end_date": "2026-04-24",
+      "location": "소노캄 여수, 대한민국",
+      "url": "https://ksss.or.kr/homepage/custom/d_conference",
+      "source": "KSSS"
+    },
+    {
+      "name": "한국천문학회 2026년 가을학술대회 (KAS Fall Meeting)",
+      "date_raw": "October 14-16, 2026",
+      "start_date": "2026-10-14",
+      "end_date": "2026-10-16",
+      "location": "국립과천과학관, 대한민국",
+      "url": "https://www.kas.org/html/sub4_01.html",
+      "source": "KAS"
+    },
+    {
+      "name": "한국우주과학회 2026년 가을 학술대회 (KSSS Fall Conference)",
+      "date_raw": "October 28-30, 2026",
+      "start_date": "2026-10-28",
+      "end_date": "2026-10-30",
+      "location": "제주 쉐라톤, 대한민국",
+      "url": "https://ksss.or.kr/homepage/custom/d_conference",
+      "source": "KSSS"
+    }
+  ]
+}

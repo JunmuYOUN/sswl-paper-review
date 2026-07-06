@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSWL Weekly Paper Review</title>
+  <meta name="description" content="경희대 태양 및 우주기상 연구실(SSWL) — 매주 최신 논문 5편 추천 + 신청 논문 한국어 전문 번역을 제공합니다.">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SSWL Paper Review">
+  <meta property="og:title" content="SSWL Weekly Paper Review">
+  <meta property="og:description" content="경희대 태양 및 우주기상 연구실(SSWL) — 매주 최신 논문 5편 추천 + 신청 논문 한국어 전문 번역을 제공합니다.">
+  <meta property="og:url" content="https://junmuyoun.github.io/sswl-paper-review/index.html">
+  <meta property="og:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SSWL Weekly Paper Review">
+  <meta name="twitter:description" content="경희대 태양 및 우주기상 연구실(SSWL) — 매주 최신 논문 5편 추천 + 신청 논문 한국어 전문 번역을 제공합니다.">
+  <meta name="twitter:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <link rel="icon" type="image/png" href="images/SSW_Lab_logo_gold1.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ─── Hero Header ─── */
+    .hero {
+      background: linear-gradient(135deg, var(--deep-space) 0%, var(--space-blue) 40%, var(--nebula-blue) 100%);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(232,168,56,0.15) 0%, rgba(232,168,56,0.05) 40%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse-glow 8s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      right: 10%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(232,168,56,0.8) 0%, rgba(212,114,42,0.4) 30%, transparent 60%);
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: pulse-glow 6s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    /* Stars */
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 15% 80%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 15%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 45% 85%, rgba(255,255,255,0.7) 0%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 24px 70px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(232,168,56,0.15);
+      border: 1px solid rgba(232,168,56,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      color: var(--sun-gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--sun-gold);
+      border-radius: 50%;
+      animation: blink 3s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: Arial, sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 .accent {
+      color: var(--sun-gold);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(244,241,236,0.7);
+      font-weight: 300;
+      max-width: 600px;
+      margin-bottom: 28px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta a {
+      color: var(--aurora-cyan);
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .hero-meta a:hover { color: var(--star-white); }
+
+    /* ─── Main Content ─── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-light);
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    /* ─── Post Cards ─── */
+    .post-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .post-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 28px 32px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      position: relative;
+    }
+
+    .post-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(11,20,38,0.08);
+      border-color: var(--sun-gold);
+    }
+
+    .post-card .week-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--deep-space), var(--space-blue));
+      color: var(--sun-gold);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .post-card h3 {
+      font-family: Arial, sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .post-card .post-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .post-card .post-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .post-card .paper-count {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .post-card .paper-count .icon {
+      font-size: 1rem;
+    }
+
+    .post-card .sources {
+      display: flex;
+      gap: 8px;
+    }
+
+    .post-card .sources span {
+      background: var(--bg-warm);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 640px) {
+      .hero-content { padding: 60px 20px 50px; }
+      .post-card { padding: 20px; }
+      .post-card .post-footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GNB -->
+  <nav class="gnb">
+    <div class="gnb-inner">
+      <a href="index.html" class="gnb-brand">SSWL Paper Review</a>
+      <button class="gnb-hamburger" onclick="this.classList.toggle('active');document.querySelector('.gnb-links').classList.toggle('open')" aria-label="메뉴">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="gnb-links">
+        <a href="index.html" class="active">Paper Review</a>
+        <div class="gnb-dropdown">
+          <span>Surveillance</span>
+          <div class="gnb-dropdown-menu">
+            <a href="solar-wind.html">Solar Wind</a>
+            <a href="goes-xray.html">GOES X-ray</a>
+            <a href="solar-orbiter.html">Solar Orbiter</a>
+          </div>
+        </div>
+        <a href="events.html">Events</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="https://sunspaceweather.khu.ac.kr/" target="_blank">SSWL Lab</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="stars"></div>
+    <div class="hero-content">
+      <h1>Weekly <span class="accent">Paper</span> Review</h1>
+      <p class="hero-sub">
+        경희대학교 태양 및 우주기상 연구실 — 매주 최신 논문 5편을 추천하고, 신청한 논문은 한국어 전문 번역본으로 제공합니다.
+      </p>
+    </div>
+  </header>
+
+  <!-- Post List -->
+  <main class="container">
+    <p class="section-label">최근 리뷰</p>
+
+    <div class="post-list">
+      <!-- 2026-W29 placeholder -->
+      <a href="posts/2026-w29.html" class="post-card">
+        <span class="week-tag">2026-W29 (예정)</span>
+        <h3>다음 주 논문 추천 제안 — 2026년 7월 2주차</h3>
+        <p class="post-desc">
+          다음 주 추천 주제를 제안하거나 논문 전문 번역을 신청해주세요.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128161;</span> 제안 받는 중
+          </span>
+          <span>2026.07.13 예정</span>
+        </div>
+      </a>
+      <!-- 2026-W28 -->
+      <a href="posts/2026-w28.html" class="post-card">
+        <span class="week-tag">2026-W28</span>
+        <h3>주간 태양/우주기상 논문 — 2026년 7월 1주차</h3>
+        <p class="post-desc">
+          이번 주 논문 3편 — 주말 동안 전편이 한국어 전문 번역 PDF로 게시됩니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 3편 추천
+          </span>
+          <span>2026.07.06</span>
+          <div class="sources">
+            <span>ADS</span>
+            <span>arXiv</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W27 -->
+      <a href="posts/2026-w27.html" class="post-card">
+        <span class="week-tag">2026-W27</span>
+        <h3>주간 태양/우주기상 논문 — 2026년 6월 5주차</h3>
+        <p class="post-desc">
+          이번 주 논문 3편 — 주말 동안 전편이 한국어 전문 번역 PDF로 게시됩니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 3편 추천
+          </span>
+          <span>2026.06.29</span>
+          <div class="sources">
+            <span>ADS</span>
+            <span>arXiv</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W26 -->
+      <a href="posts/2026-w26.html" class="post-card">
+        <span class="week-tag">2026-W26</span>
+        <h3>주간 태양/우주기상 논문 — 2026년 6월 4주차</h3>
+        <p class="post-desc">
+          이번 주 논문 3편 — 주말 동안 전편이 한국어 전문 번역 PDF로 게시됩니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 3편 추천
+          </span>
+          <span>2026.06.22</span>
+          <div class="sources">
+            <span>ADS</span>
+            <span>arXiv</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W25 -->
+      <a href="posts/2026-w25.html" class="post-card">
+        <span class="week-tag">2026-W25</span>
+        <h3>주간 태양/우주기상 논문 — 2026년 6월 3주차</h3>
+        <p class="post-desc">
+          이번 주 논문 3편 — 주말 동안 전편이 한국어 전문 번역 PDF로 게시됩니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 3편 추천
+          </span>
+          <span>2026.06.15</span>
+          <div class="sources">
+            <span>ADS</span>
+            <span>arXiv</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W24 -->
+      <a href="posts/2026-w24.html" class="post-card">
+        <span class="week-tag">2026-W24</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 6월 2주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 5편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 5편 리뷰
+          </span>
+          <span>2026.06.08</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W23 -->
+      <a href="posts/2026-w23.html" class="post-card">
+        <span class="week-tag">2026-W23</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 6월 1주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 5편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 5편 리뷰
+          </span>
+          <span>2026.06.01</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      <!-- 2026-W22 placeholder -->
+      <a href="posts/2026-w22.html" class="post-card">
+        <span class="week-tag">2026-W22 (예정)</span>
+        <h3>다음 주 논문 리뷰 제안 — 2026년 5월 4주차</h3>
+        <p class="post-desc">
+          다음 주에 리뷰할 논문이나 주제를 댓글로 제안해주세요.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128161;</span> 제안 받는 중
+          </span>
+          <span>2026.05.25 예정</span>
+        </div>
+      </a>
+      <!-- 2026-W21 -->
+      <a href="posts/2026-w21.html" class="post-card">
+        <span class="week-tag">2026-W21</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 5월 3주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 5편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 5편 리뷰
+          </span>
+          <span>2026.05.18</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W20 -->
+      <a href="posts/2026-w20.html" class="post-card">
+        <span class="week-tag">2026-W20</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 5월 2주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 5편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 5편 리뷰
+          </span>
+          <span>2026.05.11</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W19 -->
+      <a href="posts/2026-w19.html" class="post-card">
+        <span class="week-tag">2026-W19</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 5월 1주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 5편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 5편 리뷰
+          </span>
+          <span>2026.05.04</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W18 -->
+      <a href="posts/2026-w18.html" class="post-card">
+        <span class="week-tag">2026-W18</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 4월 4주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 5편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 5편 리뷰
+          </span>
+          <span>2026.04.27</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W17 -->
+      <a href="posts/2026-w17.html" class="post-card">
+        <span class="week-tag">2026-W17</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 4월 3주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 5편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 5편 리뷰
+          </span>
+          <span>2026.04.20</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W16 -->
+      <a href="posts/2026-w16.html" class="post-card">
+        <span class="week-tag">2026-W16</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 4월 2주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 5편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 5편 리뷰
+          </span>
+          <span>2026.04.13</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W15 -->
+      <a href="posts/2026-w15.html" class="post-card">
+        <span class="week-tag">2026-W15</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 4월 1주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 2편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 2편 리뷰
+          </span>
+          <span>2026.04.06</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      
+      <!-- 2026-W14 -->
+      <a href="posts/2026-w14.html" class="post-card">
+        <span class="week-tag">2026-W14</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 3월 5주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 4편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">&#128196;</span> 4편 리뷰
+          </span>
+          <span>2026.03.30</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+      
+
+      <!-- 2026-W13 -->
+      <a href="posts/2026-w13.html" class="post-card">
+        <span class="week-tag">2026-W13</span>
+        <h3>주간 태양/우주기상 논문 리뷰 — 2026년 3월 4주차</h3>
+        <p class="post-desc">
+          태양물리·우주기상 분야 최신 논문 5편을 자동 검색·요약했습니다.
+        </p>
+        <div class="post-footer">
+          <span class="paper-count">
+            <span class="icon">📄</span> 5편 리뷰
+          </span>
+          <span>2026.03.23</span>
+          <div class="sources">
+            <span>arXiv</span>
+            <span>ADS</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory · Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      · <a href="sitemap.xml">Sitemap</a>
+      · <a href="mailto:jmyoun@aifactory.page">jmyoun@aifactory.page</a>
+    </p>
+  </footer>
+
+  <script>
+  document.querySelectorAll('.gnb-dropdown > span').forEach(function(span) {
+    span.addEventListener('click', function() {
+      if (window.innerWidth > 640) return;
+      var menu = this.parentElement.querySelector('.gnb-dropdown-menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+  </script>
+
+</body>
+</html>

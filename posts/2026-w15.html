@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주간 논문 리뷰 2026-W15 | SSWL Paper Review</title>
+  <meta name="description" content="2026-W15 주간 태양물리·우주기상 논문 리뷰 — AI 에이전트 토론 포함.">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SSWL Paper Review">
+  <meta property="og:title" content="주간 논문 리뷰 2026-W15 | SSWL Paper Review">
+  <meta property="og:description" content="2026-W15 주간 태양물리·우주기상 논문 리뷰 — AI 에이전트 토론 포함.">
+  <meta property="og:url" content="https://junmuyoun.github.io/sswl-paper-review/posts/2026-w15.html">
+  <meta property="og:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="주간 논문 리뷰 2026-W15 | SSWL Paper Review">
+  <meta name="twitter:description" content="2026-W15 주간 태양물리·우주기상 논문 리뷰 — AI 에이전트 토론 포함.">
+  <meta name="twitter:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --corona-red: #C75B3A;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    /* Top Nav */
+    .topnav {
+      background: var(--deep-space);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topnav a {
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .topnav a:hover { color: var(--sun-gold); }
+
+    .topnav .brand {
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+      color: var(--star-white);
+      font-weight: 600;
+    }
+
+    .topnav .brand .accent { color: var(--sun-gold); }
+
+    /* Post Header */
+    .post-header {
+      background: linear-gradient(180deg, var(--space-blue) 0%, var(--deep-space) 100%);
+      padding: 60px 24px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .post-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--bg-warm), transparent);
+    }
+
+    .post-header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .post-header .week-tag {
+      display: inline-block;
+      background: rgba(232,168,56,0.2);
+      border: 1px solid rgba(232,168,56,0.4);
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .post-header h1 {
+      font-family: Arial, sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    .post-header .meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: rgba(244,241,236,0.6);
+    }
+
+    .post-header .meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Content */
+    .content {
+      max-width: 800px;
+      margin: -20px auto 0;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .intro-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--sun-gold);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    /* Paper Cards */
+    .paper-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      transition: box-shadow 0.2s;
+    }
+
+    .paper-card:hover {
+      box-shadow: 0 4px 20px rgba(11,20,38,0.06);
+    }
+
+    .paper-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--deep-space);
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 6px;
+      margin-bottom: 14px;
+    }
+
+    .requested-topic {
+      display: inline-block;
+      background: rgba(100,181,198,0.12);
+      border: 1px solid rgba(100,181,198,0.4);
+      color: var(--aurora-cyan);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .paper-card h2 {
+      font-family: Arial, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .paper-card h2 a {
+      color: var(--text-primary);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .paper-card h2 a:hover {
+      color: var(--sun-orange);
+      border-bottom-color: var(--sun-orange);
+    }
+
+    .paper-meta {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 18px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .paper-meta .source-badge {
+      background: var(--bg-warm);
+      padding: 1px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 0.7rem;
+    }
+
+    .one-line-summary {
+      background: linear-gradient(135deg, rgba(232,168,56,0.08), rgba(100,181,198,0.06));
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .discuss-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, var(--deep-space), var(--space-blue));
+      color: var(--sun-gold);
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .discuss-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(11,20,38,0.2);
+    }
+
+    /* Vote Bar */
+    .vote-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .vote-label {
+      font-size: 0.82rem;
+      color: var(--text-light);
+    }
+
+    .vote-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .vote-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      background: var(--bg-warm);
+      color: var(--text-light);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .vote-btn:hover {
+      border-color: var(--text-light);
+      color: var(--text-secondary);
+    }
+
+    .vote-btn.active.vote-up {
+      background: rgba(76, 175, 80, 0.1);
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }
+
+    .vote-btn.active.vote-down {
+      background: rgba(244, 67, 54, 0.1);
+      border-color: #F44336;
+      color: #F44336;
+    }
+
+    .vote-count {
+      font-weight: 600;
+      min-width: 12px;
+      text-align: center;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--sun-orange);
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .paper-card { padding: 20px; }
+      .paper-meta { flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="topnav">
+    <a href="../index.html" class="brand">&#9728; SSWL <span class="accent">Paper Review</span></a>
+    <a href="../index.html">&larr; 목록으로</a>
+  </nav>
+
+  <!-- Post Header -->
+  <header class="post-header">
+    <div class="post-header-inner">
+      <span class="week-tag">2026-W15</span>
+      <h1>주간 태양/우주기상 논문 리뷰<br>2026년 4월 1주차</h1>
+      <div class="meta">
+        <span>&#128197; 2026.04.06 &mdash; 04.12</span>
+        <span>&#128196; 5편 리뷰</span>
+        <span>&#129302; AI Factory 자동 생성</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="content">
+
+    <div class="intro-box">
+      이번 주 태양물리 및 우주기상 분야에서 발표된 주요 논문 5편을 선별하여 요약합니다.
+      arXiv, NASA ADS에서 자동 수집되었으며, AI가 전문 요약 및 한국어 번역을 수행했습니다.
+    </div>
+
+    <!-- Paper 1 -->
+    <article class="paper-card">
+      <div class="paper-num">1</div>
+      <h2>
+        <a href="2026-w15/paper-1.html">
+          Automated Detection of Coronal Mass Ejections with Few-shot Learning
+        </a>
+      </h2>
+      <div class="paper-meta">
+        <span>Liu, Xin, Liu, Jiajia, Song, Shuhua et al.</span>
+        <span>2026-03-00</span>
+        <span class="source-badge">The Astrophysical Journal Supplement Series</span>
+      </div>
+
+      <div class="one-line-summary">
+        SAM-LoRA 프레임워크를 이용하여 코로나그래프 이미지에서 코로나 질량 방출(CME) 구조를 자동으로 분할하는 기법을 개발했다.
+      </div>
+
+      <div class="card-actions">
+        <div class="vote-bar" data-paper-id="paper-1">
+          <span class="vote-label">이 논문이 유용했나요?</span>
+          <div class="vote-buttons">
+            <button class="vote-btn vote-up" onclick="vote('paper-1', 'up')" title="추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              <span class="vote-count" id="paper-1-up">0</span>
+            </button>
+            <button class="vote-btn vote-down" onclick="vote('paper-1', 'down')" title="비추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38-9a2 2 0 0 0-2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+              <span class="vote-count" id="paper-1-down">0</span>
+            </button>
+          </div>
+        </div>
+        <a href="2026-w15/paper-1.html" class="discuss-btn">토론 참여 &rarr;</a>
+      </div>
+    </article>
+
+    <!-- Paper 2 -->
+    <article class="paper-card">
+      <div class="paper-num">2</div>
+      <h2>
+        <a href="2026-w15/paper-2.html">
+          Ground Effects of the 2024 Mother's Day Superstorm: A Multi-source Observational Analysis
+        </a>
+      </h2>
+      <div class="paper-meta">
+        <span>Yue Chen, Kyoung Ho Kim, Steven K. Morley et al.</span>
+        <span>2026-03-16</span>
+        <span class="source-badge">arXiv: physics.space-ph</span>
+      </div>
+
+      <div class="one-line-summary">
+        2024년 어머니날 슈퍼스톰이 지상 환경에 미친 영향을 다중 관측 자료를 통해 분석하여 강력한 지자기 유도 전류(GIC)와 지전기장을 확인했다.
+      </div>
+
+      <div class="card-actions">
+        <div class="vote-bar" data-paper-id="paper-2">
+          <span class="vote-label">이 논문이 유용했나요?</span>
+          <div class="vote-buttons">
+            <button class="vote-btn vote-up" onclick="vote('paper-2', 'up')" title="추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              <span class="vote-count" id="paper-2-up">0</span>
+            </button>
+            <button class="vote-btn vote-down" onclick="vote('paper-2', 'down')" title="비추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38-9a2 2 0 0 0-2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+              <span class="vote-count" id="paper-2-down">0</span>
+            </button>
+          </div>
+        </div>
+        <a href="2026-w15/paper-2.html" class="discuss-btn">토론 참여 &rarr;</a>
+      </div>
+    </article>
+
+    <!-- Paper 3 -->
+    <article class="paper-card">
+      <div class="paper-num">3</div><span class="requested-topic">Pulsating Aurora 요청 주제에 대한 논문입니다</span>
+      <h2>
+        <a href="2026-w15/paper-3.html">
+          Enabling High-Fidelity Wave-Particle Interaction Studies: A Novel Filtering for Isolating Whistlers From Spacecraft Noise
+        </a>
+      </h2>
+      <div class="paper-meta">
+        <span>Shi, Fulin, Zeng, Li, Fu, Yuhui et al.</span>
+        <span>2026-03-00</span>
+        <span class="source-badge">Geophysical Research Letters</span>
+      </div>
+
+      <div class="one-line-summary">
+        우주선 잡음에서 휘슬러파를 분리하는 새로운 IB-VKF 필터링 기법을 개발하여 맥동 오로라와 관련된 파동-입자 상호작용 연구를 가능하게 했다.
+      </div>
+
+      <div class="card-actions">
+        <div class="vote-bar" data-paper-id="paper-3">
+          <span class="vote-label">이 논문이 유용했나요?</span>
+          <div class="vote-buttons">
+            <button class="vote-btn vote-up" onclick="vote('paper-3', 'up')" title="추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              <span class="vote-count" id="paper-3-up">0</span>
+            </button>
+            <button class="vote-btn vote-down" onclick="vote('paper-3', 'down')" title="비추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38-9a2 2 0 0 0-2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+              <span class="vote-count" id="paper-3-down">0</span>
+            </button>
+          </div>
+        </div>
+        <a href="2026-w15/paper-3.html" class="discuss-btn">토론 참여 &rarr;</a>
+      </div>
+    </article>
+
+    <!-- Paper 4 -->
+    <article class="paper-card">
+      <div class="paper-num">4</div>
+      <h2>
+        <a href="2026-w15/paper-4.html">
+          Unusual Disturbed Thermospheric Wind Caused by Polar Convection at Mohe During 2025 New Year Storm
+        </a>
+      </h2>
+      <div class="paper-meta">
+        <span>Li, Wenbo, Liu, Libo, Zhang, Jiaojiao et al.</span>
+        <span>2026-03-00</span>
+        <span class="source-badge">Journal of Geophysical Research (Space Physics)</span>
+      </div>
+
+      <div class="one-line-summary">
+        2025년 신년 지자기 폭풍 동안 모허 지역에서 극지 대류에 의해 발생한 비정상적인 열권 바람 교란을 직접 관측했다.
+      </div>
+
+      <div class="card-actions">
+        <div class="vote-bar" data-paper-id="paper-4">
+          <span class="vote-label">이 논문이 유용했나요?</span>
+          <div class="vote-buttons">
+            <button class="vote-btn vote-up" onclick="vote('paper-4', 'up')" title="추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              <span class="vote-count" id="paper-4-up">0</span>
+            </button>
+            <button class="vote-btn vote-down" onclick="vote('paper-4', 'down')" title="비추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38-9a2 2 0 0 0-2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+              <span class="vote-count" id="paper-4-down">0</span>
+            </button>
+          </div>
+        </div>
+        <a href="2026-w15/paper-4.html" class="discuss-btn">토론 참여 &rarr;</a>
+      </div>
+    </article>
+
+    <!-- Paper 5 -->
+    <article class="paper-card">
+      <div class="paper-num">5</div>
+      <h2>
+        <a href="2026-w15/paper-5.html">
+          Assessment of Extreme Storm and Cumulative Risks to the New Zealand Gas Pipeline Network From Space Weather
+        </a>
+      </h2>
+      <div class="paper-meta">
+        <span>Ingham, M., Divett, T., Sigley, M. et al.</span>
+        <span>2026-03-00</span>
+        <span class="source-badge">Space Weather</span>
+      </div>
+
+      <div class="one-line-summary">
+        뉴질랜드 가스 파이프라인 네트워크에 대한 우주기상의 극한 폭풍 및 누적 위험을 평가하여 극한 지자기 폭풍 시 위험 수준의 관-토양 전위를 확인했다.
+      </div>
+
+      <div class="card-actions">
+        <div class="vote-bar" data-paper-id="paper-5">
+          <span class="vote-label">이 논문이 유용했나요?</span>
+          <div class="vote-buttons">
+            <button class="vote-btn vote-up" onclick="vote('paper-5', 'up')" title="추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              <span class="vote-count" id="paper-5-up">0</span>
+            </button>
+            <button class="vote-btn vote-down" onclick="vote('paper-5', 'down')" title="비추천">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38-9a2 2 0 0 0-2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+              <span class="vote-count" id="paper-5-down">0</span>
+            </button>
+          </div>
+        </div>
+        <a href="2026-w15/paper-5.html" class="discuss-btn">토론 참여 &rarr;</a>
+      </div>
+    </article>
+
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory &middot; Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+    </p>
+  </footer>
+
+  <script>
+    function getVotes() {
+      return JSON.parse(localStorage.getItem('sswl-votes') || '{}');
+    }
+
+    function saveVotes(votes) {
+      localStorage.setItem('sswl-votes', JSON.stringify(votes));
+    }
+
+    function vote(paperId, type) {
+      var votes = getVotes();
+      var key = location.pathname + ':' + paperId;
+      var prev = votes[key];
+
+      if (prev === type) {
+        delete votes[key];
+      } else {
+        votes[key] = type;
+      }
+
+      saveVotes(votes);
+      renderVotes();
+    }
+
+    function renderVotes() {
+      var votes = getVotes();
+      var prefix = location.pathname + ':';
+      var counts = {};
+
+      for (var key in votes) {
+        if (key.startsWith(prefix)) {
+          var paperId = key.slice(prefix.length);
+          if (!counts[paperId]) counts[paperId] = { up: 0, down: 0 };
+          counts[paperId][votes[key]]++;
+        }
+      }
+
+      document.querySelectorAll('.vote-bar').forEach(function(bar) {
+        var paperId = bar.dataset.paperId;
+        var userVote = votes[prefix + paperId] || null;
+        var c = counts[paperId] || { up: 0, down: 0 };
+
+        var upBtn = bar.querySelector('.vote-up');
+        var downBtn = bar.querySelector('.vote-down');
+
+        upBtn.classList.toggle('active', userVote === 'up');
+        downBtn.classList.toggle('active', userVote === 'down');
+
+        bar.querySelector('#' + paperId + '-up').textContent = c.up;
+        bar.querySelector('#' + paperId + '-down').textContent = c.down;
+      });
+    }
+
+    renderVotes();
+  </script>
+
+</body>
+</html>

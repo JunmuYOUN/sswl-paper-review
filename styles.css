@@ -1,0 +1,225 @@
+/* ─── SSWL Paper Review — Common Styles ─── */
+
+:root {
+  --sun-gold: #E8A838;
+  --sun-orange: #D4722A;
+  --deep-space: #0B1426;
+  --space-blue: #1A2744;
+  --nebula-blue: #2A3F6E;
+  --star-white: #F4F1EC;
+  --aurora-cyan: #64B5C6;
+  --corona-red: #C75B3A;
+  --text-primary: #1A1A2E;
+  --text-secondary: #4A4A6A;
+  --text-light: #8888A8;
+  --bg-warm: #FDFBF7;
+  --bg-card: #FFFFFF;
+  --border-subtle: #E8E4DC;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg-warm);
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+/* ─── GNB ─── */
+.gnb {
+  background: rgba(11,20,38,0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(232,168,56,0.15);
+}
+
+.gnb-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 48px;
+}
+
+.gnb-brand {
+  color: var(--sun-gold);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.gnb-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.gnb-links a {
+  color: rgba(244,241,236,0.7);
+  text-decoration: none;
+  font-size: 0.82rem;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.gnb-links a:hover { color: var(--star-white); }
+
+.gnb-links a.active {
+  color: var(--star-white);
+  font-weight: 600;
+}
+
+.gnb-dropdown {
+  position: relative;
+}
+
+.gnb-dropdown > span {
+  color: rgba(244,241,236,0.7);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.gnb-dropdown > span::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  border-top: 4px solid currentColor;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.gnb-dropdown:hover > span,
+.gnb-dropdown > span.active { color: var(--star-white); }
+.gnb-dropdown > span.active { font-weight: 600; }
+
+.gnb-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(11,20,38,0.97);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(232,168,56,0.15);
+  border-radius: 8px;
+  padding: 6px 0;
+  min-width: 150px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.gnb-dropdown:hover .gnb-dropdown-menu { display: block; }
+
+.gnb-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 12px;
+}
+
+.gnb-dropdown-menu a {
+  display: block;
+  padding: 8px 18px;
+  color: rgba(244,241,236,0.7);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.gnb-dropdown-menu a:hover {
+  color: var(--star-white);
+  background: rgba(232,168,56,0.1);
+}
+
+.gnb-dropdown-menu a.active {
+  color: var(--sun-gold);
+  font-weight: 600;
+}
+
+/* ─── Hamburger Button ─── */
+.gnb-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 110;
+}
+.gnb-hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--star-white);
+  margin: 5px 0;
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.gnb-hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.gnb-hamburger.active span:nth-child(2) { opacity: 0; }
+.gnb-hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ─── Footer ─── */
+footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 32px 24px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+footer a {
+  color: var(--sun-orange);
+  text-decoration: none;
+}
+
+/* ─── Mobile Menu ─── */
+@media (max-width: 640px) {
+  .gnb-hamburger { display: block; }
+  .gnb-links {
+    display: none;
+    position: absolute;
+    top: 48px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(11,20,38,0.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(232,168,56,0.15);
+    padding: 12px 24px;
+    gap: 0;
+  }
+  .gnb-links.open { display: flex; }
+  .gnb-links a, .gnb-dropdown > span {
+    font-size: 0.9rem;
+    padding: 10px 0;
+    display: block;
+  }
+  .gnb-dropdown-menu {
+    position: static;
+    transform: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0 0 0 16px;
+    min-width: auto;
+  }
+  .gnb-dropdown-menu::before { display: none; }
+  .gnb-dropdown-menu a { padding: 8px 0; }
+}

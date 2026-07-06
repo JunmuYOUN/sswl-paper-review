@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Orbiter Position — SSWL Paper Review</title>
+  <meta name="description" content="Solar Orbiter 실시간 위치 및 EUI 이미지 — 매일 자동 업데이트.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SSWL Paper Review">
+  <meta property="og:title" content="Solar Orbiter Position — SSWL Paper Review">
+  <meta property="og:description" content="Solar Orbiter 실시간 위치 및 EUI 이미지 — 매일 자동 업데이트.">
+  <meta property="og:url" content="https://junmuyoun.github.io/sswl-paper-review/solar-orbiter.html">
+  <meta property="og:image" content="https://junmuyoun.github.io/sswl-paper-review/images/solo_position.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Solar Orbiter Position — SSWL Paper Review">
+  <meta name="twitter:description" content="Solar Orbiter 실시간 위치 및 EUI 이미지.">
+  <meta name="twitter:image" content="https://junmuyoun.github.io/sswl-paper-review/images/solo_position.png">
+  <link rel="icon" type="image/png" href="images/SSW_Lab_logo_gold1.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .page-header { background: linear-gradient(135deg, var(--deep-space) 0%, var(--space-blue) 40%, var(--nebula-blue) 100%); padding: 48px 24px 40px; position: relative; overflow: hidden; }
+    .page-header::before { content: ''; position: absolute; top: -30%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(171,71,188,0.12) 0%, transparent 70%); border-radius: 50%; }
+    .header-content { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+    .page-header h1 { color: var(--star-white); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; margin-bottom: 8px; }
+    .page-header h1 .accent { color: #AB47BC; }
+    .page-header p { color: rgba(244,241,236,0.7); font-size: 0.95rem; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 24px 80px; }
+
+    /* Info Cards — 3열 */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+    .info-card .label { font-size: 0.72rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .info-card .value { font-size: 1.4rem; font-weight: 700; color: var(--text-primary); }
+    .info-card .unit { font-size: 0.8rem; color: var(--text-secondary); font-weight: 400; }
+
+    /* Content Grid — 위치 plot + EUI 이미지 */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .plot-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .plot-wrapper img { width: 100%; height: auto; display: block; }
+
+    .eui-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .eui-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+      flex: 1;
+    }
+    .eui-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #000;
+    }
+    .eui-card .eui-label {
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .eui-card .eui-wl {
+      color: var(--sun-gold);
+      font-size: 0.85rem;
+    }
+
+    .updated-info {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: 20px;
+    }
+    .source-note { font-size: 0.78rem; color: var(--text-light); text-align: center; margin-top: 8px; }
+    .source-note a { color: var(--sun-orange); text-decoration: none; }
+
+    /* STIX Section */
+    .stix-section { margin-top: 36px; }
+    .stix-title { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .stix-title .stix-period { font-size: 0.78rem; font-weight: 400; color: var(--text-light); }
+    .stix-subtitle { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px; }
+    .stix-table-wrap { overflow-x: auto; max-height: 420px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-card); }
+    .stix-table thead { position: sticky; top: 0; z-index: 1; }
+    .stix-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .stix-table thead { background: var(--deep-space); }
+    .stix-table th { padding: 10px 14px; color: rgba(244,241,236,0.85); font-weight: 600; text-align: left; white-space: nowrap; }
+    .stix-table td { padding: 8px 14px; border-top: 1px solid var(--border-subtle); color: var(--text-primary); white-space: nowrap; }
+    .stix-table tbody tr:hover { background: rgba(232,168,56,0.04); }
+    .stix-loading { text-align: center; color: var(--text-light); padding: 24px 14px; }
+    .stix-empty { text-align: center; color: var(--text-light); padding: 24px 14px; }
+    .goes-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem; }
+    .goes-A { background: #E8F5E9; color: #2E7D32; }
+    .goes-B { background: #E3F2FD; color: #1565C0; }
+    .goes-C { background: #FFF8E1; color: #F57F17; }
+    .goes-M { background: #FBE9E7; color: #D84315; }
+    .goes-X { background: #F3E5F5; color: #7B1FA2; }
+
+    /* STIX Light Curve Chart */
+    .chart-section { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-top: 36px; }
+    .chart-section h2 { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .chart-section .chart-sub { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px; }
+    .chart-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .chart-tabs button { background: var(--bg-warm); border: 1px solid var(--border-subtle); padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; }
+    .chart-tabs button.active { background: var(--deep-space); color: var(--sun-gold); border-color: var(--deep-space); }
+    .chart-container { position: relative; width: 100%; height: 340px; }
+    .chart-container canvas { width: 100% !important; height: 100% !important; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; justify-content: center; }
+    .chart-legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--text-secondary); cursor: pointer; user-select: none; }
+    .chart-legend-item.hidden { opacity: 0.3; }
+    .chart-legend-dot { width: 10px; height: 3px; border-radius: 1px; }
+
+    /* ── STIX→GOES Converter ── */
+    .converter-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .converter-section h2 { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .converter-sub { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 18px; }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .calc-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .calc-result-card {
+      background: var(--bg-warm);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 18px 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .calc-label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light); margin-bottom: 8px; font-weight: 500; }
+    .calc-goes-value { font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px; }
+    .calc-goes-class { font-size: 2rem; font-weight: 800; }
+    .calc-source { font-size: 0.65rem; color: var(--text-light); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-subtle); }
+
+    .ref-panel {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: var(--bg-warm);
+      border-radius: 8px;
+      font-size: 0.72rem;
+      color: var(--text-light);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .ref-title { font-weight: 600; color: var(--text-secondary); }
+    .ref-item a { color: var(--sun-orange); text-decoration: none; }
+    .ref-item a:hover { text-decoration: underline; }
+    .ref-sep { color: var(--border-subtle); }
+
+    @media (max-width: 768px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .eui-panel { flex-direction: row; }
+      .info-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .page-header { padding: 36px 20px 32px; }
+      .eui-panel { flex-direction: column; }
+      .chart-container { height: 260px; }
+      .calc-grid, .calc-grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="gnb">
+    <div class="gnb-inner">
+      <a href="index.html" class="gnb-brand">SSWL Paper Review</a>
+      <button class="gnb-hamburger" onclick="this.classList.toggle('active');document.querySelector('.gnb-links').classList.toggle('open')" aria-label="메뉴">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="gnb-links">
+        <a href="index.html">Paper Review</a>
+        <div class="gnb-dropdown">
+          <span class="active">Surveillance</span>
+          <div class="gnb-dropdown-menu">
+            <a href="solar-wind.html">Solar Wind</a>
+            <a href="goes-xray.html">GOES X-ray</a>
+            <a href="solar-orbiter.html" class="active">Solar Orbiter</a>
+          </div>
+        </div>
+        <a href="events.html">Events</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="https://sunspaceweather.khu.ac.kr/" target="_blank">SSWL Lab</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="header-content">
+      <h1><span class="accent">Solar Orbiter</span> Position</h1>
+      <p>JPL Horizons + EUI/FSI 데이터 기반 매일 자동 업데이트</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Info Cards: 3개 -->
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="label">Earth-SolO Sep.</div>
+        <div class="value" id="val-sep">--</div>
+      </div>
+      <div class="info-card">
+        <div class="label">Inclination</div>
+        <div class="value" id="val-lat">--</div>
+      </div>
+      <div class="info-card">
+        <div class="label">Distance</div>
+        <div class="value" id="val-r">--</div>
+      </div>
+    </div>
+
+    <!-- 2-column: Plot + EUI -->
+    <div class="content-grid">
+      <div class="plot-wrapper">
+        <img src="images/solo_position.png" alt="Solar Orbiter Position Plot" id="solo-plot">
+      </div>
+      <div class="eui-panel">
+        <div class="eui-card" id="eui-174-card">
+          <img src="" alt="EUI FSI 174" id="eui-174-img" style="display:none">
+          <div class="eui-label">
+            <span>EUI/FSI</span>
+            <span class="eui-wl">174 &Aring;</span>
+          </div>
+        </div>
+        <div class="eui-card" id="eui-304-card">
+          <img src="" alt="EUI FSI 304" id="eui-304-img" style="display:none">
+          <div class="eui-label">
+            <span>EUI/FSI</span>
+            <span class="eui-wl">304 &Aring;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="updated-info" id="updated-info">Loading...</p>
+    <p class="source-note">
+      Position: <a href="https://ssd.jpl.nasa.gov/horizons/" target="_blank">JPL Horizons</a>
+      · EUI: <a href="https://www.sidc.be/EUI/data/" target="_blank">SIDC/ROB</a>
+      · <a href="https://sunpy.org/" target="_blank">SunPy</a>
+    </p>
+
+    <!-- STIX→GOES Estimator -->
+    <section class="converter-section" id="converter">
+      <h2>STIX→GOES Flux Estimator</h2>
+      <p class="converter-sub">STIX 실시간 데이터에서 GOES급 자동 추정</p>
+
+      <div class="calc-grid calc-grid-3" id="liveEstimate" style="display:none">
+        <div class="calc-result-card">
+          <div class="calc-label">Current (Profile Model)</div>
+          <div class="calc-goes-class" id="liveCurrent">—</div>
+          <div class="calc-goes-value" id="liveCurrentFlux">—</div>
+          <div class="calc-source">SSWL Model</div>
+        </div>
+        <div class="calc-result-card">
+          <div class="calc-label">Latest Flare Peak</div>
+          <div class="calc-goes-class" id="liveFlare">—</div>
+          <div class="calc-goes-value" id="liveFlareFlux">—</div>
+          <div class="calc-source">STIX DC · Xiao+2023</div>
+        </div>
+        <div class="calc-result-card">
+          <div class="calc-label">Strongest (3d)</div>
+          <div class="calc-goes-class" id="liveStrongest">—</div>
+          <div class="calc-goes-value" id="liveStrongestFlux">—</div>
+          <div class="calc-source">STIX DC · Xiao+2023</div>
+        </div>
+      </div>
+      <div id="liveLoading" class="converter-sub" style="text-align:center;padding:16px 0;">Loading STIX data...</div>
+
+      <div class="ref-panel" id="refPanel" style="display:none">
+        <span class="ref-title">References</span>
+        <span class="ref-item">Peak: <a href="https://doi.org/10.1051/0004-6361/202346031" target="_blank">Xiao et al. 2023, A&amp;A 673, A142</a> (r=0.91)</span>
+        <span class="ref-sep">·</span>
+        <span class="ref-item">BKG: <a href="https://doi.org/10.1051/0004-6361/202452574" target="_blank">Stiefel et al. 2025, A&amp;A 694, A138</a> (r=0.97)</span>
+      </div>
+    </section>
+
+    <!-- STIX Light Curve Chart -->
+    <section class="chart-section">
+      <h2>STIX X-ray Light Curves</h2>
+      <p class="chart-sub">Quick-Look counts @ 1 AU (거리 보정, 1분 평균) · <span id="lc-update-info">Loading...</span></p>
+      <div class="chart-tabs" id="lc-tabs">
+        <button class="active" onclick="switchLcRange('6h')">6 Hours</button>
+        <button onclick="switchLcRange('1d')">1 Day</button>
+        <button onclick="switchLcRange('3d')">3 Days</button>
+      </div>
+      <div class="chart-container">
+        <canvas id="stixChart"></canvas>
+      </div>
+      <div class="chart-legend" id="stixLegend"></div>
+      <p class="source-note" style="margin-top:10px;">
+        STIX QL: <a href="https://datacenter.stix.i4ds.net/view/ql/lightcurves" target="_blank">STIX Data Center (FHNW)</a>
+      </p>
+    </section>
+
+    <!-- STIX Flare List -->
+    <section class="stix-section">
+      <h2 class="stix-title">STIX Flare List <span class="stix-period" id="stix-period"></span></h2>
+      <p class="stix-subtitle">Solar Orbiter/STIX 최근 7일 X선 플레어 관측 목록 · <span id="stix-count">--</span>건 감지</p>
+      <div class="stix-table-wrap">
+        <table class="stix-table" id="stix-table">
+          <thead>
+            <tr>
+              <th>Peak (UTC)</th>
+              <th>GOES Class</th>
+              <th>Duration</th>
+              <th>Peak Counts</th>
+            </tr>
+          </thead>
+          <tbody id="stix-tbody">
+            <tr><td colspan="4" class="stix-loading">Loading STIX data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="source-note" style="margin-top:10px;">
+        STIX: <a href="https://datacenter.stix.i4ds.net/view/flares/list" target="_blank">STIX Data Center (FHNW)</a>
+        · GOES class: <a href="https://doi.org/10.1051/0004-6361/202346031" target="_blank">Xiao+2023</a>
+        · BKG method: <a href="https://doi.org/10.1051/0004-6361/202452574" target="_blank">Stiefel+2025</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory · Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+      · <a href="mailto:jmyoun@aifactory.page">jmyoun@aifactory.page</a>
+      · <a href="sitemap.xml">Sitemap</a>
+    </p>
+  </footer>
+
+  <script>
+  fetch('data/solo_position.json')
+    .then(r => r.json())
+    .then(d => {
+      // Earth-SolO Sep. = longitude 값 표시
+      document.getElementById('val-sep').innerHTML = d.solo_lon_deg.toFixed(1) + '<span class="unit">\u00b0</span>';
+      document.getElementById('val-lat').innerHTML = d.solo_lat_deg.toFixed(1) + '<span class="unit">\u00b0</span>';
+      document.getElementById('val-r').innerHTML = d.solo_r_au.toFixed(3) + '<span class="unit"> AU</span>';
+
+      const date = d.updated.replace('T', ' ').replace('Z', ' UTC');
+      document.getElementById('updated-info').textContent = 'Last updated: ' + date;
+
+      document.getElementById('solo-plot').src = 'images/solo_position.png?t=' + Date.now();
+
+      // EUI 이미지
+      if (d.eui_174) {
+        const img174 = document.getElementById('eui-174-img');
+        img174.src = d.eui_174 + '?t=' + Date.now();
+        img174.style.display = 'block';
+      }
+      if (d.eui_304) {
+        const img304 = document.getElementById('eui-304-img');
+        img304.src = d.eui_304 + '?t=' + Date.now();
+        img304.style.display = 'block';
+      }
+    })
+    .catch(() => {
+      document.getElementById('updated-info').textContent = 'Data unavailable';
+    });
+
+  // STIX Flare List
+  fetch('data/stix_flares.json')
+    .then(r => r.json())
+    .then(d => {
+      const tbody = document.getElementById('stix-tbody');
+      const period = document.getElementById('stix-period');
+
+      const fmtDate = s => s ? s.replace('T', ' ').slice(0, 19) : '--';
+      const fmtDur = s => {
+        if (!s) return '--';
+        const m = Math.floor(s / 60), sec = s % 60;
+        return m > 0 ? m + 'm ' + sec + 's' : sec + 's';
+      };
+      const goesClass = c => {
+        if (!c) return '<span class="goes-badge">--</span>';
+        const letter = c.charAt(0).toUpperCase();
+        const cls = ['A','B','C','M','X'].includes(letter) ? 'goes-' + letter : '';
+        return '<span class="goes-badge ' + cls + '">' + c + '</span>';
+      };
+
+      if (d.query_start && d.query_end) {
+        period.textContent = '(' + d.query_start.slice(0,10) + ' ~ ' + d.query_end.slice(0,10) + ')';
+      }
+
+      document.getElementById('stix-count').textContent = d.count || 0;
+
+      if (!d.flares || d.flares.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="stix-empty">No flares detected in this period</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = d.flares.map(f =>
+        '<tr>' +
+          '<td>' + fmtDate(f.peak) + '</td>' +
+          '<td>' + goesClass(f.goes_class) + '</td>' +
+          '<td>' + fmtDur(f.duration_s) + '</td>' +
+          '<td>' + (f.peak_counts_4s || '--') + ' cts/4s</td>' +
+        '</tr>'
+      ).join('');
+    })
+    .catch(() => {
+      document.getElementById('stix-tbody').innerHTML =
+        '<tr><td colspan="4" class="stix-empty">STIX data unavailable</td></tr>';
+    });
+
+  // ── STIX Light Curve Chart ──────────────────────────────
+  (function() {
+    const CH_COLORS = ['#E8A838', '#64B5C6', '#4CAF50', '#FF9800', '#AB47BC'];
+    let lcData = null;
+    let lcRange = '6h';
+    let chVisible = [true, true, true, true, true];
+
+    fetch('data/stix_lightcurves.json')
+      .then(r => r.json())
+      .then(d => {
+        lcData = d;
+        const upd = d.updated.replace('T', ' ').replace('Z', ' UTC');
+        document.getElementById('lc-update-info').textContent = upd;
+        buildLegend(d.energy_bins);
+        drawLcChart();
+      })
+      .catch(() => {
+        document.getElementById('lc-update-info').textContent = 'Data unavailable';
+      });
+
+    function buildLegend(bins) {
+      const el = document.getElementById('stixLegend');
+      el.innerHTML = bins.map((name, i) =>
+        '<span class="chart-legend-item" data-ch="' + i + '">' +
+          '<span class="chart-legend-dot" style="background:' + CH_COLORS[i] + '"></span>' +
+          name +
+        '</span>'
+      ).join('');
+      el.querySelectorAll('.chart-legend-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const ch = +this.dataset.ch;
+          chVisible[ch] = !chVisible[ch];
+          this.classList.toggle('hidden', !chVisible[ch]);
+          drawLcChart();
+        });
+      });
+    }
+
+    window.switchLcRange = function(range) {
+      lcRange = range;
+      document.querySelectorAll('#lc-tabs button').forEach(btn => {
+        const map = { '6 Hours': '6h', '1 Day': '1d', '3 Days': '3d' };
+        btn.classList.toggle('active', map[btn.textContent] === range);
+      });
+      drawLcChart();
+    };
+
+    function sliceData(range) {
+      if (!lcData) return { times: [], counts: [[], [], [], [], []] };
+      const n = lcData.n_points;
+      const mins = { '6h': 360, '1d': 1440, '3d': n }[range] || n;
+      const start = Math.max(0, n - mins);
+      return {
+        times: lcData.times.slice(start),
+        counts: lcData.counts.map(ch => ch.slice(start)),
+        bins: lcData.energy_bins,
+      };
+    }
+
+    function drawLcChart() {
+      const canvas = document.getElementById('stixChart');
+      const ctx = canvas.getContext('2d');
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      const W = rect.width, H = rect.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const d = sliceData(lcRange);
+      if (!d.times.length) {
+        ctx.fillStyle = '#8888A8'; ctx.font = '14px Arial'; ctx.textAlign = 'center';
+        ctx.fillText('No data available', W / 2, H / 2);
+        return;
+      }
+
+      const pad = { top: 16, right: 16, bottom: 36, left: 56 };
+      const cW = W - pad.left - pad.right;
+      const cH = H - pad.top - pad.bottom;
+
+      // Find y range across visible channels
+      let yMin = Infinity, yMax = -Infinity;
+      for (let ch = 0; ch < d.counts.length; ch++) {
+        if (!chVisible[ch]) continue;
+        for (const v of d.counts[ch]) {
+          if (v < yMin) yMin = v;
+          if (v > yMax) yMax = v;
+        }
+      }
+      if (!isFinite(yMin)) { yMin = 0; yMax = 100; }
+      const yPad = (yMax - yMin) * 0.08 || 10;
+      yMin = Math.max(0, yMin - yPad);
+      yMax = yMax + yPad;
+
+      function xPos(i) { return pad.left + (i / (d.times.length - 1)) * cW; }
+      function yPos(v) { return pad.top + cH - ((v - yMin) / (yMax - yMin)) * cH; }
+
+      // Grid lines
+      ctx.strokeStyle = '#E8E4DC'; ctx.lineWidth = 0.5;
+      ctx.fillStyle = '#8888A8'; ctx.font = '10px Arial'; ctx.textAlign = 'right';
+      const ySteps = 5;
+      for (let i = 0; i <= ySteps; i++) {
+        const v = yMin + (yMax - yMin) * i / ySteps;
+        const y = yPos(v);
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+        ctx.fillText(v >= 1000 ? (v/1000).toFixed(1) + 'k' : Math.round(v), pad.left - 6, y + 3);
+      }
+
+      // Time axis
+      ctx.fillStyle = '#8888A8'; ctx.font = '10px Arial'; ctx.textAlign = 'center';
+      const tSteps = Math.min(6, d.times.length);
+      for (let i = 0; i < tSteps; i++) {
+        const idx = Math.floor(i * (d.times.length - 1) / (tSteps - 1));
+        const x = xPos(idx);
+        const t = d.times[idx];
+        const label = lcRange === '3d'
+          ? t.substring(5, 10) + ' ' + t.substring(11, 16)
+          : t.substring(11, 16);
+        ctx.fillText(label, x, H - pad.bottom + 16);
+      }
+
+      // Y axis label
+      ctx.save();
+      ctx.fillStyle = '#8888A8'; ctx.font = '10px Arial'; ctx.textAlign = 'center';
+      ctx.translate(12, pad.top + cH / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('counts @ 1AU', 0, 0);
+      ctx.restore();
+
+      // Draw lines
+      for (let ch = d.counts.length - 1; ch >= 0; ch--) {
+        if (!chVisible[ch]) continue;
+        const pts = d.counts[ch];
+        ctx.strokeStyle = CH_COLORS[ch];
+        ctx.lineWidth = ch === 0 ? 1.8 : 1.2;
+        ctx.globalAlpha = ch === 0 ? 1.0 : 0.7;
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        for (let i = 0; i < pts.length; i++) {
+          const x = xPos(i), y = yPos(pts[i]);
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1.0;
+    }
+
+    window.addEventListener('resize', drawLcChart);
+  })();
+  </script>
+
+  <!-- STIX→GOES Estimator -->
+  <script>
+  (function() {
+    /* ── SSWL proprietary model (profile/current) ── */
+    var _c = [0.34, -6.00];
+    function _conv(s, b) {
+      if (s <= 0 || b <= 0 || s <= b * 0.5) return null;
+      return Math.pow(10, _c[0] * Math.log10(s / b) + _c[1]);
+    }
+
+    /* ── Flare class helpers ── */
+    var CLASS_COLORS = { X: '#F44336', M: '#FF9800', C: '#FFC107', B: '#8BC34A', A: '#4CAF50' };
+
+    function classifyFlare(flux) {
+      if (flux == null || flux <= 0) return { cls: '?', color: '#888' };
+      if (flux >= 1e-4) return { cls: 'X' + (flux / 1e-4).toFixed(1), color: CLASS_COLORS.X };
+      if (flux >= 1e-5) return { cls: 'M' + (flux / 1e-5).toFixed(1), color: CLASS_COLORS.M };
+      if (flux >= 1e-6) return { cls: 'C' + (flux / 1e-6).toFixed(1), color: CLASS_COLORS.C };
+      if (flux >= 1e-7) return { cls: 'B' + (flux / 1e-7).toFixed(1), color: CLASS_COLORS.B };
+      return { cls: 'A' + (flux / 1e-8).toFixed(1), color: CLASS_COLORS.A };
+    }
+
+    function goesClassColor(cls) {
+      if (!cls) return '#888';
+      var l = cls.charAt(0).toUpperCase();
+      return CLASS_COLORS[l] || '#888';
+    }
+
+    function formatFlux(flux) {
+      if (flux == null) return '\u2014';
+      var exp = Math.floor(Math.log10(flux));
+      var coeff = flux / Math.pow(10, exp);
+      var sup = { '-': '\u207B', '0': '\u2070', '1': '\u00B9', '2': '\u00B2', '3': '\u00B3',
+                  '4': '\u2074', '5': '\u2075', '6': '\u2076', '7': '\u2077', '8': '\u2078', '9': '\u2079' };
+      var expStr = String(exp).split('').map(function(c) { return sup[c] || c; }).join('');
+      return coeff.toFixed(2) + ' \u00D7 10' + expStr + ' W/m\u00B2';
+    }
+
+    function goesClassToFlux(cls) {
+      if (!cls || cls.length < 2) return null;
+      var letter = cls.charAt(0).toUpperCase();
+      var num = parseFloat(cls.substring(1));
+      if (isNaN(num)) return null;
+      var base = { A: 1e-8, B: 1e-7, C: 1e-6, M: 1e-5, X: 1e-4 }[letter];
+      return base ? base * num : null;
+    }
+
+    var loaded = 0;
+    function checkDone() {
+      if (++loaded >= 2) {
+        document.getElementById('liveEstimate').style.display = '';
+        document.getElementById('liveLoading').style.display = 'none';
+        document.getElementById('refPanel').style.display = '';
+      }
+    }
+
+    /* ── Card 1: Current from LC (SSWL model) ── */
+    fetch('data/stix_lightcurves.json')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var ch0 = d.counts[0];
+        if (!ch0 || ch0.length < 10) { checkDone(); return; }
+
+        var sorted = ch0.slice().sort(function(a, b) { return a - b; });
+        var bkg = sorted[Math.floor(sorted.length * 0.05)];
+        var current = ch0[ch0.length - 1];
+        var currentGoes = _conv(current, bkg);
+
+        var cf = classifyFlare(currentGoes);
+        document.getElementById('liveCurrent').textContent = cf.cls;
+        document.getElementById('liveCurrent').style.color = cf.color;
+        document.getElementById('liveCurrentFlux').textContent = formatFlux(currentGoes);
+        checkDone();
+      })
+      .catch(function() { checkDone(); });
+
+    /* ── Cards 2 & 3: Flare peaks from STIX DC (Xiao+2023) ── */
+    fetch('data/stix_flares.json')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var flares = d.flares || [];
+        if (flares.length === 0) { checkDone(); return; }
+
+        // Filter to 3 days for strongest
+        var now = Date.now();
+        var threeDaysAgo = now - 3 * 24 * 3600 * 1000;
+        var recent3d = flares.filter(function(f) {
+          return f.peak && new Date(f.peak).getTime() > threeDaysAgo;
+        });
+
+        // Latest flare (use goes_flux directly when available)
+        var latest = flares[0];
+        var latestFlux = (typeof latest.goes_flux === 'number' && latest.goes_flux > 0)
+          ? latest.goes_flux : goesClassToFlux(latest.goes_class);
+        document.getElementById('liveFlare').textContent = latest.goes_class || '\u2014';
+        document.getElementById('liveFlare').style.color = goesClassColor(latest.goes_class);
+        document.getElementById('liveFlareFlux').textContent = latestFlux ? formatFlux(latestFlux) : '\u2014';
+
+        // Strongest flare in 3d (use goes_flux for accuracy)
+        var pool = recent3d.length > 0 ? recent3d : flares;
+        var strongest = pool.reduce(function(best, f) {
+          var flux = (typeof f.goes_flux === 'number' && f.goes_flux > 0)
+            ? f.goes_flux : goesClassToFlux(f.goes_class);
+          return (flux && (!best.flux || flux > best.flux)) ? { flare: f, flux: flux } : best;
+        }, { flare: null, flux: null });
+
+        if (strongest.flare) {
+          var sf = strongest.flare;
+          document.getElementById('liveStrongest').textContent = sf.goes_class || '\u2014';
+          document.getElementById('liveStrongest').style.color = goesClassColor(sf.goes_class);
+          document.getElementById('liveStrongestFlux').textContent = strongest.flux ? formatFlux(strongest.flux) : '\u2014';
+        }
+        checkDone();
+      })
+      .catch(function() { checkDone(); });
+  })();
+  </script>
+
+  <script>
+  document.querySelectorAll('.gnb-dropdown > span').forEach(function(span) {
+    span.addEventListener('click', function() {
+      if (window.innerWidth > 640) return;
+      var menu = this.parentElement.querySelector('.gnb-dropdown-menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+  </script>
+
+</body>
+</html>
