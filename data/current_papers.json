@@ -1,81 +1,81 @@
 {
   "week_info": {
     "year": 2026,
-    "week": 28,
-    "week_str": "2026-W28",
-    "monday": "2026-07-06",
-    "sunday": "2026-07-12",
-    "date_range": "2026.07.06 — 07.12",
-    "date_str": "2026.07.06"
+    "week": 29,
+    "week_str": "2026-W29",
+    "monday": "2026-07-13",
+    "sunday": "2026-07-19",
+    "date_range": "2026.07.13 — 07.19",
+    "date_str": "2026.07.13"
   },
   "papers": [
-    {
-      "title": "MMS Insights into Coronal Mass Ejection─driven Sub-Alfvénic Solar Wind at 1 au",
-      "authors": "Gurram, Harsha, Chen, Li-Jen, Argall, Matthew R. et al.",
-      "date": "2026-06-00",
-      "source": "The Astrophysical Journal",
-      "url": "https://ui.adsabs.harvard.edu/abs/2026ApJ..1003..169G",
-      "is_requested": true,
-      "requested_by": "주간추천",
-      "matched_keyword": "CME, 태양풍",
-      "one_line_summary": "MMS(Magnetospheric Multiscale) 위성이 2023년 4월 CME 사건에서 자기운(magnetic cloud) 내부 약 2시간 동안 지속된 아-알벤 속도(sub-Alfvénic) 태양풍을 관측하고, 이 구간의 전자 분포·난류 특성이 초-알벤(super-Alfvénic) 영역 및 CME 시스(sheath)와 뚜렷이 다름을 규명.",
-      "why_recommended": "지구 궤도(1 au)에서 아-알벤 태양풍이 관측되는 것은 매우 드문 현상으로, 이 상태에서는 태양풍-자기권 상호작용의 기본 물리(활 충격파 소멸 등)가 달라지기 때문에 우주기상 연구자에게 중요합니다. 사용자가 직접 번역을 신청한 논문으로, MMS의 고해상도 입자 데이터를 활용한 CME 내부 미시물리 연구라는 점에서 흥미롭습니다.",
-      "key_points": [
-        "2023년 4월 CME 사건에서 자기운 내부 약 2시간 동안 아-알벤(sub-Alfvénic) 태양풍이 지속적으로 관측됨.",
-        "이 구간의 전자 속도 분포함수(velocity distribution function)가 초-알벤 자기운 및 CME 시스 영역과 유의미하게 다른 특징을 보임.",
-        "아-알벤 태양풍에서의 난류(turbulence) 스펙트럼 특성을 정량적으로 비교 분석하여 CME 내부 에너지 전달 과정에 대한 새로운 단서를 제공."
-      ],
-      "tags": [
-        "CME",
-        "태양풍",
-        "MMS",
-        "자기운"
-      ]
-    },
-    {
-      "title": "Interpretable Data-driven Model Reveals Current Helicity Evolution as Key to Solar Flare Forecasting",
-      "authors": "Kim, Youngjae, Moon, Yong-jae, Jeong, Hyun-jin et al.",
-      "date": "2026-07-00",
-      "source": "The Astrophysical Journal",
-      "url": "https://ui.adsabs.harvard.edu/abs/2026ApJ..1005L..26K",
-      "is_requested": false,
-      "requested_by": "",
-      "matched_keyword": "태양플레어",
-      "one_line_summary": "해석 가능한(interpretable) 데이터 기반 모델을 통해 광구 자기장의 전류 나선도(current helicity) 시간 변화가 태양 플레어 발생 예측의 핵심 물리 인자임을 규명.",
-      "why_recommended": "기존 딥러닝 기반 플레어 예측 모델은 블랙박스 문제로 물리적 해석이 어려웠는데, 이 연구는 전류 나선도라는 구체적 물리량을 통해 예측 성능과 물리적 설명력을 동시에 확보했습니다. 한국 연구진(문용재 교수팀 등)의 최신 성과로, 플레어 예측 연구자와 우주기상 예보 실무자 모두에게 유용합니다.",
-      "key_points": [
-        "광구 자기장에서 유도되는 전류 나선도의 시간적 진화 패턴이 플레어 발생 직전 뚜렷한 변화를 보임을 발견.",
-        "기존 경험적 통계 모델과 블랙박스 딥러닝 모델의 한계를 보완하는 해석 가능한(interpretable) 프레임워크를 제시.",
-        "물리적으로 의미 있는 자기장 파라미터를 활용해 예측 신뢰도와 설명가능성을 동시에 높임."
-      ],
-      "tags": [
-        "태양플레어",
-        "플레어예측",
-        "기계학습",
-        "자기장"
-      ]
-    },
     {
       "title": "Fundamental Understanding of Magnetic Reconnection via Spiral CT Scan. VII. Energy Conversion",
       "authors": "Fu, H. S., Wang, Z., Cao, J. B.",
       "date": "2026-06-00",
       "source": "The Astrophysical Journal",
       "url": "https://ui.adsabs.harvard.edu/abs/2026ApJ..1004..174F",
-      "is_requested": false,
-      "requested_by": "",
-      "matched_keyword": "자기권, 자기재결합",
-      "one_line_summary": "MMS가 지구 자기권계면(magnetopause)에서 관측한 비가이드장(non-guide-field) 재결합 X-line 주변의 에너지 변환(J·E') 3차원 분포를 '나선형 CT 스캔(spiral CT scan)' 기법으로 최초 규명.",
-      "why_recommended": "의료 CT 스캔에서 착안한 새로운 분석 기법을 자기재결합(magnetic reconnection) 연구에 적용한 참신한 방법론적 시도로, X-line 주변 에너지 전환의 공간 구조를 기존보다 훨씬 세밀하게 재구성했습니다. 자기권 물리 및 플라즈마 에너지 변환 메커니즘 연구자에게 방법론적으로도 결과적으로도 중요한 참고 자료입니다.",
+      "is_requested": true,
+      "requested_by": "주간추천",
+      "matched_keyword": "자기권",
+      "one_line_summary": "MMS 위성 관측 자료를 나선형 CT 스캔(spiral CT scan) 기법으로 분석해 자기재연결(magnetic reconnection) X-라인 주변 에너지 변환(J·E') 3차원 분포를 세계 최초로 규명.",
+      "why_recommended": "자기재연결은 태양플레어, CME, 자기권 아우로라 등 우주 플라즈마 폭발현상의 공통 근본 메커니즘으로, 병원 CT 스캔에서 착안한 새로운 진단 기법을 통해 X-라인 주변 에너지 변환의 공간분포를 최초로 직접 재구성했다는 점에서 방법론적 의의가 크다. 자기권물리학자와 태양-지구 플라즈마 물리학자 모두에게 중요한 참고 연구다.",
       "key_points": [
-        "MMS가 관측한 지구 자기권계면의 비가이드장 재결합 X-line에서 에너지 변환(J·E')의 3차원 분포를 처음으로 재구성.",
-        "에너지 변환이 X-point 부근과 자기 분리선(separatrix) 영역에서 특히 강하게 나타남을 확인.",
-        "의료 영상 기법인 나선형 CT 스캔을 우주 플라즈마 데이터 분석에 응용한 새로운 방법론(자기재결합 시리즈 7번째 논문)을 제시."
+        "Spiral CT scan 기법을 이용해 MMS(Magnetospheric Multiscale)가 관측한 지구 자기권계면(magnetopause) X-라인 주변 에너지 변환(J·E')의 3차원 분포를 최초로 재구성했다.",
+        "가이드필드가 없는 재연결(non-guide-field reconnection) 사례에서 에너지 변환이 X-포인트 근처와 자기분리선(separatrix) 영역에서 특히 강하게 나타남을 확인했다.",
+        "시리즈 7편째 연구로, spiral CT scan 기법이 자기재연결 진단의 표준 도구로 자리잡아가고 있음을 보여준다."
       ],
       "tags": [
-        "자기재결합",
+        "자기재연결",
         "자기권계면",
         "MMS",
         "에너지변환"
+      ]
+    },
+    {
+      "title": "A Catalog of Automatically Identified Multi-Signature ICMEs Observed by Solar Orbiter",
+      "authors": "Felix N. Minta, Stefano A. Livi, George C. Ho et al.",
+      "date": "2026-07-05",
+      "source": "arXiv: astro-ph.SR",
+      "url": "http://arxiv.org/abs/2607.04402v1",
+      "is_requested": false,
+      "requested_by": "",
+      "matched_keyword": "CME, 태양풍",
+      "one_line_summary": "Solar Orbiter 현장관측(in-situ) 자료를 다중지표(multi-signature) 자동 탐지 알고리즘으로 분석해 138개의 행성간 코로나물질방출(ICME) 카탈로그를 구축, 아단열 양성자 냉각 등 통계적 특성을 규명.",
+      "why_recommended": "ICME는 지구 및 행성 우주기상 예보의 핵심 변수인데, 이 연구는 Solar Orbiter의 근태양 궤도 자료를 활용해 자동화된 다중기준 탐지 알고리즘으로 대규모 통계 카탈로그를 최초 구축했다. CME/태양풍 연구자와 우주기상 예보 모델 개발자에게 즉시 활용 가능한 데이터셋을 제공한다는 점에서 실용적 가치가 크다.",
+      "key_points": [
+        "거리정규화(distance-normalized) ICME 판별 기준을 슬라이딩 시간창에 적용해 138개의 ICME를 자동으로 식별했다.",
+        "양성자의 아단열 냉각(sub-adiabatic proton cooling), 구형에 가까운 밀도 감소, 동압(dynamic pressure)의 급격한 감소 등 내부 태양권에서 팽창이 강화된 특징을 확인했다.",
+        "자기장 세기 프로파일이 표준 파커 나선(Parker spiral) 예측보다 더 완만하게 감소함을 발견해 기존 모델과의 차이를 제시했다."
+      ],
+      "tags": [
+        "CME",
+        "태양풍",
+        "Solar Orbiter",
+        "카탈로그"
+      ]
+    },
+    {
+      "title": "The Deep Learning─based Dual-branch Multimodal Fusion Model for Solar Flare Prediction",
+      "authors": "Zhao, Limin, Chen, Xingyao, Zhu, Xiaoshuai et al.",
+      "date": "2026-07-00",
+      "source": "The Astrophysical Journal Supplement Series",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026ApJS..285...14Z",
+      "is_requested": false,
+      "requested_by": "",
+      "matched_keyword": "플레어",
+      "one_line_summary": "이중분기(dual-branch) 다중모달 융합 딥러닝 모델을 제안해 기존 단일모달·얕은 특징융합 방식의 한계를 극복하고 태양플레어 예측 성능을 향상.",
+      "why_recommended": "태양플레어 예측은 우주기상 예보의 핵심 과제 중 하나로, 이 연구는 여러 관측 모달리티(modality)의 상호보완적 정보를 심층 융합하는 새로운 신경망 구조를 제시해 예측 정확도를 개선했다. 우주기상 예보 시스템 개발자와 태양물리 데이터에 기계학습을 적용하려는 연구자 모두에게 유용한 참고 사례다.",
+      "key_points": [
+        "기존 딥러닝 기반 플레어 예측 모델이 단일모달 입력 또는 얕은 특징융합에 의존해 상호보완적 정보 활용에 한계가 있음을 지적했다.",
+        "서로 다른 관측 모달리티에서 얻은 정보를 심층 융합하는 이중분기(dual-branch) 구조를 새롭게 제안했다.",
+        "우주기상 예보 실무에 적용 가능한 실용적 딥러닝 프레임워크로서 제시되었다."
+      ],
+      "tags": [
+        "태양플레어",
+        "기계학습",
+        "우주기상예보",
+        "딥러닝"
       ]
     }
   ]

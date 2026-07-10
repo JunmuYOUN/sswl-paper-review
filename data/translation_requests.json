@@ -132,6 +132,28 @@
       "page": "",
       "week": "2026-W28",
       "attempts": 1
+    },
+    {
+      "slug": "arxiv-2607-04402",
+      "url": "http://arxiv.org/abs/2607.04402v1",
+      "title": "A Catalog of Automatically Identified Multi-Signature ICMEs Observed by Solar Orbiter",
+      "authors": "Felix N. Minta, Stefano A. Livi, George C. Ho et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-07-10",
+      "status": "requested",
+      "page": "",
+      "week": "2026-W29"
+    },
+    {
+      "slug": "ads-2026apjs..285...14z",
+      "url": "https://ui.adsabs.harvard.edu/abs/2026ApJS..285...14Z",
+      "title": "The Deep Learning─based Dual-branch Multimodal Fusion Model for Solar Flare Prediction",
+      "authors": "Zhao, Limin, Chen, Xingyao, Zhu, Xiaoshuai et al.",
+      "requested_by": "주간추천",
+      "requested_at": "2026-07-10",
+      "status": "requested",
+      "page": "",
+      "week": "2026-W29"
     }
   ]
 }

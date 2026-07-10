@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>다음 주 논문 제안 2026-W30 | SSWL Paper Review</title>
+  <meta name="description" content="2026-W30 주간 논문 추천에 반영할 주제를 제안하거나 논문 전문 번역을 신청하세요.">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SSWL Paper Review">
+  <meta property="og:title" content="다음 주 논문 제안 2026-W30 | SSWL Paper Review">
+  <meta property="og:description" content="2026-W30 주간 논문 추천에 반영할 주제를 제안하거나 논문 전문 번역을 신청하세요.">
+  <meta property="og:url" content="https://junmuyoun.github.io/sswl-paper-review/posts/2026-w30.html">
+  <meta property="og:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="다음 주 논문 제안 2026-W30 | SSWL Paper Review">
+  <meta name="twitter:description" content="2026-W30 주간 논문 추천에 반영할 주제를 제안하거나 논문 전문 번역을 신청하세요.">
+  <meta name="twitter:image" content="https://junmuyoun.github.io/sswl-paper-review/images/SSW_Lab_logo_gold1.png">
+  <style>
+    :root {
+      --sun-gold: #E8A838;
+      --sun-orange: #D4722A;
+      --deep-space: #0B1426;
+      --space-blue: #1A2744;
+      --nebula-blue: #2A3F6E;
+      --star-white: #F4F1EC;
+      --aurora-cyan: #64B5C6;
+      --corona-red: #C75B3A;
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A6A;
+      --text-light: #8888A8;
+      --bg-warm: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E8E4DC;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    .topnav {
+      background: var(--deep-space);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topnav a {
+      color: rgba(244,241,236,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .topnav a:hover { color: var(--sun-gold); }
+
+    .topnav .brand {
+      font-size: 1rem;
+      color: var(--star-white);
+      font-weight: 600;
+    }
+
+    .topnav .brand .accent { color: var(--sun-gold); }
+
+    .post-header {
+      background: linear-gradient(180deg, var(--space-blue) 0%, var(--deep-space) 100%);
+      padding: 60px 24px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .post-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--bg-warm), transparent);
+    }
+
+    .post-header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .post-header .week-tag {
+      display: inline-block;
+      background: rgba(232,168,56,0.2);
+      border: 1px solid rgba(232,168,56,0.4);
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .post-header h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--star-white);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    .post-header .meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: rgba(244,241,236,0.6);
+    }
+
+    .content {
+      max-width: 800px;
+      margin: -20px auto 0;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .intro-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--sun-gold);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+    }
+
+    .intro-box strong { color: var(--text-primary); }
+    .intro-box b { color: var(--sun-orange); }
+
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin: 48px 0 20px;
+    }
+
+    /* 번역 섹션 */
+    .translation-section {
+      background: linear-gradient(135deg, #14213D 0%, var(--space-blue) 100%);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 48px;
+    }
+
+    .translation-section h2 {
+      color: var(--star-white);
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .tr-guide {
+      color: rgba(244,241,236,0.65);
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    .tr-guide b { color: var(--sun-gold); }
+
+    .tr-empty {
+      color: rgba(244,241,236,0.5);
+      font-size: 0.9rem;
+      padding: 12px 0;
+    }
+
+    .tr-card {
+      display: block;
+      background: rgba(244,241,236,0.06);
+      border: 1px solid rgba(244,241,236,0.12);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .tr-card.tr-published:hover {
+      border-color: var(--sun-gold);
+      background: rgba(232,168,56,0.08);
+    }
+
+    .tr-title {
+      color: var(--star-white);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      line-height: 1.5;
+      display: block;
+    }
+
+    a.tr-title:hover { color: var(--sun-gold); }
+
+    .tr-authors {
+      display: block;
+      color: rgba(244,241,236,0.55);
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .tr-meta {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: rgba(244,241,236,0.45);
+    }
+
+    .tr-status { color: var(--aurora-cyan); font-weight: 600; }
+    .tr-published .tr-status { color: var(--sun-gold); }
+    .tr-failed .tr-status { color: var(--corona-red); }
+
+    /* 추천 논문 카드 */
+    .paper-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .paper-num {
+      position: absolute;
+      top: -14px;
+      left: 24px;
+      background: var(--sun-gold);
+      color: var(--deep-space);
+      font-weight: 700;
+      font-size: 0.85rem;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .requested-topic {
+      display: inline-block;
+      background: rgba(100,181,198,0.15);
+      color: #3A8FA3;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .paper-card h2 {
+      font-size: 1.15rem;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .paper-card h2 a {
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .paper-card h2 a:hover { color: var(--sun-orange); }
+
+    .paper-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    .source-badge {
+      background: rgba(232,168,56,0.12);
+      color: var(--sun-orange);
+      padding: 1px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .one-line-summary {
+      background: var(--bg-warm);
+      border-left: 3px solid var(--sun-gold);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .why-recommended {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .why-recommended strong { color: var(--sun-orange); font-size: 0.82rem; letter-spacing: 0.05em; }
+
+    .key-points {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+
+    .key-points li {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+
+    .key-points li::before {
+      content: '☀';
+      position: absolute;
+      left: 0;
+      color: var(--sun-gold);
+      font-size: 0.75rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .tag-list span {
+      background: rgba(42,63,110,0.08);
+      color: var(--nebula-blue);
+      font-size: 0.75rem;
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 16px;
+    }
+
+    .vote-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .vote-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .vote-buttons { display: flex; gap: 8px; }
+
+    .vote-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
+      color: var(--text-light);
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+
+    .vote-btn:hover { border-color: var(--sun-gold); color: var(--sun-orange); }
+    .vote-btn.active { background: rgba(232,168,56,0.12); border-color: var(--sun-gold); color: var(--sun-orange); }
+
+    .action-buttons { display: flex; gap: 10px; }
+
+    .origin-btn, .request-btn {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .origin-btn {
+      color: var(--nebula-blue);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .origin-btn:hover { border-color: var(--nebula-blue); }
+
+    .request-btn {
+      background: var(--sun-gold);
+      color: var(--deep-space);
+    }
+
+    .request-btn:hover { background: var(--sun-orange); color: #fff; }
+
+    .giscus-section {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border-subtle);
+    }
+
+    .giscus-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .giscus-guide {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--sun-orange);
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .paper-card { padding: 20px; }
+      .card-actions { flex-direction: column; align-items: flex-start; }
+    }
+</style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="../index.html" class="brand">&#9728; SSWL <span class="accent">Paper Review</span></a>
+    <a href="../index.html">&larr; 목록으로</a>
+  </nav>
+
+  <header class="post-header">
+    <div class="post-header-inner">
+      <span class="week-tag">2026-W30 (예정)</span>
+      <h1>다음 주 논문 추천 제안<br>2026년 7월 3주차</h1>
+      <div class="meta">
+        <span>&#128197; 2026.07.20 — 07.26</span>
+        <span>&#128161; 제안 받는 중</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div class="intro-box">
+      <strong>다음 주 논문 선별에 반영할 주제를 제안하거나, 번역받고 싶은 논문을 신청하세요!</strong><br><br>
+      <b>번역 신청:</b> 읽고 싶은 논문의 arXiv / ADS / DOI 링크를 댓글에 남겨주세요.
+      토요일 새벽 논문 수집 시 우선 포함되어, 일요일~월요일에 걸쳐 한국어 전문 번역 PDF로 게시됩니다.<br>
+      <b>주제 제안:</b> 관심 있는 키워드나 주제를 자유롭게 작성해주세요. 논문 선별 시 우선 반영됩니다.
+    </div>
+
+    <section class="giscus-section">
+      <h2 class="giscus-title">번역 신청 &middot; 주제 제안</h2>
+      <script src="https://giscus.app/client.js"
+        data-repo="JunmuYOUN/sswl-paper-review-comments"
+        data-repo-id="R_kgDOS-byPw"
+        data-category="General"
+        data-category-id="DIC_kwDOS-byP84C_aiw"
+        data-mapping="pathname"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Sun and Space Weather Laboratory &middot; Kyung Hee University<br>
+      <a href="https://sunspaceweather.khu.ac.kr/">sunspaceweather.khu.ac.kr</a>
+    </p>
+  </footer>
+
+</body>
+</html>
