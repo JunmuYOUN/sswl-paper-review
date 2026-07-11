@@ -128,10 +128,11 @@
       "authors": "Fu, H. S., Wang, Z., Cao, J. B.",
       "requested_by": "주간추천",
       "requested_at": "2026-07-04",
-      "status": "requested",
-      "page": "",
+      "status": "published",
+      "page": "posts/translations/ads-2026apj..1004..174f.html",
       "week": "2026-W28",
-      "attempts": 1
+      "attempts": 1,
+      "published_at": "2026-07-11"
     },
     {
       "slug": "arxiv-2607-04402",
