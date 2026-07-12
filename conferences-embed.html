@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conferences &amp; Workshops (embed)</title>
+<style>
+  :root{
+    --sun-gold:#E8A838; --sun-orange:#D4722A; --deep-space:#0B1426;
+    --space-blue:#1A2744; --nebula-blue:#2A3F6E; --star-white:#F4F1EC;
+    --aurora-cyan:#64B5C6; --corona-red:#C75B3A;
+    --text-primary:#1A1A2E; --text-secondary:#4A4A6A; --text-light:#8888A8;
+    --bg-card:#FFFFFF; --border-subtle:#E8E4DC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:transparent}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    color:var(--text-primary); line-height:1.5; -webkit-font-smoothing:antialiased;
+    padding:14px 4px 22px;
+  }
+  .wrap{max-width:1000px;margin:0 auto}
+
+  /* ---- controls ---- */
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+  .controls input[type=search]{
+    flex:1 1 220px;min-width:180px;padding:10px 14px;font-size:.95rem;
+    border:1px solid var(--border-subtle);border-radius:10px;background:var(--bg-card);
+    color:var(--text-primary);
+  }
+  .controls input[type=search]:focus{outline:2px solid var(--sun-gold);border-color:transparent}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{
+    padding:8px 14px;font-size:.85rem;font-weight:600;cursor:pointer;
+    border:1px solid var(--border-subtle);border-radius:999px;background:var(--bg-card);
+    color:var(--text-secondary);user-select:none;transition:.15s;
+  }
+  .chip:hover{border-color:var(--sun-gold)}
+  .chip.active{background:var(--deep-space);color:var(--star-white);border-color:var(--deep-space)}
+
+  /* ---- table ---- */
+  .table-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;background:var(--bg-card);
+    border:1px solid var(--border-subtle);border-radius:14px;overflow:hidden}
+  thead th{
+    background:var(--space-blue);color:var(--star-white);text-align:left;
+    font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:13px 16px;font-weight:600;white-space:nowrap;
+  }
+  tbody td{padding:13px 16px;border-top:1px solid var(--border-subtle);vertical-align:top;font-size:.92rem}
+  tbody tr:hover{background:rgba(232,168,56,.06)}
+  tr.past{opacity:.5}
+  td.when{white-space:nowrap;color:var(--text-secondary);font-variant-numeric:tabular-nums}
+  td.event a{color:var(--deep-space);text-decoration:none;font-weight:600}
+  td.event a:hover{color:var(--sun-orange);text-decoration:underline}
+  td.loc{color:var(--text-secondary)}
+
+  .status{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.05em;
+    padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:middle}
+  .status.now{background:var(--corona-red);color:#fff}
+  .status.soon{background:rgba(232,168,56,.18);color:var(--sun-orange)}
+
+  .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .badge.SOHO{background:rgba(42,63,110,.12);color:var(--nebula-blue)}
+  .badge.SolarNews{background:rgba(100,181,198,.16);color:#2b7f8f}
+  .badge.KAS{background:rgba(212,114,42,.14);color:var(--sun-orange)}
+  .badge.KSSS{background:rgba(199,91,58,.14);color:var(--corona-red)}
+  .badge.other{background:#eee;color:var(--text-secondary)}
+
+  .meta{margin-top:14px;color:var(--text-light);font-size:.8rem;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  #empty{padding:36px;text-align:center;color:var(--text-light)}
+  #error{margin-bottom:14px;padding:14px 18px;border-radius:12px;
+    background:rgba(199,91,58,.08);border:1px solid rgba(199,91,58,.3);color:var(--corona-red);font-size:.9rem;display:none}
+
+  @media (max-width:640px){
+    table,thead,tbody,tr,td{display:block}
+    thead{display:none}
+    tbody tr{border:1px solid var(--border-subtle);border-radius:12px;margin-bottom:12px;padding:6px 4px;background:var(--bg-card)}
+    tbody td{border:none;padding:6px 16px}
+    td.when::before{content:"📅 ";}
+    td.loc::before{content:"📍 ";}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="controls">
+    <input type="search" id="q" placeholder="Search by name or location…" aria-label="Search conferences">
+    <div class="chips" id="filters">
+      <div class="chip active" data-f="upcoming">Upcoming</div>
+      <div class="chip" data-f="all">All</div>
+      <div class="chip" data-f="SOHO">SOHO</div>
+      <div class="chip" data-f="SolarNews">SolarNews</div>
+      <div class="chip" data-f="KAS">KAS</div>
+      <div class="chip" data-f="KSSS">KSSS</div>
+    </div>
+  </div>
+
+  <div id="error"></div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th style="width:150px">Date</th><th>Conference / Workshop</th><th>Location</th><th style="width:110px">Source</th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div id="empty" hidden>No conferences match your filter.</div>
+  </div>
+
+  <div class="meta">
+    <span id="updated"></span>
+    <span>Source: SOHO Community · SolarNews (AAS) · KAS · KSSS</span>
+  </div>
+</div>
+
+<script>
+/* Same-origin on the live site; also works when previewed locally. */
+const DATA_URL = 'https://junmuyoun.github.io/sswl-paper-review/data/events.json';
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let EVENTS = [];
+let state = { filter:'upcoming', q:'' };
+const today = new Date(); today.setHours(0,0,0,0);
+
+function parse(d){ return d ? new Date(d+'T00:00:00') : null; }
+
+function fmtRange(e){
+  const s = parse(e.start_date), en = parse(e.end_date);
+  if(!s) return e.date_raw || '—';
+  const y = s.getFullYear();
+  if(en && (s.getMonth()!==en.getMonth() || s.getDate()!==en.getDate())){
+    if(s.getMonth()===en.getMonth())
+      return `${MONTHS[s.getMonth()]} ${s.getDate()}–${en.getDate()}, ${y}`;
+    return `${MONTHS[s.getMonth()]} ${s.getDate()} – ${MONTHS[en.getMonth()]} ${en.getDate()}, ${y}`;
+  }
+  return `${MONTHS[s.getMonth()]} ${s.getDate()}, ${y}`;
+}
+
+function statusOf(e){
+  const s = parse(e.start_date), en = parse(e.end_date) || s;
+  if(!s) return {cls:'', label:''};
+  if(today > en) return {cls:'past', label:''};
+  if(s <= today && today <= en) return {cls:'', label:'<span class="status now">NOW</span>'};
+  const days = Math.round((s - today)/86400000);
+  if(days <= 30) return {cls:'', label:'<span class="status soon">SOON</span>'};
+  return {cls:'', label:''};
+}
+
+function badgeClass(src){ return ['SOHO','SolarNews','KAS','KSSS'].includes(src) ? src : 'other'; }
+
+function render(){
+  const q = state.q.toLowerCase();
+  const rows = document.getElementById('rows');
+  rows.innerHTML = '';
+
+  let list = EVENTS.slice().sort((a,b)=>{
+    const av = a.start_date || '9999', bv = b.start_date || '9999';
+    return av.localeCompare(bv);
+  });
+
+  list = list.filter(e=>{
+    const en = parse(e.end_date) || parse(e.start_date);
+    if(state.filter==='upcoming' && en && en < today) return false;
+    if(['SOHO','SolarNews','KAS','KSSS'].includes(state.filter) && e.source!==state.filter) return false;
+    if(q){
+      const hay = (e.name+' '+(e.location||'')).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('empty').hidden = list.length>0;
+
+  for(const e of list){
+    const st = statusOf(e);
+    const name = (e.name||'').replace(/^"|"$/g,'');
+    const tr = document.createElement('tr');
+    if(st.cls) tr.className = st.cls;
+    tr.innerHTML =
+      `<td class="when">${fmtRange(e)}</td>`+
+      `<td class="event">${e.url ? `<a href="${e.url}" target="_blank" rel="noopener">${escapeHtml(name)}</a>` : escapeHtml(name)}${st.label}</td>`+
+      `<td class="loc">${escapeHtml(e.location||'—')}</td>`+
+      `<td><span class="badge ${badgeClass(e.source)}">${escapeHtml(e.source||'—')}</span></td>`;
+    rows.appendChild(tr);
+  }
+}
+
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+document.getElementById('q').addEventListener('input', e=>{ state.q=e.target.value; render(); });
+document.getElementById('filters').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip'); if(!chip) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active'); state.filter = chip.dataset.f; render();
+});
+
+fetch(DATA_URL)
+  .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(data=>{
+    EVENTS = data.events || [];
+    if(data.updated){
+      const d = new Date(data.updated);
+      document.getElementById('updated').textContent =
+        'Last updated: ' + d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+    }
+    render();
+  })
+  .catch(err=>{
+    const box = document.getElementById('error');
+    box.style.display='block';
+    box.textContent = 'Could not load events.json ('+err.message+').';
+  });
+</script>
+</body>
+</html>
