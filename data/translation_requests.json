@@ -143,7 +143,8 @@
       "requested_at": "2026-07-10",
       "status": "requested",
       "page": "",
-      "week": "2026-W29"
+      "week": "2026-W29",
+      "attempts": 1
     },
     {
       "slug": "ads-2026apjs..285...14z",
