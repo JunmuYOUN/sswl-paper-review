@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conferences &amp; Workshops — Sun and Space Weather Lab</title>
+<style>
+  :root{
+    --sun-gold:#E8A838; --sun-orange:#D4722A; --deep-space:#0B1426;
+    --space-blue:#1A2744; --nebula-blue:#2A3F6E; --star-white:#F4F1EC;
+    --aurora-cyan:#64B5C6; --corona-red:#C75B3A;
+    --text-primary:#1A1A2E; --text-secondary:#4A4A6A; --text-light:#8888A8;
+    --bg-warm:#FDFBF7; --bg-card:#FFFFFF; --border-subtle:#E8E4DC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg-warm); color:var(--text-primary); line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- top bar (space theme like the current site) ---- */
+  header.topbar{
+    background:linear-gradient(135deg,var(--deep-space),var(--space-blue));
+    color:var(--star-white); padding:14px 24px;
+    display:flex; align-items:center; gap:12px;
+    border-bottom:3px solid var(--sun-gold);
+  }
+  header.topbar .dot{
+    width:26px;height:26px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,var(--sun-gold),var(--sun-orange) 60%,var(--corona-red));
+    box-shadow:0 0 18px rgba(232,168,56,.55); flex:none;
+  }
+  header.topbar h1{font-size:1.05rem;font-weight:600;letter-spacing:.2px}
+  header.topbar span.sub{color:rgba(244,241,236,.7);font-weight:400}
+
+  /* ---- page hero ---- */
+  .hero{max-width:1120px;margin:0 auto;padding:40px 24px 8px}
+  .hero .eyebrow{color:var(--sun-orange);font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;font-size:.72rem;margin-bottom:8px}
+  .hero h2{font-size:2rem;color:var(--deep-space);line-height:1.15}
+  .hero p{color:var(--text-secondary);margin-top:10px;max-width:60ch}
+
+  /* ---- controls ---- */
+  .controls{max-width:1120px;margin:24px auto 0;padding:0 24px;
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .controls input[type=search]{
+    flex:1 1 240px;min-width:200px;padding:10px 14px;font-size:.95rem;
+    border:1px solid var(--border-subtle);border-radius:10px;background:var(--bg-card);
+    color:var(--text-primary);
+  }
+  .controls input[type=search]:focus{outline:2px solid var(--sun-gold);border-color:transparent}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{
+    padding:8px 14px;font-size:.85rem;font-weight:600;cursor:pointer;
+    border:1px solid var(--border-subtle);border-radius:999px;background:var(--bg-card);
+    color:var(--text-secondary);user-select:none;transition:.15s;
+  }
+  .chip:hover{border-color:var(--sun-gold)}
+  .chip.active{background:var(--deep-space);color:var(--star-white);border-color:var(--deep-space)}
+
+  /* ---- table ---- */
+  .table-wrap{max-width:1120px;margin:18px auto 0;padding:0 24px;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;background:var(--bg-card);
+    border:1px solid var(--border-subtle);border-radius:14px;overflow:hidden}
+  thead th{
+    background:var(--space-blue);color:var(--star-white);text-align:left;
+    font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:14px 16px;font-weight:600;white-space:nowrap;
+  }
+  tbody td{padding:14px 16px;border-top:1px solid var(--border-subtle);vertical-align:top;font-size:.92rem}
+  tbody tr:hover{background:rgba(232,168,56,.06)}
+  tr.past{opacity:.5}
+  td.when{white-space:nowrap;color:var(--text-secondary);font-variant-numeric:tabular-nums}
+  td.event a{color:var(--deep-space);text-decoration:none;font-weight:600}
+  td.event a:hover{color:var(--sun-orange);text-decoration:underline}
+  td.loc{color:var(--text-secondary)}
+
+  .status{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.05em;
+    padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:middle}
+  .status.now{background:var(--corona-red);color:#fff}
+  .status.soon{background:rgba(232,168,56,.18);color:var(--sun-orange)}
+
+  .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .badge.SOHO{background:rgba(42,63,110,.12);color:var(--nebula-blue)}
+  .badge.SolarNews{background:rgba(100,181,198,.16);color:#2b7f8f}
+  .badge.KAS{background:rgba(212,114,42,.14);color:var(--sun-orange)}
+  .badge.KSSS{background:rgba(199,91,58,.14);color:var(--corona-red)}
+  .badge.other{background:#eee;color:var(--text-secondary)}
+
+  .meta{max-width:1120px;margin:16px auto 60px;padding:0 24px;
+    color:var(--text-light);font-size:.82rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .meta a{color:var(--text-secondary)}
+  #empty{padding:40px;text-align:center;color:var(--text-light)}
+  #error{max-width:1120px;margin:20px auto;padding:16px 20px;border-radius:12px;
+    background:rgba(199,91,58,.08);border:1px solid rgba(199,91,58,.3);color:var(--corona-red);font-size:.9rem;display:none}
+
+  /* ---- responsive: stack into cards on small screens ---- */
+  @media (max-width:640px){
+    .hero h2{font-size:1.5rem}
+    table,thead,tbody,tr,td{display:block}
+    thead{display:none}
+    tbody tr{border:1px solid var(--border-subtle);border-radius:12px;margin-bottom:12px;padding:6px 4px}
+    tbody td{border:none;padding:6px 16px}
+    td.when::before{content:"📅 ";}
+    td.loc::before{content:"📍 ";}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="dot"></div>
+  <h1>Sun &amp; Space Weather Lab <span class="sub">· Kyung Hee University</span></h1>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">Community</div>
+  <h2>Conferences &amp; Workshops</h2>
+  <p>Upcoming meetings in solar physics and space weather, collected automatically from the community calendars.</p>
+</section>
+
+<div class="controls">
+  <input type="search" id="q" placeholder="Search by name or location…" aria-label="Search conferences">
+  <div class="chips" id="filters">
+    <div class="chip active" data-f="upcoming">Upcoming</div>
+    <div class="chip" data-f="all">All</div>
+    <div class="chip" data-f="SOHO">SOHO</div>
+    <div class="chip" data-f="SolarNews">SolarNews</div>
+    <div class="chip" data-f="KAS">KAS</div>
+    <div class="chip" data-f="KSSS">KSSS</div>
+  </div>
+</div>
+
+<div id="error"></div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th style="width:150px">Date</th><th>Conference / Workshop</th><th>Location</th><th style="width:110px">Source</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div id="empty" hidden>No conferences match your filter.</div>
+</div>
+
+<div class="meta">
+  <span id="updated"></span>
+  <span>Source: SOHO Community · SolarNews (AAS) · KAS · KSSS</span>
+</div>
+
+<script>
+/* ── Data source ─────────────────────────────────────────────
+   For the prototype this points at the live auto-updated feed.
+   In the final site, put events.json in the same repo and use:
+        const DATA_URL = './data/events.json';
+──────────────────────────────────────────────────────────── */
+const DATA_URL = 'https://junmuyoun.github.io/sswl-paper-review/data/events.json';
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let EVENTS = [];
+let state = { filter:'upcoming', q:'' };
+
+const today = new Date(); today.setHours(0,0,0,0);
+
+function parse(d){ return d ? new Date(d+'T00:00:00') : null; }
+
+function fmtRange(e){
+  const s = parse(e.start_date), en = parse(e.end_date);
+  if(!s) return e.date_raw || '—';
+  const y = s.getFullYear();
+  if(en && (s.getMonth()!==en.getMonth() || s.getDate()!==en.getDate())){
+    if(s.getMonth()===en.getMonth())
+      return `${MONTHS[s.getMonth()]} ${s.getDate()}–${en.getDate()}, ${y}`;
+    return `${MONTHS[s.getMonth()]} ${s.getDate()} – ${MONTHS[en.getMonth()]} ${en.getDate()}, ${y}`;
+  }
+  return `${MONTHS[s.getMonth()]} ${s.getDate()}, ${y}`;
+}
+
+function statusOf(e){
+  const s = parse(e.start_date), en = parse(e.end_date) || s;
+  if(!s) return {cls:'', label:''};
+  if(today > en) return {cls:'past', label:''};
+  if(s <= today && today <= en) return {cls:'', label:'<span class="status now">NOW</span>'};
+  const days = Math.round((s - today)/86400000);
+  if(days <= 30) return {cls:'', label:'<span class="status soon">SOON</span>'};
+  return {cls:'', label:''};
+}
+
+function badgeClass(src){ return ['SOHO','SolarNews','KAS','KSSS'].includes(src) ? src : 'other'; }
+
+function render(){
+  const q = state.q.toLowerCase();
+  const rows = document.getElementById('rows');
+  rows.innerHTML = '';
+
+  let list = EVENTS.slice().sort((a,b)=>{
+    const av = a.start_date || '9999', bv = b.start_date || '9999';
+    return av.localeCompare(bv);
+  });
+
+  list = list.filter(e=>{
+    const en = parse(e.end_date) || parse(e.start_date);
+    if(state.filter==='upcoming' && en && en < today) return false;
+    if(['SOHO','SolarNews','KAS','KSSS'].includes(state.filter) && e.source!==state.filter) return false;
+    if(q){
+      const hay = (e.name+' '+(e.location||'')).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('empty').hidden = list.length>0;
+
+  for(const e of list){
+    const st = statusOf(e);
+    const name = (e.name||'').replace(/^"|"$/g,'');
+    const tr = document.createElement('tr');
+    if(st.cls) tr.className = st.cls;
+    tr.innerHTML =
+      `<td class="when">${fmtRange(e)}</td>`+
+      `<td class="event">${e.url ? `<a href="${e.url}" target="_blank" rel="noopener">${escapeHtml(name)}</a>` : escapeHtml(name)}${st.label}</td>`+
+      `<td class="loc">${escapeHtml(e.location||'—')}</td>`+
+      `<td><span class="badge ${badgeClass(e.source)}">${escapeHtml(e.source||'—')}</span></td>`;
+    rows.appendChild(tr);
+  }
+}
+
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* controls */
+document.getElementById('q').addEventListener('input', e=>{ state.q=e.target.value; render(); });
+document.getElementById('filters').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip'); if(!chip) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active'); state.filter = chip.dataset.f; render();
+});
+
+/* load */
+fetch(DATA_URL)
+  .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(data=>{
+    EVENTS = data.events || [];
+    if(data.updated){
+      const d = new Date(data.updated);
+      document.getElementById('updated').textContent =
+        'Last updated: ' + d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+    }
+    render();
+  })
+  .catch(err=>{
+    const box = document.getElementById('error');
+    box.style.display='block';
+    box.innerHTML = `Could not load events.json (${escapeHtml(err.message)}). `+
+      `If you opened this file directly, run a local server (e.g. <code>python -m http.server</code>) or deploy it — some browsers block <code>file://</code> fetches.`;
+  });
+</script>
+</body>
+</html>
