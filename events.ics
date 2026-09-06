@@ -183,8 +183,8 @@ DTSTART;VALUE=DATE:20270801
 DTEND;VALUE=DATE:20270813
 SUMMARY:XXXIII IAU General Assembly
 LOCATION:Rome\, Italy
-URL:https://www.iau.org/science/meetings/future/general_assemblies/2760/
-DESCRIPTION:Source: SOHO\nDate: August 1-12, 2027\nhttps://www.iau.org/science/meetings/future/general_assemblies/2760/
+URL:https://www.iau.org/IAU/Science/Scientific-Meetings/IAUM2027/IAUGA2027.aspx
+DESCRIPTION:Source: SOHO\nDate: August 1-12, 2027\nhttps://www.iau.org/IAU/Science/Scientific-Meetings/IAUM2027/IAUGA2027.aspx
 END:VEVENT
 BEGIN:VEVENT
 UID:sswl-event-21-20260809@sswl-paper-review
