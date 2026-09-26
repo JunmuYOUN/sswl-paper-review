@@ -1,10 +1,10 @@
 {
-  "updated": "2026-09-25T03:24:23Z",
-  "solo_lon_deg": 42.22,
-  "solo_lat_deg": 16.34,
-  "solo_r_au": 0.6845,
-  "earth_solo_sep_deg": 42.22,
-  "eui_date": "2026-09-24",
+  "updated": "2026-09-26T03:29:56Z",
+  "solo_lon_deg": 42.67,
+  "solo_lat_deg": 16.23,
+  "solo_r_au": 0.6938,
+  "earth_solo_sep_deg": 42.67,
+  "eui_date": "2026-09-25",
   "eui_174": "images/eui_fsi174.png",
   "eui_304": "images/eui_fsi304.png"
 }
