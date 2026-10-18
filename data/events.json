@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-04T03:53:59Z",
+  "updated": "2026-10-18T02:41:02Z",
   "sources": [
     "SOHO Community",
     "SolarNews (AAS)"
@@ -187,9 +187,9 @@
     },
     {
       "name": "XXXIII IAU General Assembly",
-      "date_raw": "August 1-12, 2027",
-      "start_date": "2027-08-01",
-      "end_date": "2027-08-12",
+      "date_raw": "August 10-19, 2027",
+      "start_date": "2027-08-10",
+      "end_date": "2027-08-19",
       "location": "Rome, Italy",
       "url": "https://www.iau.org/IAU/Science/Scientific-Meetings/IAUM2027/IAUGA2027.aspx",
       "source": "SOHO"
