@@ -178,7 +178,16 @@ URL:https://www.shenzhen-astronomy.org.cn/iaus410.html
 DESCRIPTION:Source: SOHO\nDate: November 29-December 4, 2026\nhttps://www.shenzhen-astronomy.org.cn/iaus410.html
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-20-20270810@sswl-paper-review
+UID:sswl-event-20-20270120@sswl-paper-review
+DTSTART;VALUE=DATE:20270120
+DTEND;VALUE=DATE:20270123
+SUMMARY:2nd Open Sunrise III Science Meeting
+LOCATION:at Johns Hopkins APL\, in Laurel\, MD\, USA
+URL:https://secwww.jhuapl.edu/EventLink/Event/686
+DESCRIPTION:Source: SOHO\nDate: January 20-22, 2027\nhttps://secwww.jhuapl.edu/EventLink/Event/686
+END:VEVENT
+BEGIN:VEVENT
+UID:sswl-event-21-20270810@sswl-paper-review
 DTSTART;VALUE=DATE:20270810
 DTEND;VALUE=DATE:20270820
 SUMMARY:XXXIII IAU General Assembly
@@ -187,7 +196,7 @@ URL:https://www.iau.org/IAU/Science/Scientific-Meetings/IAUM2027/IAUGA2027.aspx
 DESCRIPTION:Source: SOHO\nDate: August 10-19, 2027\nhttps://www.iau.org/IAU/Science/Scientific-Meetings/IAUM2027/IAUGA2027.aspx
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-21-20260809@sswl-paper-review
+UID:sswl-event-22-20260809@sswl-paper-review
 DTSTART;VALUE=DATE:20260809
 DTEND;VALUE=DATE:20260815
 SUMMARY:SPD 57th Annual Meeting
@@ -196,7 +205,7 @@ URL:https://solarnews.aas.org/2025/spd-57th-annual-meeting-2026-save-the-date/
 DESCRIPTION:Source: SolarNews\nDate: August 9-14, 2026\nhttps://solarnews.aas.org/2025/spd-57th-annual-meeting-2026-save-the-date/
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-22-20260810@sswl-paper-review
+UID:sswl-event-23-20260810@sswl-paper-review
 DTSTART;VALUE=DATE:20260810
 DTEND;VALUE=DATE:20260815
 SUMMARY:Solar MHD 2026 Conference
@@ -205,7 +214,7 @@ URL:https://solarnews.aas.org/2026/registration-and-abstract-submission-are-open
 DESCRIPTION:Source: SolarNews\nDate: August 10-14, 2026\nhttps://solarnews.aas.org/2026/registration-and-abstract-submission-are-open-for-the-solar-mhd-2026-conference/
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-23-20260629@sswl-paper-review
+UID:sswl-event-24-20260629@sswl-paper-review
 DTSTART;VALUE=DATE:20260629
 DTEND;VALUE=DATE:20260703
 SUMMARY:SHINE Workshop 2026
@@ -214,7 +223,7 @@ URL:https://solarnews.aas.org/2026/shine-workshop-2026/
 DESCRIPTION:Source: SolarNews\nDate: June 29 - July 2, 2026\nhttps://solarnews.aas.org/2026/shine-workshop-2026/
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-24-20260601@sswl-paper-review
+UID:sswl-event-25-20260601@sswl-paper-review
 DTSTART;VALUE=DATE:20260601
 DTEND;VALUE=DATE:20260606
 SUMMARY:SCOSTEP STP-16 Symposium
@@ -223,7 +232,7 @@ URL:https://solarnews.aas.org/2025/scostep-stp-16-symposium-1-5-june-2026-thessa
 DESCRIPTION:Source: SolarNews\nDate: June 1-5, 2026\nhttps://solarnews.aas.org/2025/scostep-stp-16-symposium-1-5-june-2026-thessaloniki-greece/
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-25-20260204@sswl-paper-review
+UID:sswl-event-26-20260204@sswl-paper-review
 DTSTART;VALUE=DATE:20260204
 DTEND;VALUE=DATE:20260207
 SUMMARY:1st iPIC3D Conference
@@ -232,7 +241,7 @@ URL:https://solarnews.aas.org/2025/1st-ipic3d-conference-at-ku-leuven-belgium-fr
 DESCRIPTION:Source: SolarNews\nDate: February 4-6, 2026\nhttps://solarnews.aas.org/2025/1st-ipic3d-conference-at-ku-leuven-belgium-from-4th-6th-february-2026/
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-26-20260817@sswl-paper-review
+UID:sswl-event-27-20260817@sswl-paper-review
 DTSTART;VALUE=DATE:20260817
 DTEND;VALUE=DATE:20260822
 SUMMARY:GSST/CBERS-5 International Symposium on Machine Learning in Heliophysics and Space Weather
@@ -241,7 +250,7 @@ URL:https://solarnews.aas.org/2026/gsst-cbers5-symposium-ml-heliophysics/
 DESCRIPTION:Source: SolarNews\nDate: August 17-21, 2026\nhttps://solarnews.aas.org/2026/gsst-cbers5-symposium-ml-heliophysics/
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-27-20260408@sswl-paper-review
+UID:sswl-event-28-20260408@sswl-paper-review
 DTSTART;VALUE=DATE:20260408
 DTEND;VALUE=DATE:20260411
 SUMMARY:한국천문학회 2026년 봄학술대회 (KAS Spring Meeting)
@@ -250,7 +259,7 @@ URL:https://www.kas.org/html/sub4_01.html
 DESCRIPTION:Source: KAS\nDate: April 8-10, 2026\nhttps://www.kas.org/html/sub4_01.html
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-28-20260422@sswl-paper-review
+UID:sswl-event-29-20260422@sswl-paper-review
 DTSTART;VALUE=DATE:20260422
 DTEND;VALUE=DATE:20260425
 SUMMARY:한국우주과학회 2026년 봄 학술대회 (KSSS Spring Conference)
@@ -259,7 +268,7 @@ URL:https://ksss.or.kr/homepage/custom/d_conference
 DESCRIPTION:Source: KSSS\nDate: April 22-24, 2026\nhttps://ksss.or.kr/homepage/custom/d_conference
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-29-20261014@sswl-paper-review
+UID:sswl-event-30-20261014@sswl-paper-review
 DTSTART;VALUE=DATE:20261014
 DTEND;VALUE=DATE:20261017
 SUMMARY:한국천문학회 2026년 가을학술대회 (KAS Fall Meeting)
@@ -268,7 +277,7 @@ URL:https://www.kas.org/html/sub4_01.html
 DESCRIPTION:Source: KAS\nDate: October 14-16, 2026\nhttps://www.kas.org/html/sub4_01.html
 END:VEVENT
 BEGIN:VEVENT
-UID:sswl-event-30-20261028@sswl-paper-review
+UID:sswl-event-31-20261028@sswl-paper-review
 DTSTART;VALUE=DATE:20261028
 DTEND;VALUE=DATE:20261031
 SUMMARY:한국우주과학회 2026년 가을 학술대회 (KSSS Fall Conference)

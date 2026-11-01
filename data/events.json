@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-18T02:41:02Z",
+  "updated": "2026-11-01T03:54:03Z",
   "sources": [
     "SOHO Community",
     "SolarNews (AAS)"
@@ -183,6 +183,15 @@
       "end_date": "2026-12-04",
       "location": "Shenzhen, China",
       "url": "https://www.shenzhen-astronomy.org.cn/iaus410.html",
+      "source": "SOHO"
+    },
+    {
+      "name": "2nd Open Sunrise III Science Meeting",
+      "date_raw": "January 20-22, 2027",
+      "start_date": "2027-01-20",
+      "end_date": "2027-01-22",
+      "location": "at Johns Hopkins APL, in Laurel, MD, USA",
+      "url": "https://secwww.jhuapl.edu/EventLink/Event/686",
       "source": "SOHO"
     },
     {
